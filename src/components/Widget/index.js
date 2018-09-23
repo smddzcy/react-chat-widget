@@ -11,13 +11,18 @@ class Widget extends Component {
     if (nextProps.fullScreenMode) {
       this.props.dispatch(toggleChat());
     }
+    this.toggleConversation = this.toggleConversation.bind(this);
+    this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
 
-  toggleConversation = () => {
+  toggleConversation() {
+    if (typeof this.props.onToggleChat === 'function') {
+      this.props.onToggleChat(this.props.showChat);
+    }
     this.props.dispatch(toggleChat());
   }
 
-  handleMessageSubmit = (event) => {
+  handleMessageSubmit(event) {
     event.preventDefault();
     const userInput = event.target.message.value;
     if (userInput) {
@@ -43,6 +48,7 @@ class Widget extends Component {
         badge={this.props.badge}
         autofocus={this.props.autofocus}
         customLauncher={this.props.customLauncher}
+        css={this.props.css}
       />
     );
   }
@@ -59,7 +65,11 @@ Widget.propTypes = {
   fullScreenMode: PropTypes.bool,
   badge: PropTypes.number,
   autofocus: PropTypes.bool,
-  customLauncher: PropTypes.func
+  customLauncher: PropTypes.func,
+  onToggleChat: PropTypes.func, // called on toggle with the old showChat status
+  css: PropTypes.string
 };
 
-export default connect()(Widget);
+export default connect(store => ({
+  showChat: store.behavior.get('showChat'),
+}))(Widget);

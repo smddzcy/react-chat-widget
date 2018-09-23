@@ -1,42 +1,50 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Frame from 'react-frame-component';
 
 import Conversation from './components/Conversation';
 import Launcher from './components/Launcher';
 import './style.scss';
 
-const WidgetLayout = props => (
-  <div
-    className={
-      `rcw-widget-container ${props.fullScreenMode ? 'rcw-full-screen' : ''} ${props.showChat ? 'rcw-opened' : ''}`
-    }
-  >
-    {props.showChat &&
-      <Conversation
-        title={props.title}
-        subtitle={props.subtitle}
-        sendMessage={props.onSendMessage}
-        senderPlaceHolder={props.senderPlaceHolder}
-        profileAvatar={props.profileAvatar}
-        toggleChat={props.onToggleConversation}
-        showChat={props.showChat}
-        showCloseButton={props.showCloseButton}
-        disabledInput={props.disabledInput}
-        autofocus={props.autofocus}
-        titleAvatar={props.titleAvatar}
-      />
-    }
-    {props.customLauncher ?
-      props.customLauncher(props.onToggleConversation) :
-      !props.fullScreenMode &&
-      <Launcher
-        toggle={props.onToggleConversation}
-        badge={props.badge}
-      />
-    }
-  </div>
-);
+const WidgetLayout = props => {
+  const initialFrameContent = `<!DOCTYPE html><html><head><style>body{margin:0;}${props.css}</style></head><body><div></div></body></html>`;
+  return (
+    <div
+      className={
+        `rcw-widget-container ${props.fullScreenMode ? 'rcw-full-screen' : ''} ${props.showChat ? 'rcw-opened' : ''}`
+      }
+    >
+      <Frame initialContent={initialFrameContent} id="infoset-conv-frame">
+        <style>{props.css}</style>
+        {props.showChat &&
+          <Conversation
+            title={props.title}
+            subtitle={props.subtitle}
+            sendMessage={props.onSendMessage}
+            senderPlaceHolder={props.senderPlaceHolder}
+            profileAvatar={props.profileAvatar}
+            toggleChat={props.onToggleConversation}
+            showChat={props.showChat}
+            showCloseButton={props.showCloseButton}
+            disabledInput={props.disabledInput}
+            autofocus={props.autofocus}
+            titleAvatar={props.titleAvatar}
+          />
+        }
+      </Frame>
+      <Frame initialContent={initialFrameContent} id="infoset-btn-frame">
+        {props.customLauncher ?
+          props.customLauncher(props.onToggleConversation) :
+          !props.fullScreenMode &&
+          <Launcher
+            toggle={props.onToggleConversation}
+            badge={props.badge}
+          />}
+      </Frame>
+    </div>
+  );
+};
 
 WidgetLayout.propTypes = {
   title: PropTypes.string,
@@ -52,7 +60,8 @@ WidgetLayout.propTypes = {
   fullScreenMode: PropTypes.bool,
   badge: PropTypes.number,
   autofocus: PropTypes.bool,
-  customLauncher: PropTypes.func
+  customLauncher: PropTypes.func,
+  css: PropTypes.string
 };
 
 export default connect(store => ({

@@ -22,8 +22,13 @@
 }
 
 .rcw-send {
+  cursor: pointer;
   background: $grey-2;
   border: 0;
+
+  &:active, &:focus {
+    outline: none;
+  }
 
   .rcw-send-icon {
     height: 25px;

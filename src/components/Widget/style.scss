@@ -20,9 +20,31 @@
   @include widget-container-fs;
 
   &.rcw-opened {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
   }
+}
+
+#infoset-btn-frame, #infoset-conv-frame {
+  border: 0;
+  position: fixed;
+  right: 10px;
+  box-sizing: border-box;
+}
+
+#infoset-conv-frame {
+  bottom: 100px;
+  height: 450px;
+  width: 350px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+#infoset-btn-frame {
+  height: 85px;
+  width: 80px;
+  bottom: 10px;
+  z-index: 2147483647;
 }
 
 @media screen and (max-width: 800px) {
@@ -30,7 +52,13 @@
     @include widget-container-fs;
 
     &.rcw-opened {
-      height: 100%;
+      height: 100vh;
+
+      #infoset-conv-frame {
+        width: 100vw;
+        height: 100vh;
+        bottom: 0px;
+      }
     }
   }
 }

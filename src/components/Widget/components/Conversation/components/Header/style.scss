@@ -20,6 +20,8 @@
 
   .rcw-close-button {
     display: none;
+    z-index: -1;
+    pointer-events: none;
   }
 
   .avatar {
@@ -29,6 +31,10 @@
     margin-right: 10px;
     vertical-align: middle;
   }
+}
+
+.rcw-close-button {
+  cursor: pointer;
 }
 
 .rcw-full-screen {
@@ -52,6 +58,7 @@
 
 @media screen and (max-width: 800px) {
   .rcw-conversation-container {
+
     .rcw-header {
       @include header-fs;
     }

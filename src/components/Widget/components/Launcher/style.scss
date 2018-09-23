@@ -12,6 +12,10 @@
   height: 60px;
   margin-top: 10px;
   width: 60px;
+  bottom: 0;
+  margin: 7px;
+  position: fixed;
+  right: 0;
 
   &:focus {
     outline: none;
@@ -28,11 +32,9 @@
 }
 
 @media screen and (max-width: 800px){
-  .rcw-launcher {
-    @include launcher-fs;
-  }
-
-  .rcw-hide-sm {
+  .rcw-opened #infoset-btn-frame {
     display: none;
+    z-index: -1;
+    pointer-events: none;
   }
 }

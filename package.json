@@ -7,7 +7,7 @@
   "author": "Martín Callegari <martin.callegari@wolox.com.ar>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --config webpack.config.dev.js",
+    "start": "webpack --config ./webpack.config.prod.js --watch",
     "build": "webpack --config ./webpack.config.prod.js",
     "test": "jest --coverage",
     "prepublishOnly": "npm run test && npm run build"
@@ -25,6 +25,7 @@
     "markdown-it-sanitizer": "^0.4.3",
     "markdown-it-sup": "^1.0.0",
     "prop-types": "^15.5.10",
+    "react-frame-component": "^4.0.1",
     "react-immutable-proptypes": "^2.1.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2"
@@ -52,6 +53,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "^6.10.3",
+    "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^0.13.3",
@@ -67,7 +69,7 @@
     "react-dom": "^16.3.1",
     "react-test-renderer": "^15.6.1",
     "sass-loader": "^6.0.6",
-    "style-loader": "^0.18.2",
+    "style-loader": "^0.23.0",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "url-loader": "^0.5.9",
     "webpack": "^4.4.1",
