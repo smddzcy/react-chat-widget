@@ -8,7 +8,7 @@ import Launcher from './components/Launcher';
 import './style.scss';
 
 const WidgetLayout = props => {
-  const initialFrameContent = `<!DOCTYPE html><html><head><style>body{margin:0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${props.css}</style></head><body><div></div></body></html>`;
+  const initialFrameContent = `<!DOCTYPE html><html><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${props.css}</style></head><body><div></div></body></html>`;
   return (
     <div
       className={

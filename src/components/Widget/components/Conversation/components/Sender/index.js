@@ -11,6 +11,7 @@ const Sender = ({ sendMessage, placeholder, disabledInput, autofocus }) =>
     <button type="submit" className="rcw-send">
       <img src={send} className="rcw-send-icon" alt="send" />
     </button>
+    <div className="rcw-branding">Powered by <a href="https://infoset.com.tr/" target="_blank">Infoset</a></div>
   </form>;
 
 Sender.propTypes = {
