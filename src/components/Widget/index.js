@@ -1,22 +1,26 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-import { toggleChat, addUserMessage } from '@actions';
+import { toggleChat, addUserMessage } from "@actions";
 
-import WidgetLayout from './layout';
+import WidgetLayout from "./layout";
 
 class Widget extends Component {
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.fullScreenMode) {
-      this.props.dispatch(toggleChat());
-    }
+  constructor(props) {
+    super(props);
     this.toggleConversation = this.toggleConversation.bind(this);
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.fullScreenMode) {
+      this.props.dispatch(toggleChat());
+    }
+  }
+
   toggleConversation() {
-    if (typeof this.props.onToggleChat === 'function') {
+    if (typeof this.props.onToggleChat === "function") {
       this.props.onToggleChat(this.props.showChat);
     }
     this.props.dispatch(toggleChat());
@@ -29,9 +33,8 @@ class Widget extends Component {
       this.props.dispatch(addUserMessage(userInput));
       this.props.handleNewUserMessage(userInput);
     }
-    event.target.message.value = '';
+    event.target.message.value = "";
   }
-
 
   render() {
     return (
@@ -49,6 +52,7 @@ class Widget extends Component {
         autofocus={this.props.autofocus}
         customLauncher={this.props.customLauncher}
         css={this.props.css}
+        staticText={this.props.staticText}
       />
     );
   }
@@ -67,9 +71,10 @@ Widget.propTypes = {
   autofocus: PropTypes.bool,
   customLauncher: PropTypes.func,
   onToggleChat: PropTypes.func, // called on toggle with the old showChat status
-  css: PropTypes.string
+  css: PropTypes.string,
+  staticText: PropTypes.string,
 };
 
 export default connect(store => ({
-  showChat: store.behavior.get('showChat'),
+  showChat: store.behavior.get("showChat")
 }))(Widget);

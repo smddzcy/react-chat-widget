@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 
-import Header from './components/Header';
-import Messages from './components/Messages';
-import Sender from './components/Sender';
-import './style.scss';
+import Header from "./components/Header";
+import Messages from "./components/Messages";
+import Sender from "./components/Sender";
+import "./style.scss";
 
-const Conversation = props =>
+const Conversation = props => (
   <div className="rcw-conversation-container">
     <Header
       title={props.title}
@@ -15,16 +15,25 @@ const Conversation = props =>
       showCloseButton={props.showCloseButton}
       titleAvatar={props.titleAvatar}
     />
-    <Messages
-      profileAvatar={props.profileAvatar}
-    />
-    <Sender
-      sendMessage={props.sendMessage}
-      placeholder={props.senderPlaceHolder}
-      disabledInput={props.disabledInput}
-      autofocus={props.autofocus}
-    />
-  </div>;
+    {props.staticText ? (
+      <div className="rcw-messages-container" style={{ display: 'flex' }}>
+        <div className="rcw-message" style={{ textAlign: 'center', alignSelf: 'center' }}>
+          {props.staticText}
+        </div>
+      </div>
+    ) : (
+      <Fragment>
+        <Messages profileAvatar={props.profileAvatar} />
+        <Sender
+          sendMessage={props.sendMessage}
+          placeholder={props.senderPlaceHolder}
+          disabledInput={props.disabledInput}
+          autofocus={props.autofocus}
+        />
+      </Fragment>
+    )}
+  </div>
+);
 
 Conversation.propTypes = {
   title: PropTypes.string,
@@ -36,7 +45,8 @@ Conversation.propTypes = {
   toggleChat: PropTypes.func,
   showCloseButton: PropTypes.bool,
   disabledInput: PropTypes.bool,
-  autofocus: PropTypes.bool
+  autofocus: PropTypes.bool,
+  staticText: PropTypes.string
 };
 
 export default Conversation;

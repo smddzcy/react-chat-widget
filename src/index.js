@@ -19,6 +19,7 @@ const ConnectedWidget = props =>
       badge={props.badge}
       autofocus={props.autofocus}
       customLauncher={props.launcher}
+      staticText={props.staticText}
       onToggleChat={props.onToggleChat}
       css={props.css}
     />

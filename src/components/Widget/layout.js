@@ -21,6 +21,7 @@ const WidgetLayout = props => {
           <Conversation
             title={props.title}
             subtitle={props.subtitle}
+            staticText={props.staticText}
             sendMessage={props.onSendMessage}
             senderPlaceHolder={props.senderPlaceHolder}
             profileAvatar={props.profileAvatar}
@@ -61,7 +62,8 @@ WidgetLayout.propTypes = {
   badge: PropTypes.number,
   autofocus: PropTypes.bool,
   customLauncher: PropTypes.func,
-  css: PropTypes.string
+  css: PropTypes.string,
+  staticText: PropTypes.string,
 };
 
 export default connect(store => ({
