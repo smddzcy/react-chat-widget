@@ -17,13 +17,13 @@ const Conversation = props => (
     />
     {props.staticText ? (
       <div className="rcw-messages-container" style={{ display: 'flex' }}>
-        <div className="rcw-message" style={{ textAlign: 'center', alignSelf: 'center' }}>
+        <div className="rcw-message" style={{ textAlign: 'center', alignSelf: 'center', padding: '0 20px' }}>
           {props.staticText}
         </div>
       </div>
     ) : (
       <Fragment>
-        <Messages profileAvatar={props.profileAvatar} />
+        <Messages />
         <Sender
           sendMessage={props.sendMessage}
           placeholder={props.senderPlaceHolder}
@@ -41,7 +41,6 @@ Conversation.propTypes = {
   subtitle: PropTypes.string,
   sendMessage: PropTypes.func,
   senderPlaceHolder: PropTypes.string,
-  profileAvatar: PropTypes.string,
   toggleChat: PropTypes.func,
   showCloseButton: PropTypes.bool,
   disabledInput: PropTypes.bool,

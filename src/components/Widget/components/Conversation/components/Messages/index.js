@@ -3,22 +3,28 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 
+import PersonIcon from './man.svg';
+
 import { hideAvatar } from '@actions';
 
 import './styles.scss';
 
-const scrollToBottom = () => {
-  const messagesDiv = document.getElementById('messages');
-  if (messagesDiv) messagesDiv.scrollTop = messagesDiv.scrollHeight;
-};
-
 class Messages extends Component {
+  constructor(props, context) {
+    super(props, context);
+  }
+  
   componentDidMount() {
-    scrollToBottom();
+    this.scrollToBottom();
   }
 
   componentDidUpdate() {
-    scrollToBottom();
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    if (!this.scrollContainer) return;
+    this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight
   }
 
   getComponentToRender = message => {
@@ -38,18 +44,20 @@ class Messages extends Component {
   }
 
   render() {
-    const { messages, profileAvatar } = this.props;
+    const { messages } = this.props;
     return (
-      <div id="messages" className="rcw-messages-container">
-        {messages.map((message, index) =>
-          <div className="rcw-message" key={index}>
-            {profileAvatar &&
-              message.get('showAvatar') &&
-              <img src={profileAvatar} className="rcw-avatar" alt="profile" />
-            }
-            {this.getComponentToRender(message)}
-          </div>
-        )}
+      <div id="messages" className="rcw-messages-container" ref={node => this.scrollContainer = node}>
+        {messages.map((message, index) => {
+          const sender = message.get('sender');
+          return (
+            <div className="rcw-message" key={index}>
+              {message.get('showAvatar') &&
+                <div className="rcw-avatar" style={{ backgroundImage: `url(${sender.photo || PersonIcon})` }} />
+              }
+              {this.getComponentToRender(message)}
+            </div>
+          );
+        })}
       </div>
     );
   }
@@ -57,7 +65,6 @@ class Messages extends Component {
 
 Messages.propTypes = {
   messages: ImmutablePropTypes.listOf(ImmutablePropTypes.map),
-  profileAvatar: PropTypes.string
 };
 
 export default connect(store => ({

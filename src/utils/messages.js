@@ -4,13 +4,14 @@ import { MESSAGES_TYPES, MESSAGE_SENDER } from '@constants';
 import Message from '@messagesComponents/Message';
 import Snippet from '@messagesComponents/Snippet';
 
-export function createNewMessage(text, sender) {
+export function createNewMessage(text, sender, time = Date.now()) {  
   return Map({
     type: MESSAGES_TYPES.TEXT,
     component: Message,
     text,
+    time,
     sender,
-    showAvatar: sender === MESSAGE_SENDER.RESPONSE
+    showAvatar: sender !== MESSAGE_SENDER.CLIENT,
   });
 }
 

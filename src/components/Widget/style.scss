@@ -38,6 +38,9 @@
   width: 350px;
   z-index: -1;
   pointer-events: none;
+  transform: translateY(10px);
+  opacity: 0;
+  transform-origin: bottom right;
 }
 
 #infoset-btn-frame {

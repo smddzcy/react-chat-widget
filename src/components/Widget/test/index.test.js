@@ -24,7 +24,6 @@ describe('<Widget />', () => {
   const widgetComponent = shallow(
     <Widget.WrappedComponent
       handleNewUserMessage={handleUserMessage}
-      profileAvatar={profile}
       dispatch={dispatch}
     />
   );

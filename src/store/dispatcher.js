@@ -5,8 +5,8 @@ export function addUserMessage(text) {
   store.dispatch(actions.addUserMessage(text));
 }
 
-export function addResponseMessage(text) {
-  store.dispatch(actions.addResponseMessage(text));
+export function addResponseMessage(payload) {
+  store.dispatch(actions.addResponseMessage(payload));
 }
 
 export function addLinkSnippet(link) {

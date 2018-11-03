@@ -19,10 +19,10 @@ export function addUserMessage(text) {
   };
 }
 
-export function addResponseMessage(text) {
+export function addResponseMessage(payload) {
   return {
     type: actions.ADD_NEW_RESPONSE_MESSAGE,
-    text
+    payload
   };
 }
 

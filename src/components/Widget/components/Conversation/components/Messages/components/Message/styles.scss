@@ -3,20 +3,36 @@
 
 .rcw-message {
   margin: 10px;
-  display: flex;
-}
-
-.rcw-client {
-  @include message-bubble($turqois-2);
-  margin-left: auto;
-}
-
-.rcw-response {
-  @include message-bubble($grey-2);
-}
-
-.rcw-message {
   font-size: 14px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.rcw-bubble-container {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+
+  .rcw-client {
+    @include message-bubble($light-blue);
+    margin-left: auto;
+
+    & + .rcw-bubble-sub {
+      margin-left: auto;
+    }
+  }
+
+  .rcw-response {
+    @include message-bubble($grey-2);
+  }
+
+  .rcw-bubble-sub {
+    font-size: 11px;
+    margin-top: 3px;
+    color: #666666;
+  }  
 }
 
 /* For markdown elements created with default styles */
@@ -28,8 +44,12 @@
 }
 
 .rcw-avatar {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  flex: none;
   border-radius: 100%;
   margin-right: 10px;
 }

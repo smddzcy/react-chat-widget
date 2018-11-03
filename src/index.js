@@ -5,6 +5,14 @@ import { Provider } from 'react-redux';
 import Widget from './components/Widget';
 import store from '../src/store/store';
 
+Date.prototype.getWeekNumber = function(){
+  var d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
+  var dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+  return Math.ceil((((d - yearStart) / 86400000) + 1)/7)
+};
+
 const ConnectedWidget = props =>
   <Provider store={store}>
     <Widget
@@ -13,7 +21,6 @@ const ConnectedWidget = props =>
       subtitle={props.subtitle}
       handleNewUserMessage={props.handleNewUserMessage}
       senderPlaceHolder={props.senderPlaceHolder}
-      profileAvatar={props.profileAvatar}
       showCloseButton={props.showCloseButton}
       fullScreenMode={props.fullScreenMode}
       badge={props.badge}
@@ -31,7 +38,6 @@ ConnectedWidget.propTypes = {
   subtitle: PropTypes.string,
   handleNewUserMessage: PropTypes.func.isRequired,
   senderPlaceHolder: PropTypes.string,
-  profileAvatar: PropTypes.string,
   showCloseButton: PropTypes.bool,
   fullScreenMode: PropTypes.bool,
   badge: PropTypes.number,
@@ -42,9 +48,9 @@ ConnectedWidget.propTypes = {
 };
 
 ConnectedWidget.defaultProps = {
-  title: 'Welcome',
-  subtitle: 'This is your chat subtitle',
-  senderPlaceHolder: 'Type a message...',
+  title: '',
+  subtitle: '',
+  senderPlaceHolder: 'Mesajınızı yazın ve enter\'a basın',
   showCloseButton: true,
   fullScreenMode: false,
   badge: 0,
