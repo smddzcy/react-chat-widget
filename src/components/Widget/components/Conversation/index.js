@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, PureComponent } from "react";
 import PropTypes from "prop-types";
 
 import Header from "./components/Header";
@@ -6,33 +6,60 @@ import Messages from "./components/Messages";
 import Sender from "./components/Sender";
 import "./style.scss";
 
-const Conversation = props => (
-  <div className={`rcw-conversation-container ${window.innerWidth < 768 ? 'rcw-mobile' : ''}`}>
-    <Header
-      title={props.title}
-      subtitle={props.subtitle}
-      toggleChat={props.toggleChat}
-      showCloseButton={props.showCloseButton}
-      titleAvatar={props.titleAvatar}
-    />
-    {props.staticText ? (
-      <div className="rcw-messages-container" style={{ display: 'flex' }}>
-        <div className="rcw-message" style={{ textAlign: 'center', alignSelf: 'center', padding: '0 20px' }}>
-          {props.staticText}
-        </div>
-      </div>
-    ) : (
-      <Fragment>
-        <Messages />
-        <Sender
-          sendMessage={props.sendMessage}
-          placeholder={props.senderPlaceHolder}
-          disabledInput={props.disabledInput}
+class Conversation extends PureComponent {
+  constructor(props, context) {
+    super(props, context);
+    this.setVh = this.setVh.bind(this);
+  }
+
+  componentDidMount() {
+    this.setVh();
+    window.addEventListener('resize', this.setVh);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.setVh);
+  }
+  
+
+  setVh() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    if (this.context.document) {
+      this.context.document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+  }
+
+  render() {
+    return (
+      <div className={`rcw-conversation-container ${window.innerWidth < 768 ? 'rcw-mobile' : ''}`}>
+        <Header
+          title={this.props.title}
+          subtitle={this.props.subtitle}
+          toggleChat={this.props.toggleChat}
+          showCloseButton={this.props.showCloseButton}
+          titleAvatar={this.props.titleAvatar}
         />
-      </Fragment>
-    )}
-  </div>
-);
+        {this.props.staticText ? (
+          <div className="rcw-messages-container" style={{ display: 'flex' }}>
+            <div className="rcw-message" style={{ textAlign: 'center', alignSelf: 'center', padding: '0 20px' }}>
+              {this.props.staticText}
+            </div>
+          </div>
+        ) : (
+          <Fragment>
+            <Messages />
+            <Sender
+              sendMessage={this.props.sendMessage}
+              placeholder={this.props.senderPlaceHolder}
+              disabledInput={this.props.disabledInput}
+            />
+          </Fragment>
+        )}
+      </div>
+    );
+  }
+}
 
 Conversation.propTypes = {
   title: PropTypes.string,

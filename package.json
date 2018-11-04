@@ -19,6 +19,7 @@
     "javascript"
   ],
   "dependencies": {
+    "body-scroll-lock": "^2.5.10",
     "immutable": "^3.8.1",
     "markdown-it": "^8.4.1",
     "markdown-it-link-attributes": "^2.1.0",

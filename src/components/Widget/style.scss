@@ -48,11 +48,11 @@
     width: 100%;
 
     &.rcw-opened {
-      height: 100vh;
+      @include full-height;
 
       #infoset-conv-frame {
+        @include full-height;
         width: 100vw;
-        height: 100vh;
         bottom: 0px;
       }
     }
