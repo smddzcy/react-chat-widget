@@ -13,12 +13,6 @@ class Widget extends Component {
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.fullScreenMode) {
-      this.props.dispatch(toggleChat());
-    }
-  }
-
   toggleConversation() {
     if (typeof this.props.onToggleChat === "function") {
       this.props.onToggleChat(this.props.showChat);
@@ -46,9 +40,7 @@ class Widget extends Component {
         subtitle={this.props.subtitle}
         senderPlaceHolder={this.props.senderPlaceHolder}
         showCloseButton={this.props.showCloseButton}
-        fullScreenMode={this.props.fullScreenMode}
         badge={this.props.badge}
-        autofocus={this.props.autofocus}
         customLauncher={this.props.customLauncher}
         css={this.props.css}
         staticText={this.props.staticText}
@@ -64,9 +56,7 @@ Widget.propTypes = {
   handleNewUserMessage: PropTypes.func.isRequired,
   senderPlaceHolder: PropTypes.string,
   showCloseButton: PropTypes.bool,
-  fullScreenMode: PropTypes.bool,
   badge: PropTypes.number,
-  autofocus: PropTypes.bool,
   customLauncher: PropTypes.func,
   onToggleChat: PropTypes.func, // called on toggle with the old showChat status
   css: PropTypes.string,

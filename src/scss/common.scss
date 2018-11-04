@@ -4,33 +4,7 @@
   background-color: $color;
   border-radius: 10px;
   padding: 10px 15px;
-  max-width: 215px;
+  max-width: 80%;
   text-align: left;
 }
 
-@mixin widget-container-fs {
-  margin: 0;
-  max-width: none;
-  width: 100%;
-}
-
-@mixin header-fs {
-}
-
-@mixin title-fs {
-  
-}
-
-@mixin close-fs {
-}
-
-@mixin messages-container-fs {
-  height: 100vh;
-  max-height: none;
-}
-
-@mixin conversation-container-fs {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}

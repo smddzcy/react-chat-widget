@@ -7,7 +7,7 @@ import Sender from "./components/Sender";
 import "./style.scss";
 
 const Conversation = props => (
-  <div className="rcw-conversation-container">
+  <div className={`rcw-conversation-container ${window.innerWidth < 768 ? 'rcw-mobile' : ''}`}>
     <Header
       title={props.title}
       subtitle={props.subtitle}
@@ -28,7 +28,6 @@ const Conversation = props => (
           sendMessage={props.sendMessage}
           placeholder={props.senderPlaceHolder}
           disabledInput={props.disabledInput}
-          autofocus={props.autofocus}
         />
       </Fragment>
     )}
@@ -44,7 +43,6 @@ Conversation.propTypes = {
   toggleChat: PropTypes.func,
   showCloseButton: PropTypes.bool,
   disabledInput: PropTypes.bool,
-  autofocus: PropTypes.bool,
   staticText: PropTypes.string
 };
 

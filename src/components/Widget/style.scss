@@ -16,15 +16,6 @@
   width: 90vw;
 }
 
-.rcw-full-screen {
-  @include widget-container-fs;
-
-  &.rcw-opened {
-    width: 100vw;
-    height: 100vh;
-  }
-}
-
 #infoset-btn-frame, #infoset-conv-frame {
   border: 0;
   position: fixed;
@@ -50,9 +41,11 @@
   z-index: 2147483647;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 768px) {
   .rcw-widget-container {
-    @include widget-container-fs;
+    margin: 0;
+    max-width: none;
+    width: 100%;
 
     &.rcw-opened {
       height: 100vh;

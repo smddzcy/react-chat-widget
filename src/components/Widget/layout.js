@@ -10,11 +10,7 @@ import './style.scss';
 const WidgetLayout = props => {
   const initialFrameContent = `<!DOCTYPE html><html><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${props.css}</style></head><body><div></div></body></html>`;
   return (
-    <div
-      className={
-        `rcw-widget-container ${props.fullScreenMode ? 'rcw-full-screen' : ''} ${props.showChat ? 'rcw-opened' : ''}`
-      }
-    >
+    <div className={`rcw-widget-container ${props.showChat ? 'rcw-opened' : ''}`}>
       <Frame initialContent={initialFrameContent} id="infoset-conv-frame">
         <style>{props.css}</style>
         {props.showChat &&
@@ -28,7 +24,6 @@ const WidgetLayout = props => {
             showChat={props.showChat}
             showCloseButton={props.showCloseButton}
             disabledInput={props.disabledInput}
-            autofocus={props.autofocus}
             titleAvatar={props.titleAvatar}
           />
         }
@@ -36,7 +31,6 @@ const WidgetLayout = props => {
       <Frame initialContent={initialFrameContent} id="infoset-btn-frame">
         {props.customLauncher ?
           props.customLauncher(props.onToggleConversation) :
-          !props.fullScreenMode &&
           <Launcher
             toggle={props.onToggleConversation}
             badge={props.badge}
@@ -56,9 +50,7 @@ WidgetLayout.propTypes = {
   senderPlaceHolder: PropTypes.string,
   showCloseButton: PropTypes.bool,
   disabledInput: PropTypes.bool,
-  fullScreenMode: PropTypes.bool,
   badge: PropTypes.number,
-  autofocus: PropTypes.bool,
   customLauncher: PropTypes.func,
   css: PropTypes.string,
   staticText: PropTypes.string,

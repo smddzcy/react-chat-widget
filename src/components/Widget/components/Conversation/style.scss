@@ -11,7 +11,7 @@
   opacity: 1;
   transition: transform 0.3s linear, opacity 0.3s linear;
 
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 768px) {
     box-shadow: 0;
     border-radius: 0;
     right: 0 !important;
@@ -26,14 +26,20 @@
   @include animation(0, 0.5s, slide-out);
 }
 
-.rcw-full-screen {
-  .rcw-conversation-container {
-    @include conversation-container-fs;
+.rcw-mobile {
+  .rcw-message {
+    font-size: 16px;
   }
-}
 
-@media screen and (max-width: 800px) {
-  .rcw-conversation-container {
-    @include conversation-container-fs;
+  .rcw-sender {
+    padding-bottom: 35px;
+
+    .rcw-new-message {
+      font-size: 16px;
+    }
+  
+    .rcw-branding {
+      font-size: 15px;
+    }
   }
 }

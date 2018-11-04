@@ -22,7 +22,6 @@ const ConnectedWidget = props =>
       handleNewUserMessage={props.handleNewUserMessage}
       senderPlaceHolder={props.senderPlaceHolder}
       showCloseButton={props.showCloseButton}
-      fullScreenMode={props.fullScreenMode}
       badge={props.badge}
       autofocus={props.autofocus}
       customLauncher={props.launcher}
@@ -39,7 +38,6 @@ ConnectedWidget.propTypes = {
   handleNewUserMessage: PropTypes.func.isRequired,
   senderPlaceHolder: PropTypes.string,
   showCloseButton: PropTypes.bool,
-  fullScreenMode: PropTypes.bool,
   badge: PropTypes.number,
   autofocus: PropTypes.bool,
   launcher: PropTypes.func,
@@ -52,7 +50,6 @@ ConnectedWidget.defaultProps = {
   subtitle: '',
   senderPlaceHolder: 'Mesajınızı yazın ve enter\'a basın',
   showCloseButton: true,
-  fullScreenMode: false,
   badge: 0,
   autofocus: true
 };

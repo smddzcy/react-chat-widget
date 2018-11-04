@@ -1,11 +1,11 @@
 @import 'variables.scss';
 
 .rcw-sender {
-  align-items: center;
   display: flex;
+  align-items: center;
+  flex-shrink: 0;
   height: 45px;
   padding: 5px;
-  border-radius: 0 0 10px 10px;
   background: white;
   padding-bottom: 25px;
   box-shadow: 0px -10px 32px 5px #f0f0f0;
@@ -48,12 +48,5 @@
 
   .rcw-send-icon {
     height: 25px;
-  }
-}
-
-@media screen and (max-width: 800px)  {
-  .rcw-sender {
-    border-radius: 0;
-    flex-shrink: 0;
   }
 }
