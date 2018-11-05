@@ -7,9 +7,9 @@ import './style.scss';
 
 const Sender = ({ sendMessage, placeholder, disabledInput, autofocus }) =>
   <form className="rcw-sender" onSubmit={sendMessage}>
-    <input type="text" className="rcw-new-message" name="message" placeholder={placeholder} disabled={disabledInput} />
+    <input type="text" className="rcw-new-message" name="message" placeholder={placeholder} disabled={disabledInput} autoCorrect={false} autoComplete={false} autoFocus={true} />
     <button type="submit" className="rcw-send">
-      <img src={send} className="rcw-send-icon" alt="send" autoCorrect={false} />
+      <img src={send} className="rcw-send-icon" alt="send" />
     </button>
     <div className="rcw-branding">Powered by <a href="https://infoset.com.tr/" target="_blank">Infoset</a></div>
   </form>;
