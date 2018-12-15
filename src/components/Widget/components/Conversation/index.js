@@ -1,10 +1,11 @@
-import React, { Fragment, PureComponent } from "react";
-import PropTypes from "prop-types";
+import React, { Fragment, PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
-import Header from "./components/Header";
-import Messages from "./components/Messages";
-import Sender from "./components/Sender";
-import "./style.scss";
+import Header from './components/Header';
+import Messages from './components/Messages';
+import Sender from './components/Sender';
+import './style.scss';
+import inLogo from './in-logo.png';
 
 class Conversation extends PureComponent {
   constructor(props, context) {
@@ -20,7 +21,7 @@ class Conversation extends PureComponent {
   componentWillUnmount() {
     window.removeEventListener('resize', this.setVh);
   }
-  
+
 
   setVh() {
     const vh = window.innerHeight * 0.01;
@@ -32,7 +33,7 @@ class Conversation extends PureComponent {
 
   render() {
     return (
-      <div className={`rcw-conversation-container ${window.innerWidth < 768 ? 'rcw-mobile' : ''}`}>
+      <div className={`icw-conversation-container ${window.innerWidth < 768 ? 'icw-mobile' : ''}`}>
         <Header
           title={this.props.title}
           subtitle={this.props.subtitle}
@@ -41,8 +42,8 @@ class Conversation extends PureComponent {
           titleAvatar={this.props.titleAvatar}
         />
         {this.props.staticText ? (
-          <div className="rcw-messages-container" style={{ display: 'flex' }}>
-            <div className="rcw-message" style={{ textAlign: 'center', alignSelf: 'center', padding: '0 20px' }}>
+          <div className="icw-messages-container" style={{ display: 'flex' }}>
+            <div className="icw-message" style={{ textAlign: 'center', alignSelf: 'center', padding: '0 20px' }}>
               {this.props.staticText}
             </div>
           </div>
@@ -51,11 +52,16 @@ class Conversation extends PureComponent {
             <Messages />
             <Sender
               sendMessage={this.props.sendMessage}
-              placeholder={this.props.senderPlaceHolder}
+              placeholder={this.props.disabledInput ? this.props.disabledPlaceholder : this.props.senderPlaceholder}
               disabledInput={this.props.disabledInput}
             />
           </Fragment>
         )}
+        <div className="icw-branding" onClick={() => this.infosetLink && this.infosetLink.click()}>
+          <img src={inLogo} alt="infoset" />
+          Powered by
+          <a href="https://infoset.com.tr/" target="_blank" ref={ref => this.infosetLink = ref}>Infoset</a>
+        </div>
       </div>
     );
   }
@@ -66,11 +72,12 @@ Conversation.propTypes = {
   titleAvatar: PropTypes.string,
   subtitle: PropTypes.string,
   sendMessage: PropTypes.func,
-  senderPlaceHolder: PropTypes.string,
+  senderPlaceholder: PropTypes.string,
+  disabledPlaceholder: PropTypes.string,
   toggleChat: PropTypes.func,
   showCloseButton: PropTypes.bool,
   disabledInput: PropTypes.bool,
-  staticText: PropTypes.string
+  staticText: PropTypes.string,
 };
 
 export default Conversation;

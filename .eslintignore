@@ -1,2 +1,14 @@
+.idea
+.DS_Store
+.vscode
+
+android
+ios
+node_modules
+
+package-lock.json
+yarn.lock
+yarn-error.log
+test
 lib
 dev

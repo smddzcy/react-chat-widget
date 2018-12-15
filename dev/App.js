@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Widget, addResponseMessage } from '../index';
 
-export default class App extends Component {
+export default class App extends PureComponent {
   componentDidMount() {
     addResponseMessage('Welcome to this awesome chat!');
   }
@@ -15,7 +15,8 @@ export default class App extends Component {
       <Widget
         title="Bienvenido"
         subtitle="Asistente virtual"
-        senderPlaceHolder="Escribe aquí ..."
+        senderPlaceholder="Escribe aquí ..."
+        disabledPlaceholder="Disabled bro ..."
         handleNewUserMessage={this.handleNewUserMessage}
         badge={1}
       />

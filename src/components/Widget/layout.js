@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import Frame from 'react-frame-component';
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
@@ -22,35 +23,36 @@ class WidgetLayout extends PureComponent {
   componentWillUnmount() {
     clearAllBodyScrollLocks();
   }
-  
+
   render() {
     const initialFrameContent = `<!DOCTYPE html><html><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body><div></div></body></html>`;
     return (
-      <div className={`rcw-widget-container ${this.props.showChat ? 'rcw-opened' : ''}`}>
+      <div className={cx('icw-widget-container', { 'icw-opened': this.props.showChat })}>
         <Frame initialContent={initialFrameContent} id="infoset-conv-frame" ref={n => this.convFrame = n}>
           <style>{this.props.css}</style>
-          {this.props.showChat &&
-            <Conversation
-              title={this.props.title}
-              subtitle={this.props.subtitle}
-              staticText={this.props.staticText}
-              sendMessage={this.props.onSendMessage}
-              senderPlaceHolder={this.props.senderPlaceHolder}
-              toggleChat={this.props.onToggleConversation}
-              showChat={this.props.showChat}
-              showCloseButton={this.props.showCloseButton}
-              disabledInput={this.props.disabledInput}
-              titleAvatar={this.props.titleAvatar}
-            />
-          }
+          <Conversation
+            title={this.props.title}
+            subtitle={this.props.subtitle}
+            staticText={this.props.staticText}
+            sendMessage={this.props.onSendMessage}
+            senderPlaceholder={this.props.senderPlaceholder}
+            disabledPlaceholder={this.props.disabledPlaceholder}
+            toggleChat={this.props.onToggleConversation}
+            showChat={this.props.showChat}
+            showCloseButton={this.props.showCloseButton}
+            disabledInput={this.props.disabledInput}
+            titleAvatar={this.props.titleAvatar}
+          />
         </Frame>
         <Frame initialContent={initialFrameContent} id="infoset-btn-frame" ref={n => this.btnFrame = n}>
-          {this.props.customLauncher ?
-            this.props.customLauncher(this.props.onToggleConversation) :
-            <Launcher
-              toggle={this.props.onToggleConversation}
-              badge={this.props.badge}
-            />}
+          {this.props.customLauncher
+            ? this.props.customLauncher(this.props.onToggleConversation)
+            : (
+              <Launcher
+                toggle={this.props.onToggleConversation}
+                badge={this.props.badge}
+              />
+            )}
         </Frame>
       </div>
     );
@@ -64,7 +66,8 @@ WidgetLayout.propTypes = {
   onSendMessage: PropTypes.func,
   onToggleConversation: PropTypes.func,
   showChat: PropTypes.bool,
-  senderPlaceHolder: PropTypes.string,
+  senderPlaceholder: PropTypes.string,
+  disabledPlaceholder: PropTypes.string,
   showCloseButton: PropTypes.bool,
   disabledInput: PropTypes.bool,
   badge: PropTypes.number,
@@ -74,6 +77,6 @@ WidgetLayout.propTypes = {
 };
 
 export default connect(store => ({
-  showChat: store.behavior.get('showChat'),
-  disabledInput: store.behavior.get('disabledInput')
+  showChat: store.behavior.showChat,
+  disabledInput: store.behavior.disabledInput,
 }))(WidgetLayout);

@@ -1,7 +1,12 @@
 @import 'animation.scss';
 @import 'common.scss';
 
-.rcw-widget-container {
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icw-widget-container {
   bottom: 0;
   display: flex;
   flex-direction: column;
@@ -10,44 +15,47 @@
   position: fixed;
   right: 0;
   z-index: 2147483647;
+  color: #212121;
 }
 
-.rcw-opened {
+.icw-opened {
   width: 90vw;
 }
 
 #infoset-btn-frame, #infoset-conv-frame {
   border: 0;
   position: fixed;
-  right: 10px;
+  right: 20px;
   box-sizing: border-box;
 }
 
 #infoset-conv-frame {
-  bottom: 100px;
-  height: 450px;
-  width: 350px;
+  bottom: 105px;
+  height: 550px;
+  width: 375px;
   z-index: -1;
   pointer-events: none;
   transform: translateY(10px);
   opacity: 0;
-  transform-origin: bottom right;
+  border-radius: 10px;
+  transform-origin: bottom;
+  transition: transform 300ms ease-out, opacity 300ms ease-out, box-shadow 300ms ease-out;
 }
 
 #infoset-btn-frame {
   height: 85px;
   width: 80px;
-  bottom: 10px;
+  bottom: 15px;
   z-index: 2147483647;
 }
 
 @media screen and (max-width: 768px) {
-  .rcw-widget-container {
+  .icw-widget-container {
     margin: 0;
     max-width: none;
     width: 100%;
 
-    &.rcw-opened {
+    &.icw-opened {
       @include full-height;
 
       #infoset-conv-frame {

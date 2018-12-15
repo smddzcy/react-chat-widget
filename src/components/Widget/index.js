@@ -1,33 +1,44 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { toggleChat, addUserMessage } from "@actions";
+import { toggleChat, addUserMessage, setInputDisabled } from '@actions';
 
-import WidgetLayout from "./layout";
+import WidgetLayout from './layout';
 
-class Widget extends Component {
+class Widget extends PureComponent {
   constructor(props) {
     super(props);
     this.toggleConversation = this.toggleConversation.bind(this);
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isInputDisabled !== this.props.isInputDisabled) {
+      this.props.dispatch(setInputDisabled(nextProps.isInputDisabled));
+    }
+  }
+
   toggleConversation() {
-    if (typeof this.props.onToggleChat === "function") {
+    if (typeof this.props.onToggleChat === 'function') {
       this.props.onToggleChat(this.props.showChat);
     }
     this.props.dispatch(toggleChat());
   }
 
-  handleMessageSubmit(event) {
-    event.preventDefault();
-    const userInput = event.target.message.value;
+  handleMessageSubmit(event, isFile) {
+    let userInput;
+    if (event.target) {
+      event.preventDefault();
+      userInput = event.target.message.value;
+      event.target.message.value = '';
+    } else {
+      userInput = event;
+    }
     if (userInput) {
       this.props.dispatch(addUserMessage(userInput));
-      this.props.handleNewUserMessage(userInput);
+      this.props.handleNewUserMessage(userInput, isFile);
     }
-    event.target.message.value = "";
   }
 
   render() {
@@ -38,7 +49,8 @@ class Widget extends Component {
         title={this.props.title}
         titleAvatar={this.props.titleAvatar}
         subtitle={this.props.subtitle}
-        senderPlaceHolder={this.props.senderPlaceHolder}
+        senderPlaceholder={this.props.senderPlaceholder}
+        disabledPlaceholder={this.props.disabledPlaceholder}
         showCloseButton={this.props.showCloseButton}
         badge={this.props.badge}
         customLauncher={this.props.customLauncher}
@@ -54,15 +66,17 @@ Widget.propTypes = {
   titleAvatar: PropTypes.string,
   subtitle: PropTypes.string,
   handleNewUserMessage: PropTypes.func.isRequired,
-  senderPlaceHolder: PropTypes.string,
+  senderPlaceholder: PropTypes.string,
+  disabledPlaceholder: PropTypes.string,
   showCloseButton: PropTypes.bool,
   badge: PropTypes.number,
   customLauncher: PropTypes.func,
   onToggleChat: PropTypes.func, // called on toggle with the old showChat status
   css: PropTypes.string,
   staticText: PropTypes.string,
+  isInputDisabled: PropTypes.bool,
 };
 
 export default connect(store => ({
-  showChat: store.behavior.get("showChat")
+  showChat: store.behavior.showChat,
 }))(Widget);

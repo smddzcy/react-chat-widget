@@ -1,49 +1,97 @@
 @import 'variables.scss';
 @import 'common.scss';
 
-.rcw-message {
-  margin: 10px;
+.icw-message {
+  margin: 15px 20px;
   font-size: 14px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+
+  &.only-message {
+    margin-bottom: -5px;
+    .icw-avatar {
+      visibility: hidden;
+    }
+    .icw-bubble-sub {
+      display: none;
+    }
+  }
 }
 
-.rcw-bubble-container {
+.message-bubble {
+  border-radius: 5px;
+  padding: 10px 15px;
+  max-width: 80%;
+  text-align: left;
+  overflow-wrap: break-word;
+}
+
+.icw-bubble-container {
   width: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+  align-items: flex-start;
 
-  .rcw-client {
-    @include message-bubble($light-blue);
+  .icw-client {
+    @extend .message-bubble;
+    background-color: $blue-alt;
+    color: white;
     margin-left: auto;
 
-    & + .rcw-bubble-sub {
+    & + .icw-bubble-sub {
       margin-left: auto;
     }
   }
 
-  .rcw-response {
-    @include message-bubble($grey-2);
+  .icw-response {
+    @extend .message-bubble;
+    background-color: $grey-2;
   }
 
-  .rcw-bubble-sub {
+  .icw-bubble-sub {
     font-size: 11px;
     margin-top: 3px;
     color: #666666;
   }  
 }
 
-/* For markdown elements created with default styles */
-.rcw-message-text {
-
+.icw-message-text {
   p {
     margin: 0;
   }
+  a, a:visited, a:focus, a:active {
+    color: white;
+  }
+  &.is-emoji {
+    &.len-1 {
+      font-size: 2.5em;
+    }
+    &.len-2 {
+      font-size: 2em;
+    }
+    &.len-3 {
+      font-size: 1.5em;
+    }
+  }
 }
 
-.rcw-avatar {
+.icw-message-image {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  img {
+    visibility: hidden;
+    width: auto;
+    height: auto;
+    max-width: 200px;
+    max-height: 250px;
+  }
+}
+
+.icw-avatar {
   width: 45px;
   height: 45px;
   background-size: cover;

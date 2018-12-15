@@ -6,25 +6,30 @@ import close from '@assets/clear-button.svg';
 import './style.scss';
 
 
-const Header = ({ title, subtitle, toggleChat, showCloseButton, titleAvatar }) =>
-  <div className="rcw-header">
-    {showCloseButton &&
-      <button className="rcw-close-button" onClick={toggleChat}>
-        <img src={close} className="rcw-close" alt="close" />
+const Header = ({
+  title, subtitle, toggleChat, showCloseButton, titleAvatar,
+}) => (
+  <div className="icw-header">
+    {showCloseButton
+      && (
+      <button type="button" className="icw-close-button" onClick={toggleChat}>
+        <img src={close} className="icw-close" alt="close" />
       </button>
+      )
     }
-    <h4 className="rcw-title">
+    <h4 className="icw-title">
       {titleAvatar && <img src={titleAvatar} className="avatar" alt="profile" />}
       {title}
     </h4>
     <span>{subtitle}</span>
-  </div>;
+  </div>
+);
 
 Header.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
   toggleChat: PropTypes.func,
   showCloseButton: PropTypes.bool,
-  titleAvatar: PropTypes.string
+  titleAvatar: PropTypes.string,
 };
 export default Header;

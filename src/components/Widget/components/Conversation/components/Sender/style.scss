@@ -1,31 +1,86 @@
 @import 'variables.scss';
+@import '~emoji-mart/css/emoji-mart.css';
 
-.rcw-sender {
+.icw-sender {
+  position: relative;
   display: flex;
   align-items: center;
   flex-shrink: 0;
   height: 45px;
   padding: 5px;
   background: white;
-  padding-bottom: 25px;
-  box-shadow: 0px -10px 32px 5px #f0f0f0;
+  padding-bottom: 35px;
+  box-shadow: 0px -10px 32px 5px #fafafa;
+  transition: box-shadow 300ms ease-out;
   z-index: 2;
 
-  .rcw-branding {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 12px;
-    opacity: 0.75;
+  &.input-focused {
+    box-shadow: 0px -10px 32px 5px #f0f0f0;
+  }
 
-    a {
-      text-decoration: none;
-      color: rgb(41, 117, 191);
+  .input-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    svg {
+      height: 20px;
+      width: 20px;
+      fill: currentColor;
+    }
+
+    > * {
+      opacity: 0.65;
+      padding: 10px 5px;
+      margin: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      transition: opacity 300ms ease-out; 
+
+      &:hover {
+        opacity: 1 !important;
+      }
+
+      &:last-child {
+        margin-right: 5px;
+      }
+
+      &:active,
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .emoji-picker {
+    position: absolute;
+    right: 20px;
+    bottom: 100%;
+    margin-bottom: -10px;
+    max-width: 91%;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(0, 5px, 0);
+    transition: transform 200ms ease-out, opacity 200ms ease-out;
+
+    &.is-visible {
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    > * {
+      max-width: 100%;
+    }
+
+    .emoji-mart-bar:last-child {
+      display: none;
     }
   }
 }
 
-.rcw-new-message {
+.icw-new-message {
   width: 100%;
   border: 0;
   height: 30px;
@@ -34,20 +89,5 @@
 
   &:focus {
     outline: none;
-  }
-}
-
-.rcw-send {
-  cursor: pointer;
-  border: 0;
-  background: transparent;
-
-  &:active,
-  &:focus {
-    outline: none;
-  }
-
-  .rcw-send-icon {
-    height: 25px;
   }
 }

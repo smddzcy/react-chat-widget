@@ -9,10 +9,6 @@ export function addResponseMessage(payload) {
   store.dispatch(actions.addResponseMessage(payload));
 }
 
-export function addLinkSnippet(link) {
-  store.dispatch(actions.addLinkSnippet(link));
-}
-
 export function renderCustomComponent(component, props, showAvatar = false) {
   store.dispatch(actions.renderCustomComponent(component, props, showAvatar));
 }
@@ -30,5 +26,5 @@ export function dropMessages() {
 }
 
 export function isWidgetOpened() {
-  return store.getState().behavior.get('showChat');
+  return store.getState().behavior.showChat;
 }

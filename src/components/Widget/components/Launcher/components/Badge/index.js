@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import './style.scss';
 
 const Badge = ({ badge }) => (
-  badge > 0 &&
-  <span className="rcw-badge">{badge}</span>
+  badge > 0
+  && <span className="icw-badge">{badge}</span>
 );
 
 Badge.propTypes = {
-  badge: PropTypes.number
+  badge: PropTypes.number,
 };
 
 export default Badge;

@@ -12,6 +12,7 @@
   animation-delay: $delay;
   animation-duration: $duration;
   animation-name: $animation;
+  animation-timing-function: ease-out;
   animation-fill-mode: forwards; /* this prevents the animation from restarting! */
 }
 
@@ -44,6 +45,15 @@
   }
   to {
     transform: rotate(0);
+  }
+}
+
+@include keyframes(open-launcher) {
+  from {
+    transform: rotate(45deg) scale3d(0.5, 0.5, 0.5);
+  }
+  to {
+    transform: rotate(0) scale3d(1, 1, 1);
   }
 }
 

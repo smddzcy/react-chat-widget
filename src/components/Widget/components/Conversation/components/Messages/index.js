@@ -1,19 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import cx from 'classnames';
+import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 
 import PersonIcon from './man.svg';
 
-import { hideAvatar } from '@actions';
-
 import './styles.scss';
 
-class Messages extends Component {
-  constructor(props, context) {
-    super(props, context);
-  }
-  
+class Messages extends PureComponent {
   componentDidMount() {
     this.scrollToBottom();
   }
@@ -22,37 +17,58 @@ class Messages extends Component {
     this.scrollToBottom();
   }
 
+  onScrollContainerScroll = ev => {
+    const $this = this.scrollContainer;
+    const { scrollTop, scrollHeight } = $this;
+    const height = $this.clientHeight;
+    const delta = -ev.nativeEvent.deltaY;
+    if (!delta || Number.isNaN(delta)) return;
+    const up = delta > 0;
+
+    const prevent = () => {
+      ev.stopPropagation();
+      ev.preventDefault();
+      ev.returnValue = false;
+      return false;
+    };
+
+    if (!up && -delta > scrollHeight - height - scrollTop) {
+      // srolling down, but this will take us past the bottom
+      $this.scrollTop = scrollHeight;
+      return prevent();
+    } if (up && delta > scrollTop) {
+      // scrolling up, but this will take us past the top
+      $this.scrollTop = 0;
+      return prevent();
+    }
+  }
+
   scrollToBottom() {
     if (!this.scrollContainer) return;
-    this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight
+    this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight;
   }
 
   getComponentToRender = message => {
-    const ComponentToRender = message.get('component');
-    const previousMessage = this.props.messages.get()
-    if (message.get('type') === 'component') {
-      return <ComponentToRender {...message.get('props')} />;
+    const ComponentToRender = message.component;
+    if (message.type === 'component') {
+      return <ComponentToRender {...message.props} />;
     }
     return <ComponentToRender message={message} />;
   };
 
-  shouldRenderAvatar = (message, index) => {
-    const previousMessage = this.props.messages.get(index - 1);
-    if (message.get('showAvatar') && previousMessage.get('showAvatar')) {
-      this.props.dispatch(hideAvatar(index));
-    }
-  }
-
   render() {
     const { messages } = this.props;
     return (
-      <div id="messages" className="rcw-messages-container" ref={node => this.scrollContainer = node}>
+      <div id="messages" className="icw-messages-container" ref={node => this.scrollContainer = node} onWheel={this.onScrollContainerScroll}>
         {messages.map((message, index) => {
-          const sender = message.get('sender');
+          const nextMessage = messages[index + 1];
+          const showOnlyMessage = nextMessage
+            && isEqual(nextMessage.sender, message.sender) // ayni kisi
+            && (nextMessage.time - message.time) / 1000 < 60; // mesajlar ayni dakikada gelmis
           return (
-            <div className="rcw-message" key={index}>
-              {message.get('showAvatar') &&
-                <div className="rcw-avatar" style={{ backgroundImage: `url(${sender.photo || PersonIcon})` }} />
+            <div className={cx('icw-message', { 'only-message': showOnlyMessage })} key={index}>
+              {message.showAvatar
+                && <div className="icw-avatar" style={{ backgroundImage: `url(${message.sender.photo || PersonIcon})` }} />
               }
               {this.getComponentToRender(message)}
             </div>
@@ -64,9 +80,9 @@ class Messages extends Component {
 }
 
 Messages.propTypes = {
-  messages: ImmutablePropTypes.listOf(ImmutablePropTypes.map),
+  messages: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default connect(store => ({
-  messages: store.messages
+  messages: store.messages,
 }))(Messages);

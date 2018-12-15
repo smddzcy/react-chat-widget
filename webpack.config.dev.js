@@ -1,43 +1,34 @@
-'use strict'
-
 const webpack = require('webpack');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'dev/main.js'),
+  entry: './index.js',
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-  },
-  target: 'web',
-  mode: 'development',
-  devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    compress: false,
-    port: 3000,
-    hot: true
+    path: path.join(__dirname, '/lib'),
+    filename: 'index.js',
+    library: 'react-chat-widget',
+    libraryTarget: 'umd',
   },
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js'],
   },
+  mode: 'development',
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
       },
       {
         test: /\.scss$/,
-        exclude: /node_modules/,
         use: [
-          {
-            loader: 'style-loader',
-            options: { hmr: true }
-          },
+          MiniCssExtractPlugin.loader,
           'css-loader',
           {
             loader: 'postcss-loader',
@@ -47,34 +38,49 @@ module.exports = {
                 require('postcss-flexbugs-fixes'), // eslint-disable-line
                 autoprefixer({
                   browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie <9'],
-                  flexbox: 'no-2009'
-                })
-              ]
-            }
+                  flexbox: 'no-2009',
+                }),
+              ],
+            },
           },
           {
             loader: 'sass-loader',
             options: {
-              includePaths: [path.resolve(__dirname,'src/scss')]
-            }
-          }
-        ]
+              includePaths: [path.resolve(__dirname, 'src/scss/')],
+            },
+          },
+        ],
       },
       {
-        test: /\.(jpg|png|gif|svg)$/,
-        use: 'url-loader'
-      }
-    ]
+        test: /\.svg$/,
+        use: ['svgr-loader', 'url-loader'],
+      },
+      {
+        test: /\.(jpg|png|gif)$/,
+        use: {
+          loader: 'url-loader',
+        },
+      },
+    ],
   },
-  devtool: 'eval',
   plugins: [
-    new CleanWebpackPlugin(['dist']),
-    new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-      template: './dev/index.html'
-    })
+    new CleanWebpackPlugin(['lib']),
+    /**
+     * Known issue for the CSS Extract Plugin in Ubuntu 16.04: You'll need to install
+     * the following package: sudo apt-get install libpng16-dev
+     */
+    new MiniCssExtractPlugin({
+      filename: 'styles.css',
+      chunkFileName: '[id].css',
+    }),
   ],
-  performance: {
-    hints: false
-  }
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+      }),
+      new OptimizeCSSAssetsPlugin({}),
+    ],
+  },
 };
