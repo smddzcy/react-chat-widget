@@ -31,6 +31,7 @@ body {
 
 #infoset-conv-frame {
   bottom: 105px;
+  min-height: 350px;
   height: 550px;
   width: 375px;
   z-index: -1;
@@ -47,6 +48,12 @@ body {
   width: 80px;
   bottom: 15px;
   z-index: 2147483647;
+}
+
+@media screen and (min-width: 769px) {
+  #infoset-conv-frame {
+    max-height: calc(100vh - 120px);
+  }
 }
 
 @media screen and (max-width: 768px) {
