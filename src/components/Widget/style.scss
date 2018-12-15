@@ -62,14 +62,18 @@ body {
     max-width: none;
     width: 100%;
 
+    #infoset-conv-frame {
+      @include full-height;
+      width: 100vw;
+      bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      border-radius: 0;
+    }
+
     &.icw-opened {
       @include full-height;
-
-      #infoset-conv-frame {
-        @include full-height;
-        width: 100vw;
-        bottom: 0px;
-      }
     }
   }
 }
