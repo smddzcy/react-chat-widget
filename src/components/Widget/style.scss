@@ -44,8 +44,10 @@ body {
 }
 
 #infoset-btn-frame {
-  height: 85px;
-  width: 80px;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06), 0 2px 32px 0 rgba(0, 0, 0, 0.16);
   bottom: 15px;
   z-index: 2147483647;
 }
