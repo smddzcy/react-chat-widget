@@ -4,7 +4,7 @@ import cx from 'classnames';
 import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 
-import PersonIcon from './man.svg';
+import BotIcon from './bot.svg';
 
 import './styles.scss';
 
@@ -68,7 +68,7 @@ class Messages extends PureComponent {
           return (
             <div className={cx('icw-message', { 'only-message': showOnlyMessage })} key={index}>
               {message.showAvatar
-                && <div className="icw-avatar" style={{ backgroundImage: `url(${message.sender.photo || PersonIcon})` }} />
+                && <div className="icw-avatar" style={{ backgroundImage: `url(${message.sender.photo || BotIcon})` }} />
               }
               {this.getComponentToRender(message)}
             </div>
