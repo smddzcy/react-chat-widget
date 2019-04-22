@@ -27,6 +27,7 @@
       height: 20px;
       width: 20px;
       fill: currentColor;
+      overflow: visible;
     }
 
     > * {
@@ -86,6 +87,7 @@
   height: 30px;
   padding-left: 15px;
   font-size: 13px;
+  background: transparent !important;
 
   &:focus {
     outline: none;
