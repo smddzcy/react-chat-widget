@@ -33,12 +33,13 @@ export function addResponseMessage(payload) {
   };
 }
 
-export function renderCustomComponent(component, props, showAvatar) {
+export function renderCustomComponent(component, props, showAvatar, insideBubble = false) {
   return {
     type: actions.ADD_COMPONENT_MESSAGE,
     component,
     props,
     showAvatar,
+    insideBubble,
   };
 }
 

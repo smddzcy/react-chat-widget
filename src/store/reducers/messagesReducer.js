@@ -11,7 +11,9 @@ const messagesReducer = {
 
   [actionTypes.ADD_NEW_RESPONSE_MESSAGE]: (state, { payload }) => state.concat(createNewMessage(payload.msg, payload.agent || {}, payload.time)),
 
-  [actionTypes.ADD_COMPONENT_MESSAGE]: (state, { component, props, showAvatar }) => state.concat(createComponentMessage(component, props, showAvatar)),
+  [actionTypes.ADD_COMPONENT_MESSAGE]: (state, {
+    component, props, showAvatar, insideBubble,
+  }) => state.concat(createComponentMessage(component, props, showAvatar, insideBubble)),
 
   [actionTypes.DROP_MESSAGES]: () => [],
 };

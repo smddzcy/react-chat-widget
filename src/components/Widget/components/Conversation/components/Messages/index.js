@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
+import Message from '@messagesComponents/Message';
 
 import BotIcon from './bot.svg';
 

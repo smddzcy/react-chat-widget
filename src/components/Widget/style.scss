@@ -25,16 +25,17 @@ body {
 #infoset-btn-frame, #infoset-conv-frame {
   border: 0;
   position: fixed;
-  right: 20px;
+  right: 5px;
   box-sizing: border-box;
 }
 
 #infoset-conv-frame {
-  bottom: 105px;
+  bottom: 95px;
   min-height: 350px;
   height: 550px;
   width: 375px;
   z-index: -1;
+  right: 15px;
   pointer-events: none;
   transform: translateY(10px);
   opacity: 0;
@@ -44,11 +45,9 @@ body {
 }
 
 #infoset-btn-frame {
-  height: 60px;
-  width: 60px;
-  border-radius: 50%;
-  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06), 0 2px 32px 0 rgba(0, 0, 0, 0.16);
-  bottom: 15px;
+  height: 80px;
+  width: 80px;
+  bottom: 5px;
   z-index: 2147483647;
 }
 

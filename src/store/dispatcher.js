@@ -9,8 +9,8 @@ export function addResponseMessage(payload) {
   store.dispatch(actions.addResponseMessage(payload));
 }
 
-export function renderCustomComponent(component, props, showAvatar = false) {
-  store.dispatch(actions.renderCustomComponent(component, props, showAvatar));
+export function renderCustomComponent(component, props, showAvatar = false, insideBubble = false) {
+  store.dispatch(actions.renderCustomComponent(component, props, showAvatar, insideBubble));
 }
 
 export function toggleWidget() {

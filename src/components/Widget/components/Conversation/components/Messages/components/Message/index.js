@@ -34,7 +34,9 @@ class Message extends PureComponent {
 
   render() {
     const { message } = this.props;
-    const { text, sender, time: msgTime } = message;
+    const {
+      text, child: Child, childProps, sender, time: msgTime,
+    } = message;
     const senderClass = sender === MESSAGE_SENDER.CLIENT
       ? MESSAGE_SENDER.CLIENT
       : MESSAGE_SENDER.RESPONSE;
@@ -56,12 +58,12 @@ class Message extends PureComponent {
       // show the date
       timeString = time.toLocaleDateString();
     }
-    const isImage = isImageUrl(text);
 
     return (
       <div className="icw-bubble-container">
         <div className={`icw-${senderClass}`}>
-          {isImage ? this.renderImage(text) : this.renderText(text)}
+          {Child && <Child {...childProps} />}
+          {!Child && (isImageUrl(text) ? this.renderImage(text) : this.renderText(text))}
         </div>
         <div className="icw-bubble-sub">{timeString} {senderLabel && `| ${senderLabel}`}</div>
       </div>

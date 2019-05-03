@@ -48,6 +48,10 @@
   .icw-response {
     @extend .message-bubble;
     background-color: $grey-2;
+    img {
+      max-width: 100% !important;
+      max-height: 200px !important;
+    }
   }
 
   .icw-bubble-sub {
@@ -102,4 +106,8 @@
   flex: none;
   border-radius: 100%;
   margin-right: 10px;
+}
+
+p {
+  margin: 5px 0;
 }

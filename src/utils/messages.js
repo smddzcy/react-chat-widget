@@ -13,7 +13,18 @@ export function createNewMessage(text, sender, time = Date.now()) {
   };
 }
 
-export function createComponentMessage(component, props, showAvatar) {
+export function createComponentMessage(component, props, showAvatar, insideBubble) {
+  if (insideBubble) {
+    return {
+      type: MESSAGES_TYPES.TEXT,
+      component: Message,
+      child: component,
+      childProps: props,
+      time: Date.now(),
+      sender: MESSAGE_SENDER.RESPONSE,
+      showAvatar,
+    };
+  }
   return {
     type: MESSAGES_TYPES.CUSTOM_COMPONENT,
     component,
