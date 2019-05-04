@@ -56,6 +56,8 @@ class Widget extends PureComponent {
         customLauncher={this.props.customLauncher}
         css={this.props.css}
         staticText={this.props.staticText}
+        triggerContent={this.props.triggerContent}
+        showTrigger={this.props.showTrigger}
       />
     );
   }
@@ -75,6 +77,8 @@ Widget.propTypes = {
   css: PropTypes.string,
   staticText: PropTypes.string,
   isInputDisabled: PropTypes.bool,
+  triggerContent: PropTypes.string,
+  showTrigger: PropTypes.bool,
 };
 
 export default connect(store => ({

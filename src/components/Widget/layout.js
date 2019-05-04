@@ -7,9 +7,38 @@ import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'bo
 
 import Conversation from './components/Conversation';
 import Launcher from './components/Launcher';
+import Trigger from './components/Trigger';
 import './style.scss';
 
 class WidgetLayout extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      triggerWidth: null,
+      triggerHeight: null,
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.showTrigger && !this.props.showTrigger) {
+      this.setState({ triggerWidth: null, triggerHeight: null });
+      clearInterval(this.triggerSizeWatcher);
+    } else if (!prevProps.showTrigger && this.props.showTrigger) {
+      // start watching for trigger size changes
+      this.triggerSizeWatcher = setInterval(() => {
+        if (!this.trigger) return;
+        let { scrollWidth, scrollHeight } = this.trigger;
+        scrollWidth = Math.min(Math.max(scrollWidth || 0, 100), 300);
+        scrollHeight = Math.min(Math.max(scrollHeight || 0, 60), 400);
+        if (this.state.triggerWidth !== scrollWidth || this.state.triggerHeight !== scrollHeight) {
+          this.setState({ triggerWidth: null, triggerHeight: null }, () => {
+            this.setState({ triggerWidth: scrollWidth, triggerHeight: scrollHeight });
+          });
+        }
+      }, 100);
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (window.innerWidth < 768) {
       if (!nextProps.showChat) {
@@ -22,6 +51,7 @@ class WidgetLayout extends PureComponent {
 
   componentWillUnmount() {
     clearAllBodyScrollLocks();
+    clearInterval(this.triggerSizeWatcher);
   }
 
   render() {
@@ -44,7 +74,7 @@ class WidgetLayout extends PureComponent {
             titleAvatar={this.props.titleAvatar}
           />
         </Frame>
-        <Frame initialContent={initialFrameContent} id="infoset-btn-frame" ref={n => this.btnFrame = n}>
+        <Frame initialContent={initialFrameContent} id="infoset-btn-frame">
           {this.props.customLauncher
             ? this.props.customLauncher(this.props.onToggleConversation)
             : (
@@ -54,6 +84,15 @@ class WidgetLayout extends PureComponent {
               />
             )}
         </Frame>
+        <Frame
+          initialContent={initialFrameContent}
+          id="infoset-trigger-frame"
+          className={this.props.showTrigger ? 'open' : ''}
+          style={{ width: this.state.triggerWidth || 'auto', height: this.state.triggerHeight || 'auto' }}
+        >
+          <Trigger content={this.props.triggerContent} innerRef={n => this.trigger = n} />
+        </Frame>
+        <div id="infoset-trigger-frame-tip" />
       </div>
     );
   }
@@ -74,6 +113,8 @@ WidgetLayout.propTypes = {
   customLauncher: PropTypes.func,
   css: PropTypes.string,
   staticText: PropTypes.string,
+  triggerContent: PropTypes.string,
+  showTrigger: PropTypes.bool,
 };
 
 export default connect(store => ({

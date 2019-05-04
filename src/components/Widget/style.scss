@@ -22,11 +22,55 @@ body {
   width: 90vw;
 }
 
-#infoset-btn-frame, #infoset-conv-frame {
+#infoset-btn-frame, #infoset-conv-frame, #infoset-trigger-frame {
   border: 0;
   position: fixed;
-  right: 5px;
   box-sizing: border-box;
+}
+
+@mixin hidden() {
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+}
+
+#infoset-trigger-frame-tip {
+  position: fixed;
+  right: 75px;
+  bottom: 30px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  transform: translateX(-50%) rotate(45deg) translateX(5px);
+  transition: transform 300ms ease-out, opacity 300ms ease-out, box-shadow 300ms ease-out;
+  @include hidden;
+}
+
+#infoset-trigger-frame {
+  background: white;
+  border-radius: 6px;
+  bottom: 15px;
+  right: 95px;
+  box-shadow: 0 1px 6px 0 rgba(0,0,0,.06), 0 2px 16px 0 rgba(0,0,0,.16), 15px 5px 10px 0px rgba(0,0,0,0.06);
+  max-width: calc(100vw - 100px);
+  max-height: calc(100vh - 30px);
+  transition: transform 300ms ease-out, opacity 300ms ease-out, box-shadow 300ms ease-out, width 300ms ease-out, height 300ms ease-out;
+  transform: translateX(10px);
+  @include hidden;
+
+  &.open {
+    transform: translateX(0);
+
+    & + #infoset-trigger-frame-tip {
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    &, & + #infoset-trigger-frame-tip {
+      z-index: 2147483646;
+      pointer-events: all;
+      opacity: 1;
+    }
+  }
 }
 
 #infoset-conv-frame {
@@ -34,20 +78,19 @@ body {
   min-height: 350px;
   height: 550px;
   width: 375px;
-  z-index: -1;
   right: 15px;
-  pointer-events: none;
   transform: translateY(10px);
-  opacity: 0;
   border-radius: 10px;
   transform-origin: bottom;
   transition: transform 300ms ease-out, opacity 300ms ease-out, box-shadow 300ms ease-out;
+  @include hidden;
 }
 
 #infoset-btn-frame {
-  height: 80px;
-  width: 80px;
-  bottom: 5px;
+  height: 75px;
+  width: 75px;
+  right: 10px;
+  bottom: 10px;
   z-index: 2147483647;
 }
 
