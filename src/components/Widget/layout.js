@@ -14,28 +14,34 @@ class WidgetLayout extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      triggerWidth: null,
-      triggerHeight: null,
+      triggerWidth: 300,
+      triggerHeight: 400,
+      triggerOpacity: 0,
     };
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.showTrigger && !this.props.showTrigger) {
-      this.setState({ triggerWidth: null, triggerHeight: null });
       clearInterval(this.triggerSizeWatcher);
+      this.setState({ triggerOpacity: 0 }, () => {
+        // clear the state after the transition
+        setTimeout(() => {
+          this.setState({ triggerWidth: 300, triggerHeight: 400 });
+        }, 300);
+      });
     } else if (!prevProps.showTrigger && this.props.showTrigger) {
       // start watching for trigger size changes
       this.triggerSizeWatcher = setInterval(() => {
         if (!this.trigger) return;
         let { scrollWidth, scrollHeight } = this.trigger;
-        scrollWidth = Math.min(Math.max(scrollWidth || 0, 100), 300);
-        scrollHeight = Math.min(Math.max(scrollHeight || 0, 60), 400);
-        if (this.state.triggerWidth !== scrollWidth || this.state.triggerHeight !== scrollHeight) {
+        scrollWidth = Math.min(Math.max(Math.floor(scrollWidth) + 10, 100), 300);
+        scrollHeight = Math.min(Math.max(Math.floor(scrollHeight) + 10, 60), 400);
+        if (Math.abs(this.state.triggerWidth - scrollWidth) > 3 || Math.abs(this.state.triggerHeight - scrollHeight) > 3) {
           this.setState({ triggerWidth: null, triggerHeight: null }, () => {
-            this.setState({ triggerWidth: scrollWidth, triggerHeight: scrollHeight });
+            this.setState({ triggerWidth: scrollWidth, triggerHeight: scrollHeight, triggerOpacity: 1 });
           });
         }
-      }, 100);
+      }, 50);
     }
   }
 
@@ -70,6 +76,8 @@ class WidgetLayout extends PureComponent {
             toggleChat={this.props.onToggleConversation}
             showChat={this.props.showChat}
             showCloseButton={this.props.showCloseButton}
+            showEmojiButton={this.props.showEmojiButton}
+            showAttachmentButton={this.props.showAttachmentButton}
             disabledInput={this.props.disabledInput}
             titleAvatar={this.props.titleAvatar}
           />
@@ -88,7 +96,11 @@ class WidgetLayout extends PureComponent {
           initialContent={initialFrameContent}
           id="infoset-trigger-frame"
           className={this.props.showTrigger ? 'open' : ''}
-          style={{ width: this.state.triggerWidth || 'auto', height: this.state.triggerHeight || 'auto' }}
+          style={{
+            width: this.state.triggerWidth || 0,
+            height: this.state.triggerHeight || 0,
+            opacity: this.state.triggerOpacity,
+          }}
         >
           <Trigger content={this.props.triggerContent} innerRef={n => this.trigger = n} />
         </Frame>
@@ -115,6 +127,8 @@ WidgetLayout.propTypes = {
   staticText: PropTypes.string,
   triggerContent: PropTypes.string,
   showTrigger: PropTypes.bool,
+  showEmojiButton: PropTypes.bool,
+  showAttachmentButton: PropTypes.bool,
 };
 
 export default connect(store => ({

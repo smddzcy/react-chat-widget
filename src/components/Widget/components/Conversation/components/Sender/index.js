@@ -74,7 +74,9 @@ class Sender extends PureComponent {
   }
 
   render() {
-    const { sendMessage, placeholder, disabledInput } = this.props;
+    const {
+      sendMessage, placeholder, disabledInput, showEmojiButton, showAttachmentButton,
+    } = this.props;
     const {
       inputHasFocus, showEmojiPicker, uploadingAttachment, uploadingAttachmentProgress,
     } = this.state;
@@ -94,8 +96,8 @@ class Sender extends PureComponent {
           onBlur={() => this.setState({ inputHasFocus: false })}
         />
         <div className="input-buttons">
-          <Emoji onClick={this.toggleEmojiPicker} style={{ opacity: 0.5 }} />
-          {!uploadingAttachment && (
+          {showEmojiButton && <Emoji onClick={this.toggleEmojiPicker} style={{ opacity: 0.5 }} />}
+          {!uploadingAttachment && showAttachmentButton && (
           <label htmlFor="attachment-input" style={{ height: 20 }}>
             <ReactS3Uploader
               signingUrl="/s3/sign"
@@ -120,14 +122,16 @@ class Sender extends PureComponent {
             <Attachment />
           </label>
           )}
-          {uploadingAttachment && <Circle percent={uploadingAttachmentProgress} strokeWidth="6" strokeColor="#212121" />}
+          {uploadingAttachment && showAttachmentButton && <Circle percent={uploadingAttachmentProgress} strokeWidth="6" strokeColor="#212121" />}
           <button type="submit" className="icw-send" style={{ height: 40 }}>
             <Send />
           </button>
         </div>
+        {showEmojiButton && (
         <div className={cx('emoji-picker', { 'is-visible': showEmojiPicker })}>
           <NimblePicker onSelect={this.addEmoji} set="apple" data={emojiData} />
         </div>
+        )}
       </form>
     );
   }
@@ -137,6 +141,8 @@ Sender.propTypes = {
   sendMessage: PropTypes.func,
   placeholder: PropTypes.string,
   disabledInput: PropTypes.bool,
+  showEmojiButton: PropTypes.bool,
+  showAttachmentButton: PropTypes.bool,
 };
 
 export default Sender;

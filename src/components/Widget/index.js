@@ -58,6 +58,8 @@ class Widget extends PureComponent {
         staticText={this.props.staticText}
         triggerContent={this.props.triggerContent}
         showTrigger={this.props.showTrigger}
+        showEmojiButton={this.props.showEmojiButton}
+        showAttachmentButton={this.props.showAttachmentButton}
       />
     );
   }
@@ -79,6 +81,8 @@ Widget.propTypes = {
   isInputDisabled: PropTypes.bool,
   triggerContent: PropTypes.string,
   showTrigger: PropTypes.bool,
+  showEmojiButton: PropTypes.bool,
+  showAttachmentButton: PropTypes.bool,
 };
 
 export default connect(store => ({

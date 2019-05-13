@@ -54,6 +54,8 @@ class Conversation extends PureComponent {
               sendMessage={this.props.sendMessage}
               placeholder={this.props.disabledInput ? this.props.disabledPlaceholder : this.props.senderPlaceholder}
               disabledInput={this.props.disabledInput}
+              showEmojiButton={this.props.showEmojiButton}
+              showAttachmentButton={this.props.showAttachmentButton}
             />
           </Fragment>
         )}
@@ -78,6 +80,8 @@ Conversation.propTypes = {
   showCloseButton: PropTypes.bool,
   disabledInput: PropTypes.bool,
   staticText: PropTypes.string,
+  showEmojiButton: PropTypes.bool,
+  showAttachmentButton: PropTypes.bool,
 };
 
 export default Conversation;

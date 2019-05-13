@@ -41,7 +41,7 @@ body {
   width: 20px;
   height: 20px;
   background: white;
-  transform: translateX(-50%) rotate(45deg) translateX(5px);
+  transform: translateX(-50%) rotate(45deg) translateX(5px) translateZ(0);
   transition: transform 300ms ease-out, opacity 300ms ease-out, box-shadow 300ms ease-out;
   @include hidden;
 }
@@ -54,15 +54,15 @@ body {
   box-shadow: 0 1px 6px 0 rgba(0,0,0,.06), 0 2px 16px 0 rgba(0,0,0,.16), 15px 5px 10px 0px rgba(0,0,0,0.06);
   max-width: calc(100vw - 100px);
   max-height: calc(100vh - 30px);
-  transition: transform 300ms ease-out, opacity 300ms ease-out, box-shadow 300ms ease-out, width 300ms ease-out, height 300ms ease-out;
-  transform: translateX(10px);
+  transition: transform 300ms ease-out, opacity 300ms ease-out, box-shadow 300ms ease-out;
+  transform: translateX(10px) translateZ(0);
   @include hidden;
 
   &.open {
-    transform: translateX(0);
+    transform: translateX(0) translateZ(0);
 
     & + #infoset-trigger-frame-tip {
-      transform: translateX(-50%) rotate(45deg);
+      transform: translateX(-50%) rotate(45deg) translateZ(0);
     }
 
     &, & + #infoset-trigger-frame-tip {
@@ -79,7 +79,7 @@ body {
   height: 550px;
   width: 375px;
   right: 15px;
-  transform: translateY(10px);
+  transform: translateY(10px) translateZ(0);
   border-radius: 10px;
   transform-origin: bottom;
   transition: transform 300ms ease-out, opacity 300ms ease-out, box-shadow 300ms ease-out;
@@ -120,4 +120,11 @@ body {
       @include full-height;
     }
   }
+}
+
+.trigger-content > :first-child {
+  margin-top: 0 !important;
+}
+ol:last-child {
+  margin-bottom: 0 !important;
 }
