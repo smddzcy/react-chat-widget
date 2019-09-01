@@ -8,7 +8,7 @@
   flex-direction: column;
 
   .icw-header {
-    background: linear-gradient(135deg, $blue 0%, darken($blue, 10%) 100%);
+    background: linear-gradient(135deg, $blue 0%, $dark-blue 100%);
     color: $white;
     display: flex;
     flex-direction: column;

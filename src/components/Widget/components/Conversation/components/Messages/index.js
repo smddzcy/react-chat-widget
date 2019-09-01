@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 import Message from '@messagesComponents/Message';
 
-import BotIcon from './bot.svg';
+import { ReactComponent as BotIcon } from './bot.svg';
 
 import './styles.scss';
 
@@ -69,8 +69,9 @@ class Messages extends PureComponent {
           return (
             <div className={cx('icw-message', { 'only-message': showOnlyMessage })} key={index}>
               {message.showAvatar
-                && <div className="icw-avatar" style={{ backgroundImage: `url(${message.sender.photo || BotIcon})` }} />
-              }
+                && (message.sender.photo
+                  ? <div className="icw-avatar" style={{ backgroundImage: `url(${message.sender.photo})` }} />
+                  : <BotIcon className="icw-avatar" />)}
               {this.getComponentToRender(message)}
             </div>
           );

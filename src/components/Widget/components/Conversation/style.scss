@@ -34,7 +34,13 @@
 
     label {
       display: inline-block;
-      width: 70px;
+      width: 75px;
+      padding-right: 5px;
+      font-size: 14px;
+
+      sup { // asterisk
+        color: $red;
+      }
     }
 
     input {
@@ -74,6 +80,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    &[disabled] {
+      pointer-events: none;
+    }
 
     &.has-icon {
       padding: 10px 10px 10px 40px;

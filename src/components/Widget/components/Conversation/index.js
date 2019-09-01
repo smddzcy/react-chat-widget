@@ -62,7 +62,7 @@ class Conversation extends PureComponent {
         <div className="icw-branding" onClick={() => this.infosetLink && this.infosetLink.click()}>
           <img src={inLogo} alt="infoset" />
           Powered by
-          <a href="https://infoset.com.tr/" target="_blank" ref={ref => this.infosetLink = ref}>Infoset</a>
+          <a href="https://infoset.app/" target="_blank" ref={ref => this.infosetLink = ref}>Infoset</a>
         </div>
       </div>
     );
