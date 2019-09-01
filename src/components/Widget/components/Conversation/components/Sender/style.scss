@@ -79,6 +79,15 @@
     .emoji-mart-bar:last-child {
       display: none;
     }
+
+    .loadingCtr {
+      position: relative;
+      right: 40px;
+      background: white;
+      border-radius: 5px;
+      border: 1px solid #d9d9d9;
+      padding: 6px;
+    }
   }
 }
 

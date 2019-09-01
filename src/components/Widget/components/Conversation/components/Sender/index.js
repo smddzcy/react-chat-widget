@@ -4,14 +4,22 @@ import cx from 'classnames';
 import ReactS3Uploader from 'react-s3-uploader';
 import isImage from 'is-image';
 import Compressor from 'compressorjs';
-import NimblePicker from 'emoji-mart/dist-es/components/picker/nimble-picker';
 import { Circle } from 'rc-progress';
-import emojiData from './emojis.json';
 import { ReactComponent as Send } from './send.svg';
 import { ReactComponent as Emoji } from './emoji.svg';
 import { ReactComponent as Attachment } from './attachment.svg';
 
 import './style.scss';
+
+const NimblePickerLazy = React.lazy(() => import(
+  /* webpackPrefetch: true */
+  /* webpackPreload: true */
+  'emoji-mart/dist-es/components/picker/nimble-picker',
+));
+
+let emojiData = {};
+
+const Loading = <div className="loadingCtr"><div className="lds-ellipsis"><div /><div /><div /><div /></div></div>;
 
 const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:41101' : 'https://app.infoset.com.tr:41101';
 
@@ -21,13 +29,31 @@ class Sender extends PureComponent {
     this.state = {
       inputHasFocus: false,
       showEmojiPicker: false,
+      emojisLoaded: false,
       uploadingAttachment: false,
       uploadingAttachmentProgress: 0,
     };
   }
 
   toggleEmojiPicker = () => {
-    if (this.props.disabledInput) return;
+    // if (this.props.disabledInput) return;
+    if (!this.state.emojisLoaded) {
+      if (this.loadingEmojis) return;
+      this.loadingEmojis = true;
+      import(
+        /* webpackPrefetch: true */
+        /* webpackPreload: true */
+        './emojis.json',
+      ).then(({ default: data }) => {
+        emojiData = data;
+        this.setState({ emojisLoaded: true });
+        this.loadingEmojis = false;
+      }).catch(err => {
+        console.warn(err);
+        this.loadingEmojis = false;
+      });
+      // load emojis for the first time
+    }
     this.setState(state => ({ showEmojiPicker: !state.showEmojiPicker }));
   }
 
@@ -78,7 +104,7 @@ class Sender extends PureComponent {
       sendMessage, placeholder, disabledInput, showEmojiButton, showAttachmentButton,
     } = this.props;
     const {
-      inputHasFocus, showEmojiPicker, uploadingAttachment, uploadingAttachmentProgress,
+      inputHasFocus, showEmojiPicker, emojisLoaded, uploadingAttachment, uploadingAttachmentProgress,
     } = this.state;
 
     return (
@@ -129,7 +155,9 @@ class Sender extends PureComponent {
         </div>
         {showEmojiButton && (
         <div className={cx('emoji-picker', { 'is-visible': showEmojiPicker })}>
-          <NimblePicker onSelect={this.addEmoji} set="apple" data={emojiData} />
+          <React.Suspense fallback={Loading}>
+            {emojisLoaded ? <NimblePickerLazy onSelect={this.addEmoji} set="apple" data={emojiData} /> : Loading}
+          </React.Suspense>
         </div>
         )}
       </form>

@@ -4,7 +4,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
@@ -14,11 +14,27 @@ module.exports = {
     filename: 'index.js',
     library: 'react-chat-widget',
     libraryTarget: 'umd',
+    chunkFilename: 'chunk.[chunkhash:8].js',
+    publicPath: 'https://start.infoset.app/v3/js/chat/', // NOTE: change accordingly for chunk prefetching to work
   },
   resolve: {
     extensions: ['.js'],
   },
   mode: 'production',
+  externals: {
+    react: {
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'React',
+      root: 'React',
+    },
+    'react-dom': {
+      commonjs: 'react-dom',
+      commonjs2: 'react-dom',
+      amd: 'ReactDOM',
+      root: 'ReactDOM',
+    },
+  },
   module: {
     rules: [
       {
@@ -65,7 +81,7 @@ module.exports = {
     ],
   },
   plugins: [
-    // new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin(),
     new CleanWebpackPlugin(['lib']),
     /**
      * Known issue for the CSS Extract Plugin in Ubuntu 16.04: You'll need to install
