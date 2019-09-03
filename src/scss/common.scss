@@ -16,7 +16,7 @@
   }
 }
 
-@keyframes spin {
+@keyframes icw-spin {
   0% {
     transform: rotate(0deg);
   }
@@ -26,10 +26,10 @@
   }
 }
 
-.loader {
+.icw-loader {
   border-style: solid;
   border-color: #f3f3f3;
-  animation: spin 1s linear infinite;
+  animation: icw-spin 1s linear infinite;
   border-top-color: #555;
   border-radius: 50%;
 }
@@ -40,19 +40,19 @@ $sides: (top, bottom, left, right); // Leave this variable alone
 
 @each $space in $spaceamounts {
   @each $side in $sides {
-    .m#{str-slice($side, 0, 1)}-#{$space} {
+    .icw-m#{str-slice($side, 0, 1)}-#{$space} {
       margin-#{$side}: #{$space}px !important;
     }
   
-    .p#{str-slice($side, 0, 1)}-#{$space} {
+    .icw-p#{str-slice($side, 0, 1)}-#{$space} {
       padding-#{$side}: #{$space}px !important;
     }
 
-    .m-#{$space} {
+    .icw-m-#{$space} {
       margin: #{$space}px !important;
     }
 
-    .p-#{$space} {
+    .icw-p-#{$space} {
       padding: #{$space}px !important;
     }
   }
@@ -60,38 +60,40 @@ $sides: (top, bottom, left, right); // Leave this variable alone
 
 
 // SPINNERS
-.lds-ellipsis {
+.icw-lds-ellipsis {
   display: inline-block;
   position: relative;
   width: 64px;
   height: 64px;
+
+  div {
+    position: absolute;
+    top: 27px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: $blue;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+
+    &:nth-child(1) {
+      left: 6px;
+      animation: icw-lds-ellipsis1 0.6s infinite;
+    }
+    &:nth-child(2) {
+      left: 6px;
+      animation: icw-lds-ellipsis2 0.6s infinite;
+    }
+    &:nth-child(3) {
+      left: 26px;
+      animation: icw-lds-ellipsis2 0.6s infinite;
+    }
+    &:nth-child(4) {
+      left: 45px;
+      animation: icw-lds-ellipsis3 0.6s infinite;
+    }
+  }
 }
-.lds-ellipsis div {
-  position: absolute;
-  top: 27px;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: $blue;
-  animation-timing-function: cubic-bezier(0, 1, 1, 0);
-}
-.lds-ellipsis div:nth-child(1) {
-  left: 6px;
-  animation: lds-ellipsis1 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(2) {
-  left: 6px;
-  animation: lds-ellipsis2 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(3) {
-  left: 26px;
-  animation: lds-ellipsis2 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(4) {
-  left: 45px;
-  animation: lds-ellipsis3 0.6s infinite;
-}
-@keyframes lds-ellipsis1 {
+@keyframes icw-lds-ellipsis1 {
   0% {
     transform: scale(0);
   }
@@ -99,7 +101,7 @@ $sides: (top, bottom, left, right); // Leave this variable alone
     transform: scale(1);
   }
 }
-@keyframes lds-ellipsis3 {
+@keyframes icw-lds-ellipsis3 {
   0% {
     transform: scale(1);
   }
@@ -107,7 +109,7 @@ $sides: (top, bottom, left, right); // Leave this variable alone
     transform: scale(0);
   }
 }
-@keyframes lds-ellipsis2 {
+@keyframes icw-lds-ellipsis2 {
   0% {
     transform: translate(0, 0);
   }

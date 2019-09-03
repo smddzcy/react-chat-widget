@@ -19,7 +19,7 @@
   }
 }
 
-.message-bubble {
+.icw-message-bubble {
   border-radius: 5px;
   padding: 10px 15px;
   max-width: 80%;
@@ -35,7 +35,7 @@
   align-items: flex-start;
 
   .icw-client {
-    @extend .message-bubble;
+    @extend .icw-message-bubble;
     background-color: $blue-alt;
     color: white;
     margin-left: auto;
@@ -46,7 +46,7 @@
   }
 
   .icw-response {
-    @extend .message-bubble;
+    @extend .icw-message-bubble;
     background-color: $grey-2;
     img {
       max-width: 100% !important;
@@ -110,8 +110,4 @@
   border-radius: 100%;
   margin-right: 10px;
   color: $blue;
-}
-
-p {
-  margin: 0 0 5px;
 }

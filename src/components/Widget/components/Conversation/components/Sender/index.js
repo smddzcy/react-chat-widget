@@ -19,7 +19,7 @@ const NimblePickerLazy = React.lazy(() => import(
 
 let emojiData = {};
 
-const Loading = <div className="loadingCtr"><div className="lds-ellipsis"><div /><div /><div /><div /></div></div>;
+const Loading = <div className="loadingCtr"><div className="icw-lds-ellipsis"><div /><div /><div /><div /></div></div>;
 
 const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:41101' : 'https://app.infoset.com.tr:41101';
 
@@ -36,7 +36,7 @@ class Sender extends PureComponent {
   }
 
   toggleEmojiPicker = () => {
-    // if (this.props.disabledInput) return;
+    if (this.props.disabledInput) return;
     if (!this.state.emojisLoaded) {
       if (this.loadingEmojis) return;
       this.loadingEmojis = true;
