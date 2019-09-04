@@ -46,6 +46,11 @@ body {
   @include hidden;
 }
 
+@keyframes displayNone {
+  0% { display: block; }
+  100% { display: none; }
+}
+
 #infoset-trigger-frame {
   background: white;
   border-radius: 6px;
@@ -56,9 +61,11 @@ body {
   max-height: calc(100vh - 30px);
   transition: transform 300ms ease-out, opacity 300ms ease-out, box-shadow 300ms ease-out;
   transform: translateX(10px) translateZ(0);
+  animation: displayNone 0ms linear 300ms forwards;
   @include hidden;
 
   &.open {
+    display: block !important;
     transform: translateX(0) translateZ(0);
 
     & + #infoset-trigger-frame-tip {
@@ -120,11 +127,4 @@ body {
       @include full-height;
     }
   }
-}
-
-.icw-trigger-content > :first-child {
-  margin-top: 0 !important;
-}
-.icw-trigger-content ol:last-child {
-  margin-bottom: 0 !important;
 }

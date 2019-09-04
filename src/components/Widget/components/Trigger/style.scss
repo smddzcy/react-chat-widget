@@ -2,4 +2,14 @@
   padding: 10px 20px;
   font-size: 14px;
   display: inline-block;
+
+  &:first-child {
+    margin-top: 0 !important;
+  }
+  &:last-child {
+    margin-bottom: 0 !important;
+  }
+  p {
+    margin: 0 0 5px;
+  }
 }

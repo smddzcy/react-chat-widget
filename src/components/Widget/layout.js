@@ -64,7 +64,7 @@ class WidgetLayout extends PureComponent {
     const initialFrameContent = `<!DOCTYPE html><html><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body><div></div></body></html>`;
     return (
       <div className={cx('icw-widget-container', { 'icw-opened': this.props.showChat })}>
-        <Frame initialContent={initialFrameContent} id="infoset-conv-frame" ref={n => this.convFrame = n}>
+        <Frame initialContent={initialFrameContent} id="infoset-conv-frame" ref={n => this.convFrame = n} aria-live="polite">
           <style>{this.props.css}</style>
           <Conversation
             title={this.props.title}
@@ -82,7 +82,7 @@ class WidgetLayout extends PureComponent {
             titleAvatar={this.props.titleAvatar}
           />
         </Frame>
-        <Frame initialContent={initialFrameContent} id="infoset-btn-frame">
+        <Frame initialContent={initialFrameContent} id="infoset-btn-frame" aria-live="polite">
           {this.props.customLauncher
             ? this.props.customLauncher(this.props.onToggleConversation)
             : (
@@ -101,6 +101,8 @@ class WidgetLayout extends PureComponent {
             height: this.state.triggerHeight || 0,
             opacity: this.state.triggerOpacity,
           }}
+          aria-live="polite"
+          aria-relevant="additions"
         >
           <Trigger content={this.props.triggerContent} innerRef={n => this.trigger = n} />
         </Frame>
