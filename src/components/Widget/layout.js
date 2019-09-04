@@ -11,6 +11,8 @@ import Trigger from './components/Trigger';
 import './style.scss';
 
 class WidgetLayout extends PureComponent {
+  messagesCtrRef = React.createRef();
+
   constructor(props) {
     super(props);
     this.state = {
@@ -19,6 +21,10 @@ class WidgetLayout extends PureComponent {
       triggerOpacity: 0,
       triggerDisplay: 'none',
     };
+  }
+
+  componentDidMount() {
+    this.convFrame = document.querySelector('#infoset-conv-frame');
   }
 
   componentDidUpdate(prevProps) {
@@ -51,9 +57,9 @@ class WidgetLayout extends PureComponent {
   componentWillReceiveProps(nextProps) {
     if (window.innerWidth < 768) {
       if (!nextProps.showChat) {
-        enableBodyScroll(this.convFrame);
+        enableBodyScroll(this.messagesCtrRef.current);
       } else {
-        disableBodyScroll(this.convFrame);
+        disableBodyScroll(this.messagesCtrRef.current);
       }
     }
   }
@@ -72,7 +78,6 @@ class WidgetLayout extends PureComponent {
           initialContent={initialFrameContent}
           id="infoset-conv-frame"
           style={{ opacity: 0 }}
-          ref={n => this.convFrame = n}
           aria-live="polite"
         >
           <style>{this.props.css}</style>
@@ -90,6 +95,7 @@ class WidgetLayout extends PureComponent {
             showAttachmentButton={this.props.showAttachmentButton}
             disabledInput={this.props.disabledInput}
             titleAvatar={this.props.titleAvatar}
+            messagesCtrRef={this.messagesCtrRef}
           />
         </Frame>
         <Frame initialContent={initialFrameContent} id="infoset-btn-frame" aria-live="polite">

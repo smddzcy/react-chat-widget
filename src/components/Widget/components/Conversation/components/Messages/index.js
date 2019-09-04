@@ -66,7 +66,7 @@ class Messages extends PureComponent {
   }
 
   onScrollContainerScroll = ev => {
-    const $this = this.scrollContainer;
+    const $this = this.props.innerRef.current;
     const { scrollTop, scrollHeight } = $this;
     const height = $this.clientHeight;
     const delta = -ev.nativeEvent.deltaY;
@@ -92,8 +92,8 @@ class Messages extends PureComponent {
   }
 
   scrollToBottom() {
-    if (!this.scrollContainer) return;
-    this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight;
+    if (!this.props.innerRef.current) return;
+    this.props.innerRef.current.scrollTop = this.props.innerRef.current.scrollHeight;
   }
 
   getComponentToRender = message => {
@@ -107,7 +107,12 @@ class Messages extends PureComponent {
   render() {
     const { messages } = this.props;
     return (
-      <div id="messages" className="icw-messages-container" ref={node => this.scrollContainer = node} onWheel={this.onScrollContainerScroll}>
+      <div
+        id="messages"
+        className="icw-messages-container"
+        ref={this.props.innerRef}
+        onWheel={this.onScrollContainerScroll}
+      >
         {messages.map((message, index) => {
           const nextMessage = messages[index + 1];
           const showOnlyMessage = nextMessage
@@ -130,6 +135,7 @@ class Messages extends PureComponent {
 
 Messages.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.object),
+  innerRef: PropTypes.any,
 };
 
 export default connect(store => ({

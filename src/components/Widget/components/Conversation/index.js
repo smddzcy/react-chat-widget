@@ -42,14 +42,14 @@ class Conversation extends PureComponent {
           titleAvatar={this.props.titleAvatar}
         />
         {this.props.staticText ? (
-          <div className="icw-messages-container" style={{ display: 'flex' }}>
+          <div className="icw-messages-container" style={{ display: 'flex' }} ref={this.props.messagesCtrRef}>
             <div className="icw-message" style={{ textAlign: 'center', alignSelf: 'center', padding: '0 20px' }}>
               {this.props.staticText}
             </div>
           </div>
         ) : (
           <Fragment>
-            <Messages />
+            <Messages innerRef={this.props.messagesCtrRef} />
             <Sender
               sendMessage={this.props.sendMessage}
               placeholder={this.props.disabledInput ? this.props.disabledPlaceholder : this.props.senderPlaceholder}
@@ -82,6 +82,7 @@ Conversation.propTypes = {
   staticText: PropTypes.string,
   showEmojiButton: PropTypes.bool,
   showAttachmentButton: PropTypes.bool,
+  messagesCtrRef: PropTypes.any,
 };
 
 export default Conversation;
