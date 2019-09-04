@@ -3,13 +3,23 @@
   font-size: 14px;
   display: inline-block;
 
-  &:first-child {
-    margin-top: 0 !important;
-  }
-  &:last-child {
-    margin-bottom: 0 !important;
-  }
   p {
-    margin: 0 0 5px;
+    line-height: 1.15;
+  }
+
+  * {
+    margin: 0;
+  }
+}
+
+.triggerHtml {
+  height: 100%;
+
+  body {
+    width: 100%;
+    min-height: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
   }
 }

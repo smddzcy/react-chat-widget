@@ -17,6 +17,7 @@ class WidgetLayout extends PureComponent {
       triggerWidth: 300,
       triggerHeight: 400,
       triggerOpacity: 0,
+      triggerDisplay: 'none',
     };
   }
 
@@ -26,7 +27,7 @@ class WidgetLayout extends PureComponent {
       this.setState({ triggerOpacity: 0 }, () => {
         // clear the state after the transition
         setTimeout(() => {
-          this.setState({ triggerWidth: 300, triggerHeight: 400 });
+          this.setState({ triggerDisplay: 'none', triggerWidth: 300, triggerHeight: 400 });
         }, 300);
       });
     } else if (!prevProps.showTrigger && this.props.showTrigger) {
@@ -38,7 +39,9 @@ class WidgetLayout extends PureComponent {
         scrollHeight = Math.min(Math.max(Math.floor(scrollHeight) + 10, 60), 400);
         if (Math.abs(this.state.triggerWidth - scrollWidth) > 3 || Math.abs(this.state.triggerHeight - scrollHeight) > 3) {
           this.setState({ triggerWidth: null, triggerHeight: null }, () => {
-            this.setState({ triggerWidth: scrollWidth, triggerHeight: scrollHeight, triggerOpacity: 1 });
+            this.setState({
+              triggerWidth: scrollWidth, triggerHeight: scrollHeight, triggerDisplay: 'block', triggerOpacity: 1,
+            });
           });
         }
       }, 50);
@@ -62,9 +65,16 @@ class WidgetLayout extends PureComponent {
 
   render() {
     const initialFrameContent = `<!DOCTYPE html><html><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body><div></div></body></html>`;
+    const initialTriggerFrameContent = `<!DOCTYPE html><html class="triggerHtml"><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body><div></div></body></html>`;
     return (
       <div className={cx('icw-widget-container', { 'icw-opened': this.props.showChat })}>
-        <Frame initialContent={initialFrameContent} id="infoset-conv-frame" ref={n => this.convFrame = n} aria-live="polite">
+        <Frame
+          initialContent={initialFrameContent}
+          id="infoset-conv-frame"
+          style={{ opacity: 0 }}
+          ref={n => this.convFrame = n}
+          aria-live="polite"
+        >
           <style>{this.props.css}</style>
           <Conversation
             title={this.props.title}
@@ -93,13 +103,14 @@ class WidgetLayout extends PureComponent {
             )}
         </Frame>
         <Frame
-          initialContent={initialFrameContent}
+          initialContent={initialTriggerFrameContent}
           id="infoset-trigger-frame"
           className={this.props.showTrigger ? 'open' : ''}
           style={{
             width: this.state.triggerWidth || 0,
             height: this.state.triggerHeight || 0,
             opacity: this.state.triggerOpacity,
+            display: this.state.triggerDisplay,
           }}
           aria-live="polite"
           aria-relevant="additions"
