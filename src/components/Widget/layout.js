@@ -20,6 +20,8 @@ class WidgetLayout extends PureComponent {
       triggerHeight: 400,
       triggerOpacity: 0,
       triggerDisplay: 'none',
+      convFrameDisplay: 'none',
+      showChat: false,
     };
   }
 
@@ -55,17 +57,35 @@ class WidgetLayout extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    const openingChat = nextProps.showChat && !this.props.showChat;
+    const closingChat = !nextProps.showChat && this.props.showChat;
+
+    if (openingChat) {
+      clearTimeout(this.convFrameDisplayTimeout);
+      this.setState({ convFrameDisplay: 'block' });
+      this.convFrameDisplayTimeout = setTimeout(() => {
+        this.setState({ showChat: true });
+      }, 0);
+    } else if (closingChat) {
+      clearTimeout(this.convFrameDisplayTimeout);
+      this.setState({ showChat: false });
+      this.convFrameDisplayTimeout = setTimeout(() => {
+        this.setState({ convFrameDisplay: 'none' });
+      }, 300);
+    }
+
     if (window.innerWidth < 768) {
-      if (!nextProps.showChat) {
-        enableBodyScroll(this.messagesCtrRef.current);
-      } else {
+      if (openingChat) {
         disableBodyScroll(this.messagesCtrRef.current);
+      } else if (closingChat) {
+        enableBodyScroll(this.messagesCtrRef.current);
       }
     }
   }
 
   componentWillUnmount() {
     clearAllBodyScrollLocks();
+    clearTimeout(this.convFrameDisplayTimeout);
     clearInterval(this.triggerSizeWatcher);
   }
 
@@ -73,11 +93,11 @@ class WidgetLayout extends PureComponent {
     const initialFrameContent = `<!DOCTYPE html><html><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body><div></div></body></html>`;
     const initialTriggerFrameContent = `<!DOCTYPE html><html class="triggerHtml"><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body><div></div></body></html>`;
     return (
-      <div className={cx('icw-widget-container', { 'icw-opened': this.props.showChat })}>
+      <div className={cx('icw-widget-container', { 'icw-opened': this.state.showChat })}>
         <Frame
           initialContent={initialFrameContent}
           id="infoset-conv-frame"
-          style={{ opacity: 0 }}
+          style={{ opacity: 0, display: this.state.convFrameDisplay }}
           aria-live="polite"
         >
           <style>{this.props.css}</style>
