@@ -35,7 +35,7 @@
 @media screen and (max-width: 768px){
   .icw-opened #infoset-btn-frame {
     display: none;
-    z-index: -1;
+    z-index: -100;
     pointer-events: none;
   }
 }
