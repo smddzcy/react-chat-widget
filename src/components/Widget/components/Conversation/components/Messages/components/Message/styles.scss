@@ -6,7 +6,7 @@
   font-size: 14px;
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
+  align-items: flex-end;
 
   &.only-message {
     margin-bottom: -5px;
@@ -21,7 +21,7 @@
 
 .icw-message-bubble {
   border-radius: 5px;
-  padding: 10px 15px;
+  padding: 15px 20px;
   max-width: 80%;
   text-align: left;
   overflow-wrap: break-word;
@@ -101,13 +101,16 @@
 }
 
 .icw-avatar {
-  width: 45px;
-  height: 45px;
+  width: 36px;
+  height: 36px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   flex: none;
   border-radius: 100%;
   margin-right: 10px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
   color: $blue;
+  backface-visibility: hidden;
 }

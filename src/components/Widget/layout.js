@@ -65,7 +65,7 @@ class WidgetLayout extends PureComponent {
       this.setState({ convFrameDisplay: 'block' });
       this.convFrameDisplayTimeout = setTimeout(() => {
         this.setState({ showChat: true });
-      }, 0);
+      }, 50);
     } else if (closingChat) {
       clearTimeout(this.convFrameDisplayTimeout);
       this.setState({ showChat: false });

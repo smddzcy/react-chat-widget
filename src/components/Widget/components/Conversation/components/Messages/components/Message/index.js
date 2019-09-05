@@ -62,8 +62,11 @@ class Message extends PureComponent {
     return (
       <div className="icw-bubble-container">
         <div className={`icw-${senderClass}`}>
-          {Child && <Child {...childProps} />}
-          {!Child && (isImageUrl(text) ? this.renderImage(text) : this.renderText(text))}
+          {Child
+            ? <Child {...childProps} />
+            : (
+              (isImageUrl(text) ? this.renderImage(text) : this.renderText(text))
+            )}
         </div>
         <div className="icw-bubble-sub">{timeString} {senderLabel && `| ${senderLabel}`}</div>
       </div>
