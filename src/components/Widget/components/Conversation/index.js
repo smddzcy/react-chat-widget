@@ -5,7 +5,7 @@ import Header from './components/Header';
 import Messages from './components/Messages';
 import Sender from './components/Sender';
 import './style.scss';
-import inLogo from './in-logo.png';
+import logo from './logo.png';
 
 class Conversation extends PureComponent {
   constructor(props, context) {
@@ -60,7 +60,7 @@ class Conversation extends PureComponent {
           </Fragment>
         )}
         <div className="icw-branding" onClick={() => this.infosetLink && this.infosetLink.click()}>
-          <img src={inLogo} alt="infoset" />
+          <img src={logo} alt="infoset" />
           Powered by
           <a href="https://infoset.app/" target="_blank" ref={ref => this.infosetLink = ref}>Infoset</a>
         </div>
