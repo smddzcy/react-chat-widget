@@ -15,7 +15,7 @@ module.exports = {
     library: 'react-chat-widget',
     libraryTarget: 'umd',
     chunkFilename: 'chunk.[chunkhash:8].js',
-    publicPath: 'https://start.infoset.app/v3/js/chat/', // NOTE: change accordingly for chunk prefetching to work
+    publicPath: 'https://dashboard.infoset.app/v3/js/chat/', // NOTE: change accordingly for chunk prefetching to work
   },
   resolve: {
     extensions: ['.js'],

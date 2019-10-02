@@ -21,7 +21,7 @@ let emojiData = {};
 
 const Loading = <div className="loadingCtr"><div className="icw-lds-ellipsis"><div /><div /><div /><div /></div></div>;
 
-const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:41101' : 'https://app.infoset.com.tr:41101';
+const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:41101' : 'https://infoset.app:41101';
 
 class Sender extends PureComponent {
   constructor(props, context) {
