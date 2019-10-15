@@ -1,6 +1,6 @@
 // const webpack = require('webpack');
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -53,17 +53,16 @@ module.exports = {
               ident: 'postcss',
               plugins: () => [
                 require('postcss-flexbugs-fixes'), // eslint-disable-line
-                autoprefixer({
-                  browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie <9'],
-                  flexbox: 'no-2009',
-                }),
+                autoprefixer(),
               ],
             },
           },
           {
             loader: 'sass-loader',
             options: {
-              includePaths: [path.resolve(__dirname, 'src/scss/')],
+              sassOptions: {
+                includePaths: [path.resolve(__dirname, 'src/scss/')],
+              },
             },
           },
         ],
@@ -82,7 +81,7 @@ module.exports = {
   },
   plugins: [
     // new BundleAnalyzerPlugin(),
-    new CleanWebpackPlugin(['lib']),
+    new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['lib/'] }),
     /**
      * Known issue for the CSS Extract Plugin in Ubuntu 16.04: You'll need to install
      * the following package: sudo apt-get install libpng16-dev

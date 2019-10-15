@@ -1,9 +1,7 @@
-
-
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
@@ -45,17 +43,16 @@ module.exports = {
               ident: 'postcss',
               plugins: () => [
                 require('postcss-flexbugs-fixes'), // eslint-disable-line
-                autoprefixer({
-                  browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie <9'],
-                  flexbox: 'no-2009',
-                }),
+                autoprefixer(),
               ],
             },
           },
           {
             loader: 'sass-loader',
             options: {
-              includePaths: [path.resolve(__dirname, 'src/scss')],
+              sassOptions: {
+                includePaths: [path.resolve(__dirname, 'src/scss')],
+              },
             },
           },
         ],
@@ -72,7 +69,7 @@ module.exports = {
   },
   devtool: 'eval',
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['dist/'] }),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: './dev/index.html',

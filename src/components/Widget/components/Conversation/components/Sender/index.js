@@ -14,7 +14,7 @@ import './style.scss';
 const NimblePickerLazy = React.lazy(() => import(
   /* webpackPrefetch: true */
   /* webpackPreload: true */
-  'emoji-mart/dist-es/components/picker/nimble-picker',
+  'emoji-mart/dist-es/components/picker/nimble-picker'
 ));
 
 let emojiData = {};
@@ -43,7 +43,7 @@ class Sender extends PureComponent {
       import(
         /* webpackPrefetch: true */
         /* webpackPreload: true */
-        './emojis.json',
+        './emojis.json'
       ).then(({ default: data }) => {
         emojiData = data;
         this.setState({ emojisLoaded: true });

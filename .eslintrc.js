@@ -12,6 +12,8 @@ module.exports = {
         "array": false
       }
     ],
+    "comma-dangle": 0,
+    "react/jsx-props-no-spreading": 0,
     "arrow-parens": ["error", "as-needed"],
     "class-methods-use-this": 0,
     "consistent-return": 0,
