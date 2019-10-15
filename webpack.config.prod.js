@@ -6,6 +6,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
 
 module.exports = {
   entry: './index.js',
@@ -25,14 +26,16 @@ module.exports = {
     react: {
       commonjs: 'react',
       commonjs2: 'react',
-      amd: 'React',
-      root: 'React',
+      amd: 'react',
+      umd: 'react',
+      root: 'React'
     },
     'react-dom': {
       commonjs: 'react-dom',
       commonjs2: 'react-dom',
-      amd: 'ReactDOM',
-      root: 'ReactDOM',
+      amd: 'react-dom',
+      umd: 'react-dom',
+      root: 'ReactDOM'
     },
   },
   module: {
@@ -54,6 +57,7 @@ module.exports = {
               plugins: () => [
                 require('postcss-flexbugs-fixes'), // eslint-disable-line
                 autoprefixer(),
+                cssnano(),
               ],
             },
           },
