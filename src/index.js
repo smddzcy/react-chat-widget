@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 
@@ -9,59 +9,11 @@ import store from './store/store';
 // npm link ../chat-widget/node_modules/react
 // see: https://github.com/facebook/react/issues/15315#issuecomment-479802153
 
-const ConnectedWidget = props => {
-  useEffect(() => {
-    const EVENTS_TO_MODIFY = ['touchstart', 'touchmove', 'touchend', 'touchcancel', 'wheel'];
-    const originalAddEventListener = document.addEventListener.bind();
-    document.addEventListener = (type, listener, options, wantsUntrusted) => {
-      let modOptions = options;
-      if (EVENTS_TO_MODIFY.includes(type)) {
-        if (typeof options === 'boolean') {
-          modOptions = {
-            capture: options,
-            passive: false,
-          };
-        } else if (typeof options === 'object') {
-          modOptions = {
-            passive: false,
-            ...options,
-          };
-        }
-      }
-
-      return originalAddEventListener(type, listener, modOptions, wantsUntrusted);
-    };
-
-    const originalRemoveEventListener = document.removeEventListener.bind();
-    document.removeEventListener = (type, listener, options) => {
-      let modOptions = options;
-      if (EVENTS_TO_MODIFY.includes(type)) {
-        if (typeof options === 'boolean') {
-          modOptions = {
-            capture: options,
-            passive: false,
-          };
-        } else if (typeof options === 'object') {
-          modOptions = {
-            passive: false,
-            ...options,
-          };
-        }
-      }
-      return originalRemoveEventListener(type, listener, modOptions);
-    };
-    return () => {
-      document.addEventListener = originalAddEventListener;
-      document.removeEventListener = originalRemoveEventListener;
-    };
-  }, []);
-
-  return (
-    <Provider store={store}>
-      <Widget {...props} />
-    </Provider>
-  );
-};
+const ConnectedWidget = props => (
+  <Provider store={store}>
+    <Widget {...props} />
+  </Provider>
+);
 
 ConnectedWidget.propTypes = {
   title: PropTypes.string,

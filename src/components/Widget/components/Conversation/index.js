@@ -42,13 +42,18 @@ class Conversation extends PureComponent {
           titleAvatar={this.props.titleAvatar}
         />
         {this.props.staticText ? (
-          <div className="icw-messages-container" style={{ display: 'flex' }} ref={this.props.messagesCtrRef}>
+          <div
+            className="icw-messages-container"
+            data-scroll-lock-scrollable
+            style={{ display: 'flex' }}
+            ref={this.props.messagesCtrRef}
+          >
             <div className="icw-message" style={{ textAlign: 'center', alignSelf: 'center', padding: '0 20px' }}>
               {this.props.staticText}
             </div>
           </div>
         ) : (
-          <Fragment>
+          <>
             <Messages innerRef={this.props.messagesCtrRef} />
             <Sender
               sendMessage={this.props.sendMessage}
@@ -57,7 +62,7 @@ class Conversation extends PureComponent {
               showEmojiButton={this.props.showEmojiButton}
               showAttachmentButton={this.props.showAttachmentButton}
             />
-          </Fragment>
+          </>
         )}
         <div className="icw-branding" onClick={() => this.infosetLink && this.infosetLink.click()}>
           <img src={logo} alt="infoset" />

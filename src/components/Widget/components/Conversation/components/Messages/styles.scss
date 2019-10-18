@@ -6,6 +6,8 @@
   background-color: $white;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
   padding: 10px 0;
   box-shadow: inset 0px 21px 4px -20px rgba(0, 0, 0, 0.2);
 }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Frame from 'react-frame-component';
-import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
+import { disablePageScroll, enablePageScroll, clearQueueScrollLocks } from 'scroll-lock';
 
 import Conversation from './components/Conversation';
 import Launcher from './components/Launcher';
@@ -56,7 +56,8 @@ class WidgetLayout extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const openingChat = nextProps.showChat && !this.props.showChat;
     const closingChat = !nextProps.showChat && this.props.showChat;
 
@@ -76,15 +77,15 @@ class WidgetLayout extends PureComponent {
 
     if (window.innerWidth < 768) {
       if (openingChat) {
-        disableBodyScroll(this.messagesCtrRef.current);
+        disablePageScroll();
       } else if (closingChat) {
-        enableBodyScroll(this.messagesCtrRef.current);
+        enablePageScroll();
       }
     }
   }
 
   componentWillUnmount() {
-    clearAllBodyScrollLocks();
+    clearQueueScrollLocks();
     clearTimeout(this.convFrameDisplayTimeout);
     clearInterval(this.triggerSizeWatcher);
   }

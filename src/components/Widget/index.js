@@ -14,9 +14,9 @@ class Widget extends PureComponent {
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isInputDisabled !== this.props.isInputDisabled) {
-      this.props.dispatch(setInputDisabled(nextProps.isInputDisabled));
+  componentDidUpdate(prevProps) {
+    if (prevProps.isInputDisabled !== this.props.isInputDisabled) {
+      this.props.dispatch(setInputDisabled(this.props.isInputDisabled));
     }
   }
 

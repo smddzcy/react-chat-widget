@@ -65,32 +65,6 @@ class Messages extends PureComponent {
     this.scrollToBottom();
   }
 
-  onScrollContainerScroll = ev => {
-    const $this = this.props.innerRef.current;
-    const { scrollTop, scrollHeight } = $this;
-    const height = $this.clientHeight;
-    const delta = -ev.nativeEvent.deltaY;
-    if (!delta || Number.isNaN(delta)) return;
-    const up = delta > 0;
-
-    const prevent = () => {
-      ev.stopPropagation();
-      ev.preventDefault();
-      ev.returnValue = false;
-      return false;
-    };
-
-    if (!up && -delta > scrollHeight - height - scrollTop) {
-      // srolling down, but this will take us past the bottom
-      $this.scrollTop = scrollHeight;
-      return prevent();
-    } if (up && delta > scrollTop) {
-      // scrolling up, but this will take us past the top
-      $this.scrollTop = 0;
-      return prevent();
-    }
-  }
-
   scrollToBottom() {
     if (!this.props.innerRef.current) return;
     this.props.innerRef.current.scrollTop = this.props.innerRef.current.scrollHeight;
@@ -110,8 +84,8 @@ class Messages extends PureComponent {
       <div
         id="messages"
         className="icw-messages-container"
+        data-scroll-lock-scrollable
         ref={this.props.innerRef}
-        onWheel={this.onScrollContainerScroll}
       >
         {messages.map((message, index) => {
           const nextMessage = messages[index + 1];

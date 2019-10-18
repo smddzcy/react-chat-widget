@@ -26,7 +26,6 @@
     "not ie <11"
   ],
   "dependencies": {
-    "body-scroll-lock": "^2.6.4",
     "classnames": "^2.2.6",
     "compressorjs": "^1.0.5",
     "emoji-mart": "^2.11.1",
@@ -42,6 +41,7 @@
     "react-redux": "^7.1.1",
     "react-s3-uploader": "^4.8.0",
     "redux": "^4.0.4",
+    "scroll-lock": "^2.1.2",
     "stringz": "^2.0.0"
   },
   "devDependencies": {
