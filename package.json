@@ -8,7 +8,8 @@
   "scripts": {
     "start": "webpack --config ./webpack.config.dev.js --watch",
     "start:prod": "webpack --config ./webpack.config.prod.js --watch",
-    "build": "webpack --config ./webpack.config.prod.js",
+    "prebuild": "npm link ../chat-widget/node_modules/react && npm link ../chat-widget/node_modules/react-dom",
+    "build": "npm run prebuild && webpack --config ./webpack.config.prod.js",
     "test": "jest --coverage",
     "prepublishOnly": "npm run test && npm run build",
     "lint": "eslint --fix ."
@@ -33,7 +34,6 @@
     "is-image": "^3.0.0",
     "is-image-url": "^1.1.8",
     "lodash": "^4.17.15",
-    "node-libs-browser": "^2.2.1",
     "prop-types": "^15.7.2",
     "rc-progress": "^2.5.2",
     "react-frame-component": "^4.1.1",
