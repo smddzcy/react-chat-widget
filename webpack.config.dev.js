@@ -17,6 +17,22 @@ module.exports = {
     extensions: ['.js'],
   },
   mode: 'development',
+  externals: {
+    react: {
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'react',
+      umd: 'react',
+      root: 'React'
+    },
+    'react-dom': {
+      commonjs: 'react-dom',
+      commonjs2: 'react-dom',
+      amd: 'react-dom',
+      umd: 'react-dom',
+      root: 'ReactDOM'
+    },
+  },
   module: {
     rules: [
       {

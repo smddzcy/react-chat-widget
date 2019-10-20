@@ -99,6 +99,7 @@ class WidgetLayout extends PureComponent {
           initialContent={initialFrameContent}
           id="infoset-conv-frame"
           style={{ opacity: 0, display: this.state.convFrameDisplay }}
+          title="Infoset Chat Widget"
           aria-live="polite"
         >
           <style>{this.props.css}</style>
@@ -119,7 +120,7 @@ class WidgetLayout extends PureComponent {
             messagesCtrRef={this.messagesCtrRef}
           />
         </Frame>
-        <Frame initialContent={initialFrameContent} id="infoset-btn-frame" aria-live="polite">
+        <Frame initialContent={initialFrameContent} id="infoset-btn-frame" title="Infoset Chat Widget Button" aria-live="polite">
           {this.props.customLauncher
             ? this.props.customLauncher(this.props.onToggleConversation)
             : (
