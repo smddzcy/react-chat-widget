@@ -5,8 +5,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  flex-shrink: 0;
-  height: 45px;
+  height: 85px;
   padding: 5px;
   background: white;
   padding-bottom: 35px;
@@ -23,6 +22,7 @@
     align-items: center;
     justify-content: space-around;
     outline: none !important;
+    margin-right: 5px;
 
     svg {
       height: 20px;
@@ -33,6 +33,7 @@
 
     > * {
       opacity: 0.65;
+      font-size: 0;
       padding: 10px 5px;
       margin: 0;
       border: 0;
@@ -42,10 +43,6 @@
 
       &:hover {
         opacity: 1 !important;
-      }
-
-      &:last-child {
-        margin-right: 5px;
       }
 
       &:active,

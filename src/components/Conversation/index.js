@@ -8,8 +8,8 @@ import './style.scss';
 import logo from './logo.png';
 
 class Conversation extends PureComponent {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props, ctx) {
+    super(props, ctx);
     this.setVh = this.setVh.bind(this);
   }
 
@@ -33,20 +33,21 @@ class Conversation extends PureComponent {
 
   render() {
     return (
-      <div className={`icw-conversation-container ${window.innerWidth < 768 ? 'icw-mobile' : ''}`}>
+      <div className="icw-widget-inner-container icw-conversation">
         <Header
           title={this.props.title}
           subtitle={this.props.subtitle}
           toggleChat={this.props.toggleChat}
           showCloseButton={this.props.showCloseButton}
           titleAvatar={this.props.titleAvatar}
+          showBackButton={this.props.showBackButton}
+          goBack={this.props.goBack}
         />
         {this.props.staticText ? (
           <div
             className="icw-messages-container"
             data-scroll-lock-scrollable
             style={{ display: 'flex' }}
-            ref={this.props.messagesCtrRef}
           >
             <div className="icw-message" style={{ textAlign: 'center', alignSelf: 'center', padding: '0 20px' }}>
               {this.props.staticText}
@@ -54,7 +55,7 @@ class Conversation extends PureComponent {
           </div>
         ) : (
           <>
-            <Messages innerRef={this.props.messagesCtrRef} />
+            <Messages />
             <Sender
               sendMessage={this.props.sendMessage}
               placeholder={this.props.disabledInput ? this.props.disabledPlaceholder : this.props.senderPlaceholder}
@@ -87,7 +88,8 @@ Conversation.propTypes = {
   staticText: PropTypes.string,
   showEmojiButton: PropTypes.bool,
   showAttachmentButton: PropTypes.bool,
-  messagesCtrRef: PropTypes.any,
+  showBackButton: PropTypes.bool,
+  goBack: PropTypes.func,
 };
 
 export default Conversation;

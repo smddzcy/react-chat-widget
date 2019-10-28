@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 
 import Widget from './components/Widget';
@@ -14,20 +13,6 @@ const ConnectedWidget = props => (
     <Widget {...props} />
   </Provider>
 );
-
-ConnectedWidget.propTypes = {
-  title: PropTypes.string,
-  titleAvatar: PropTypes.string,
-  subtitle: PropTypes.string,
-  handleNewUserMessage: PropTypes.func.isRequired,
-  senderPlaceholder: PropTypes.string,
-  disabledPlaceholder: PropTypes.string,
-  showCloseButton: PropTypes.bool,
-  badge: PropTypes.number,
-  launcher: PropTypes.func,
-  onToggleChat: PropTypes.func,
-  css: PropTypes.string,
-};
 
 ConnectedWidget.defaultProps = {
   title: '',

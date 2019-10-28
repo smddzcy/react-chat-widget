@@ -57,6 +57,8 @@ const isEqual = (value, other) => {
 };
 
 class Messages extends PureComponent {
+  messagesCtrRef = React.createRef();
+
   componentDidMount() {
     this.scrollToBottom();
   }
@@ -66,8 +68,8 @@ class Messages extends PureComponent {
   }
 
   scrollToBottom() {
-    if (!this.props.innerRef.current) return;
-    this.props.innerRef.current.scrollTop = this.props.innerRef.current.scrollHeight;
+    if (!this.messagesCtrRef.current) return;
+    this.messagesCtrRef.current.scrollTop = this.messagesCtrRef.current.scrollHeight;
   }
 
   getComponentToRender = message => {
@@ -85,7 +87,7 @@ class Messages extends PureComponent {
         id="messages"
         className="icw-messages-container"
         data-scroll-lock-scrollable
-        ref={this.props.innerRef}
+        ref={this.messagesCtrRef}
       >
         {messages.map((message, index) => {
           const nextMessage = messages[index + 1];
@@ -109,7 +111,6 @@ class Messages extends PureComponent {
 
 Messages.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.object),
-  innerRef: PropTypes.any,
 };
 
 export default connect(store => ({

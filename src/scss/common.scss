@@ -1,7 +1,7 @@
 @import 'variables.scss';
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-@mixin full-height() {
+@mixin full-height {
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
 }

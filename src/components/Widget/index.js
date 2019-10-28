@@ -8,8 +8,8 @@ import { toggleChat, addUserMessage, setInputDisabled } from '../../store/action
 import WidgetLayout from './layout';
 
 class Widget extends PureComponent {
-  constructor(props) {
-    super(props);
+  constructor(props, ctx) {
+    super(props, ctx);
     this.toggleConversation = this.toggleConversation.bind(this);
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
@@ -61,6 +61,7 @@ class Widget extends PureComponent {
         showTrigger={this.props.showTrigger}
         showEmojiButton={this.props.showEmojiButton}
         showAttachmentButton={this.props.showAttachmentButton}
+        homepage={this.props.homepage}
       />
     );
   }
@@ -84,6 +85,7 @@ Widget.propTypes = {
   showTrigger: PropTypes.bool,
   showEmojiButton: PropTypes.bool,
   showAttachmentButton: PropTypes.bool,
+  homepage: PropTypes.object,
 };
 
 export default connect(store => ({

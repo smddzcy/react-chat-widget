@@ -5,7 +5,7 @@ import ReactS3Uploader from 'react-s3-uploader';
 import isImage from 'is-image';
 import Compressor from 'compressorjs';
 import { Circle } from 'rc-progress';
-import { ReactComponent as Send } from './send.svg';
+import { ReactComponent as Send } from '../../../../assets/send.svg';
 import { ReactComponent as Emoji } from './emoji.svg';
 import { ReactComponent as Attachment } from './attachment.svg';
 
@@ -24,8 +24,8 @@ const Loading = <div className="loadingCtr"><div className="icw-lds-ellipsis"><d
 const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:41101' : 'https://infoset.app:41101';
 
 class Sender extends PureComponent {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props, ctx) {
+    super(props, ctx);
     this.state = {
       inputHasFocus: false,
       showEmojiPicker: false,
@@ -122,9 +122,13 @@ class Sender extends PureComponent {
           onBlur={() => this.setState({ inputHasFocus: false })}
         />
         <div className="input-buttons">
-          {showEmojiButton && <Emoji onClick={this.toggleEmojiPicker} style={{ opacity: 0.5 }} />}
+          {showEmojiButton && (
+            <span>
+              <Emoji onClick={this.toggleEmojiPicker} style={{ opacity: 0.7 }} />
+            </span>
+          )}
           {!uploadingAttachment && showAttachmentButton && (
-          <label htmlFor="attachment-input" style={{ height: 20 }}>
+          <label htmlFor="attachment-input">
             <ReactS3Uploader
               signingUrl="/s3/sign"
               signingUrlMethod="GET"
@@ -148,8 +152,12 @@ class Sender extends PureComponent {
             <Attachment />
           </label>
           )}
-          {uploadingAttachment && showAttachmentButton && <Circle percent={uploadingAttachmentProgress} strokeWidth="6" strokeColor="#212121" />}
-          <button type="submit" className="icw-send" style={{ height: 40 }}>
+          {uploadingAttachment && showAttachmentButton && (
+            <span>
+              <Circle percent={uploadingAttachmentProgress} strokeWidth="6" strokeColor="#212121" />
+            </span>
+          )}
+          <button type="submit" className="icw-send">
             <Send />
           </button>
         </div>

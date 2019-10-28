@@ -2,7 +2,7 @@
 @import 'common.scss';
 
 .icw-messages-container {
-  @include full-height;
+  flex: 1;
   background-color: $white;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;

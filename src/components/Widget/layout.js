@@ -9,12 +9,11 @@ import Conversation from '../Conversation';
 import Launcher from '../Launcher';
 import Trigger from '../Trigger';
 import './style.scss';
+import Homepage from '../Homepage';
 
 class WidgetLayout extends PureComponent {
-  messagesCtrRef = React.createRef();
-
-  constructor(props) {
-    super(props);
+  constructor(props, ctx) {
+    super(props, ctx);
     this.state = {
       triggerWidth: 300,
       triggerHeight: 400,
@@ -22,6 +21,7 @@ class WidgetLayout extends PureComponent {
       triggerDisplay: 'none',
       convFrameDisplay: 'none',
       showChat: false,
+      showConversation: true, // TODO: initially show what?
     };
   }
 
@@ -90,9 +90,13 @@ class WidgetLayout extends PureComponent {
     clearInterval(this.triggerSizeWatcher);
   }
 
+  switchToHomepage = () => this.setState({ showConversation: false });
+
+  switchToConversation = () => this.setState({ showConversation: true });
+
   render() {
-    const initialFrameContent = `<!DOCTYPE html><html><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body><div></div></body></html>`;
-    const initialTriggerFrameContent = `<!DOCTYPE html><html class="triggerHtml"><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body><div></div></body></html>`;
+    const initialFrameContent = `<!DOCTYPE html><html><head><style>html,body,.frame-content{height: 100%;}body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body class="icw-body"><div style="height: 100%"></div></body></html>`;
+    const initialTriggerFrameContent = `<!DOCTYPE html><html class="triggerHtml"><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body class="icw-body"><div></div></body></html>`;
     return (
       <div className={cx('icw-widget-container', { 'icw-opened': this.state.showChat })}>
         <Frame
@@ -102,33 +106,36 @@ class WidgetLayout extends PureComponent {
           title="Infoset Chat Widget"
           aria-live="polite"
         >
-          <style>{this.props.css}</style>
-          <Conversation
-            title={this.props.title}
-            subtitle={this.props.subtitle}
-            staticText={this.props.staticText}
-            sendMessage={this.props.onSendMessage}
-            senderPlaceholder={this.props.senderPlaceholder}
-            disabledPlaceholder={this.props.disabledPlaceholder}
-            toggleChat={this.props.onToggleConversation}
-            showChat={this.props.showChat}
-            showCloseButton={this.props.showCloseButton}
-            showEmojiButton={this.props.showEmojiButton}
-            showAttachmentButton={this.props.showAttachmentButton}
-            disabledInput={this.props.disabledInput}
-            titleAvatar={this.props.titleAvatar}
-            messagesCtrRef={this.messagesCtrRef}
-          />
+          <div
+            style={{ height: '100%' }}
+            className={`${window.innerWidth < 768 ? 'icw-mobile' : ''}`}
+          >
+            {this.state.showConversation
+              ? (
+                <Conversation
+                  title={this.props.title}
+                  subtitle={this.props.subtitle}
+                  staticText={this.props.staticText}
+                  sendMessage={this.props.onSendMessage}
+                  senderPlaceholder={this.props.senderPlaceholder}
+                  disabledPlaceholder={this.props.disabledPlaceholder}
+                  toggleChat={this.props.onToggleConversation}
+                  showChat={this.props.showChat}
+                  showCloseButton={this.props.showCloseButton}
+                  showEmojiButton={this.props.showEmojiButton}
+                  showAttachmentButton={this.props.showAttachmentButton}
+                  disabledInput={this.props.disabledInput}
+                  titleAvatar={this.props.titleAvatar}
+                  showBackButton={this.props.homepage.enabled}
+                  goBack={this.switchToHomepage}
+                />
+              ) : <Homepage />}
+          </div>
         </Frame>
         <Frame initialContent={initialFrameContent} id="infoset-btn-frame" title="Infoset Chat Widget Button" aria-live="polite">
           {this.props.customLauncher
             ? this.props.customLauncher(this.props.onToggleConversation)
-            : (
-              <Launcher
-                toggle={this.props.onToggleConversation}
-                badge={this.props.badge}
-              />
-            )}
+            : <Launcher toggle={this.props.onToggleConversation} badge={this.props.badge} />}
         </Frame>
         <Frame
           initialContent={initialTriggerFrameContent}
@@ -170,6 +177,7 @@ WidgetLayout.propTypes = {
   showTrigger: PropTypes.bool,
   showEmojiButton: PropTypes.bool,
   showAttachmentButton: PropTypes.bool,
+  homepage: PropTypes.object,
 };
 
 export default connect(store => ({
