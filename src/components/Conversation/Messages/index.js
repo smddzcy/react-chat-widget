@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { connect } from 'react-redux';
-import Message from '@messagesComponents/Message';
+import Message from '../Message';
 
 import { ReactComponent as BotIcon } from './bot.svg';
 

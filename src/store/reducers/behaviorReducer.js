@@ -1,4 +1,4 @@
-import { createReducer } from '@utils/store';
+import { createReducer } from '../../utils/store';
 
 import * as actionTypes from '../actions/actionTypes';
 

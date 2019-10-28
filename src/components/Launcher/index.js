@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import openLauncher from '@assets/launcher_button.svg';
-import close from '@assets/clear-button.svg';
-import Badge from './components/Badge';
+import openLauncher from '../../../assets/launcher_button.svg';
+import close from '../../../assets/clear-button.svg';
+import Badge from './Badge';
 import './style.scss';
 
 const Launcher = ({ toggle, chatOpened, badge }) => (
@@ -12,8 +12,7 @@ const Launcher = ({ toggle, chatOpened, badge }) => (
     <Badge badge={badge} />
     {chatOpened
       ? <img src={close} className="icw-close-launcher" alt="" />
-      : <img src={openLauncher} className="icw-open-launcher" alt="" />
-    }
+      : <img src={openLauncher} className="icw-open-launcher" alt="" />}
   </button>
 );
 

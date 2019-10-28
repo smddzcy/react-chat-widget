@@ -5,9 +5,9 @@ import cx from 'classnames';
 import Frame from 'react-frame-component';
 import { disablePageScroll, enablePageScroll, clearQueueScrollLocks } from 'scroll-lock';
 
-import Conversation from './components/Conversation';
-import Launcher from './components/Launcher';
-import Trigger from './components/Trigger';
+import Conversation from '../Conversation';
+import Launcher from '../Launcher';
+import Trigger from '../Trigger';
 import './style.scss';
 
 class WidgetLayout extends PureComponent {

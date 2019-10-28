@@ -1,9 +1,9 @@
-import React, { Fragment, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Header from './components/Header';
-import Messages from './components/Messages';
-import Sender from './components/Sender';
+import Header from './Header';
+import Messages from './Messages';
+import Sender from './Sender';
 import './style.scss';
 import logo from './logo.png';
 

@@ -1,6 +1,5 @@
-import { MESSAGES_TYPES, MESSAGE_SENDER } from '@constants';
-
-import Message from '@messagesComponents/Message';
+import { MESSAGES_TYPES, MESSAGE_SENDER } from '../constants';
+import Message from '../components/Conversation/Message';
 
 export function createNewMessage(text, sender, time = Date.now()) {
   return {

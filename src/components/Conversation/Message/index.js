@@ -4,7 +4,7 @@ import Linkify from 'react-linkify';
 import cx from 'classnames';
 import isImageUrl from 'is-image-url';
 import { length } from 'stringz';
-import { MESSAGE_SENDER } from '@constants';
+import { MESSAGE_SENDER } from '../../../constants';
 
 import './styles.scss';
 // import markdownIt from 'markdown-it';

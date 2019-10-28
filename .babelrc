@@ -10,12 +10,8 @@
     ["module-resolver", {
       "root": ["./src"],
       "alias": {
-        "@constants": "./src/constants.js",
-        "@assets": "./assets",
-        "@tests-mocks": "./mocks",
-        "@actions": "./src/store/actions",
-        "@utils": "./src/utils",
-        "@messagesComponents": "./src/components/Widget/components/Conversation/components/Messages/components"
+        // "@constants": "./src/constants.js",
+        // "@assets": "./assets",
       }
     }]
   ]

@@ -1,6 +1,6 @@
-import { createReducer } from '@utils/store';
-import { createNewMessage, createComponentMessage } from '@utils/messages';
-import { MESSAGE_SENDER } from '@constants';
+import { createReducer } from '../../utils/store';
+import { createNewMessage, createComponentMessage } from '../../utils/messages';
+import { MESSAGE_SENDER } from '../../constants';
 
 import * as actionTypes from '../actions/actionTypes';
 

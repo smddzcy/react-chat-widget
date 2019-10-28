@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { toggleChat, addUserMessage, setInputDisabled } from '@actions';
+import { toggleChat, addUserMessage, setInputDisabled } from '../../store/actions';
 
 import WidgetLayout from './layout';
 
