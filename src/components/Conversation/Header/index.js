@@ -8,7 +8,7 @@ import { ReactComponent as Times } from '../../../../assets/times.svg';
 import './style.scss';
 
 const Header = ({
-  title, subtitle, toggleChat, goBack, showBackButton, showCloseButton, titleAvatar,
+  title, subtitle, toggleChat, goBack, showBackButton, showCloseButton,
 }) => (
   <div className={cx('icw-header', { 'icw-header-has-back': showBackButton })}>
     {showBackButton && (
@@ -17,10 +17,7 @@ const Header = ({
       </button>
     )}
     <div className="icw-title-container">
-      <h4 className="icw-title">
-        {titleAvatar && <img src={titleAvatar} className="avatar" alt="" />}
-        {title}
-      </h4>
+      <h4 className="icw-title">{title}</h4>
       <span>{subtitle}</span>
     </div>
     {showCloseButton && (
@@ -36,6 +33,5 @@ Header.propTypes = {
   subtitle: PropTypes.string,
   toggleChat: PropTypes.func,
   showCloseButton: PropTypes.bool,
-  titleAvatar: PropTypes.string,
 };
 export default Header;

@@ -9,8 +9,10 @@ import { disablePageScroll, enablePageScroll, clearQueueScrollLocks } from 'scro
 import Conversation from '../Conversation';
 import Launcher from '../Launcher';
 import Trigger from '../Trigger';
-import './style.scss';
 import Homepage from '../Homepage';
+import UrlModal from './UrlModal';
+
+import './style.scss';
 
 class WidgetLayout extends PureComponent {
   constructor(props, ctx) {
@@ -102,6 +104,11 @@ class WidgetLayout extends PureComponent {
           title="Infoset Chat Widget"
           aria-live="polite"
         >
+          <UrlModal
+            showUrl={this.props.showUrl}
+            closeUrl={this.props.closeUrl}
+            translation={this.props.translation}
+          />
           <div
             style={{ height: '100%' }}
             className={cx({
@@ -122,7 +129,7 @@ class WidgetLayout extends PureComponent {
                       subtitle={this.props.subtitle}
                       staticText={this.props.staticText}
                       sendMessage={this.props.onSendMessage}
-                      senderPlaceholder={this.props.senderPlaceholder}
+                      senderPlaceholder={this.props.translation.widget.senderPlaceholder}
                       disabledPlaceholder={this.props.disabledPlaceholder}
                       toggleChat={this.props.onToggleConversation}
                       showChat={this.props.showChat}
@@ -130,7 +137,6 @@ class WidgetLayout extends PureComponent {
                       showEmojiButton={this.props.showEmojiButton}
                       showAttachmentButton={this.props.showAttachmentButton}
                       disabledInput={this.props.disabledInput}
-                      titleAvatar={this.props.titleAvatar}
                       showBackButton={this.props.homepage.enabled}
                       goBack={this.props.goHome}
                     />
@@ -173,12 +179,11 @@ class WidgetLayout extends PureComponent {
 
 WidgetLayout.propTypes = {
   title: PropTypes.string,
-  titleAvatar: PropTypes.string,
   subtitle: PropTypes.string,
   onSendMessage: PropTypes.func,
   onToggleConversation: PropTypes.func,
   showChat: PropTypes.bool,
-  senderPlaceholder: PropTypes.string,
+  translation: PropTypes.object,
   disabledPlaceholder: PropTypes.string,
   showCloseButton: PropTypes.bool,
   disabledInput: PropTypes.bool,

@@ -53,9 +53,8 @@ class Widget extends PureComponent {
         onToggleConversation={this.toggleConversation}
         onSendMessage={this.handleMessageSubmit}
         title={this.props.title}
-        titleAvatar={this.props.titleAvatar}
         subtitle={this.props.subtitle}
-        senderPlaceholder={this.props.senderPlaceholder}
+        translation={this.props.translation}
         disabledPlaceholder={this.props.disabledPlaceholder}
         showCloseButton={this.props.showCloseButton}
         badge={this.props.badge}
@@ -78,10 +77,9 @@ class Widget extends PureComponent {
 
 Widget.propTypes = {
   title: PropTypes.string,
-  titleAvatar: PropTypes.string,
   subtitle: PropTypes.string,
   handleNewUserMessage: PropTypes.func.isRequired,
-  senderPlaceholder: PropTypes.string,
+  translation: PropTypes.object,
   disabledPlaceholder: PropTypes.string,
   showCloseButton: PropTypes.bool,
   badge: PropTypes.number,

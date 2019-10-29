@@ -44,6 +44,28 @@
   }
 }
 
+@mixin transitionSelf($tName, $enter, $exit, $transition, $transitionExit: null) {
+  @if not ($transitionExit) {
+    $transitionExit: $transition;
+  }
+
+  &.#{$tName}-enter, &.#{$tName}-appear, &.#{$tName}-exit.#{$tName}-exit-active, &.#{$tName}-exit-done {
+    @include list($enter);
+  }
+
+  &.#{$tName}-exit.#{$tName}-exit-active {
+    @include list($transitionExit);
+  }
+
+  &.#{$tName}-exit, &.#{$tName}-enter.#{$tName}-enter-active, &.#{$tName}-enter-done {
+    @include list($exit);
+  }
+
+  &.#{$tName}-enter.#{$tName}-enter-active, &.#{$tName}-appear.#{$tName}-appear-active {
+    @include list($transition);
+  }
+}
+
 @mixin animation ($delay, $duration, $animation) {
   animation-delay: $delay;
   animation-duration: $duration;

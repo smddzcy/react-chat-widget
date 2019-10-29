@@ -39,7 +39,6 @@ class Conversation extends PureComponent {
           subtitle={this.props.subtitle}
           toggleChat={this.props.toggleChat}
           showCloseButton={this.props.showCloseButton}
-          titleAvatar={this.props.titleAvatar}
           showBackButton={this.props.showBackButton}
           goBack={this.props.goBack}
         />
@@ -77,7 +76,6 @@ class Conversation extends PureComponent {
 
 Conversation.propTypes = {
   title: PropTypes.string,
-  titleAvatar: PropTypes.string,
   subtitle: PropTypes.string,
   sendMessage: PropTypes.func,
   senderPlaceholder: PropTypes.string,

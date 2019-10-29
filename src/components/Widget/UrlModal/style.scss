@@ -1,0 +1,73 @@
+@import 'variables.scss';
+@import 'animation.scss';
+
+.icw-url-modal {  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  z-index: 5;
+
+  @include transitionSelf('slide-up', (
+    transform: translate3d(0, 100%, 0),
+  ), (
+    transform: translate3d(0, 0, 0),
+  ), (
+    transition: transform 400ms
+  ));
+
+  header {
+    background: linear-gradient(135deg, $blue 0%, $dark-blue 100%);
+    color: $white;
+    padding: 20px 35px;
+    text-align: center;
+
+    h1 {
+      font-weight: 400;
+      font-size: 24px;
+      margin: 0;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .icw-close-button {
+      position: absolute;
+      right: 5px;
+      top: 10px;
+    }
+  }
+
+  main {
+    flex: 1;
+    background: white;
+
+    .progress-bar {
+      background: $light-blue;
+      height: 4px;
+      width: 0;
+      opacity: 1;
+      transition: width 100ms ease-out, opacity 300ms;
+
+      &.hide {
+        opacity: 0;
+      }
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      margin: 0;
+      padding: 0;
+      visibility: hidden;
+
+      &.loaded {
+        visibility: visible;
+      }
+    }
+  }
+}

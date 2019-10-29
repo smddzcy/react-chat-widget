@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 import { ReactComponent as Times } from '../../../assets/times.svg';
 
-import './styles.scss';
+import './style.scss';
 
 class Homepage extends PureComponent {
   render() {

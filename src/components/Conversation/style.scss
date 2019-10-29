@@ -164,6 +164,10 @@
     &:focus, &:active {
       outline: none;
     }
+
+    &[disabled] {
+      cursor: not-allowed;
+    }
   }
   
   button, a.button {
@@ -184,7 +188,7 @@
     justify-content: center;
 
     &[disabled] {
-      pointer-events: none;
+      cursor: not-allowed;
     }
 
     &.has-icon {
