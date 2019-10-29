@@ -14,6 +14,11 @@ class Widget extends PureComponent {
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
 
+  componentDidMount() {
+    // send initial input status
+    this.props.dispatch(setInputDisabled(this.props.isInputDisabled));
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.isInputDisabled !== this.props.isInputDisabled) {
       this.props.dispatch(setInputDisabled(this.props.isInputDisabled));
@@ -61,7 +66,11 @@ class Widget extends PureComponent {
         showTrigger={this.props.showTrigger}
         showEmojiButton={this.props.showEmojiButton}
         showAttachmentButton={this.props.showAttachmentButton}
+        goHome={this.props.goHome}
         homepage={this.props.homepage}
+        showPage={this.props.showPage}
+        showUrl={this.props.showUrl}
+        closeUrl={this.props.closeUrl}
       />
     );
   }
@@ -86,6 +95,9 @@ Widget.propTypes = {
   showEmojiButton: PropTypes.bool,
   showAttachmentButton: PropTypes.bool,
   homepage: PropTypes.object,
+  showPage: PropTypes.string,
+  showUrl: PropTypes.string,
+  closeUrl: PropTypes.func,
 };
 
 export default connect(store => ({

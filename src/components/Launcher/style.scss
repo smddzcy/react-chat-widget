@@ -31,11 +31,3 @@
   width: 15px;
   @include animation(0, 300ms, rotation-lr);
 }
-
-@media screen and (max-width: 768px){
-  .icw-opened #infoset-btn-frame {
-    display: none;
-    z-index: -100;
-    pointer-events: none;
-  }
-}

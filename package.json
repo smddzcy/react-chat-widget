@@ -6,8 +6,7 @@
   "repository": "git@github.com:smddzcy/react-chat-widget.git",
   "author": "Samed Duzcay <samedduzcay@gmail.com>",
   "scripts": {
-    "start": "webpack --config ./webpack.config.dev.js --watch",
-    "start:prod": "webpack --config ./webpack.config.prod.js --watch",
+    "dev": "webpack --config ./webpack.config.prod.js --watch",
     "prebuild": "npm link ../chat-widget/node_modules/react && npm link ../chat-widget/node_modules/react-dom",
     "build": "npm run prebuild && webpack --config ./webpack.config.prod.js",
     "test": "jest --coverage",
@@ -40,6 +39,7 @@
     "react-linkify": "^1.0.0-alpha",
     "react-redux": "^7.1.1",
     "react-s3-uploader": "^4.8.0",
+    "react-transition-group": "^4.3.0",
     "redux": "^4.0.4",
     "scroll-lock": "^2.1.2",
     "stringz": "^2.0.0"
@@ -49,6 +49,7 @@
     "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",

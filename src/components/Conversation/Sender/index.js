@@ -19,7 +19,13 @@ const NimblePickerLazy = React.lazy(() => import(
 
 let emojiData = {};
 
-const Loading = <div className="loadingCtr"><div className="icw-lds-ellipsis"><div /><div /><div /><div /></div></div>;
+const Loading = (
+  <div className="icw-loading-ctr">
+    <div className="icw-lds-ellipsis" style={{ width: 64, height: 64 }}>
+      <div /><div /><div /><div />
+    </div>
+  </div>
+);
 
 const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:41101' : 'https://infoset.app:41101';
 
@@ -32,6 +38,7 @@ class Sender extends PureComponent {
       emojisLoaded: false,
       uploadingAttachment: false,
       uploadingAttachmentProgress: 0,
+      inputEmpty: true,
     };
   }
 
@@ -99,6 +106,11 @@ class Sender extends PureComponent {
     this.attachmentInput.value = null;
   }
 
+  onChange = e => {
+    const inputEmpty = !e.target.value;
+    this.setState({ inputEmpty });
+  }
+
   render() {
     const {
       sendMessage, placeholder, disabledInput, showEmojiButton, showAttachmentButton,
@@ -117,6 +129,7 @@ class Sender extends PureComponent {
           disabled={disabledInput}
           autoCorrect="off"
           autoComplete="off"
+          onChange={this.onChange}
           ref={ref => window.infosetChatMsgInput = ref}
           onFocus={() => this.setState({ inputHasFocus: true })}
           onBlur={() => this.setState({ inputHasFocus: false })}
@@ -157,9 +170,11 @@ class Sender extends PureComponent {
               <Circle percent={uploadingAttachmentProgress} strokeWidth="6" strokeColor="#212121" />
             </span>
           )}
+          {!this.state.inputEmpty && (
           <button type="submit" className="icw-send">
             <Send />
           </button>
+          )}
         </div>
         {showEmojiButton && (
         <div className={cx('emoji-picker', { 'is-visible': showEmojiPicker })}>

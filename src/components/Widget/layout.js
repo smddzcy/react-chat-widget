@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Frame from 'react-frame-component';
+import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import { disablePageScroll, enablePageScroll, clearQueueScrollLocks } from 'scroll-lock';
 
 import Conversation from '../Conversation';
@@ -21,7 +22,6 @@ class WidgetLayout extends PureComponent {
       triggerDisplay: 'none',
       convFrameDisplay: 'none',
       showChat: false,
-      showConversation: true, // TODO: initially show what?
     };
   }
 
@@ -90,10 +90,6 @@ class WidgetLayout extends PureComponent {
     clearInterval(this.triggerSizeWatcher);
   }
 
-  switchToHomepage = () => this.setState({ showConversation: false });
-
-  switchToConversation = () => this.setState({ showConversation: true });
-
   render() {
     const initialFrameContent = `<!DOCTYPE html><html><head><style>html,body,.frame-content{height: 100%;}body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body class="icw-body"><div style="height: 100%"></div></body></html>`;
     const initialTriggerFrameContent = `<!DOCTYPE html><html class="triggerHtml"><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body class="icw-body"><div></div></body></html>`;
@@ -108,28 +104,45 @@ class WidgetLayout extends PureComponent {
         >
           <div
             style={{ height: '100%' }}
-            className={`${window.innerWidth < 768 ? 'icw-mobile' : ''}`}
+            className={cx({
+              'icw-mobile': window.innerWidth < 768
+            })}
           >
-            {this.state.showConversation
-              ? (
-                <Conversation
-                  title={this.props.title}
-                  subtitle={this.props.subtitle}
-                  staticText={this.props.staticText}
-                  sendMessage={this.props.onSendMessage}
-                  senderPlaceholder={this.props.senderPlaceholder}
-                  disabledPlaceholder={this.props.disabledPlaceholder}
-                  toggleChat={this.props.onToggleConversation}
-                  showChat={this.props.showChat}
-                  showCloseButton={this.props.showCloseButton}
-                  showEmojiButton={this.props.showEmojiButton}
-                  showAttachmentButton={this.props.showAttachmentButton}
-                  disabledInput={this.props.disabledInput}
-                  titleAvatar={this.props.titleAvatar}
-                  showBackButton={this.props.homepage.enabled}
-                  goBack={this.switchToHomepage}
-                />
-              ) : <Homepage />}
+            <SwitchTransition mode="out-in">
+              <CSSTransition
+                key={this.props.showPage}
+                // addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
+                timeout={300}
+                classNames="slide"
+              >
+                {this.props.showPage === 'conversation'
+                  ? (
+                    <Conversation
+                      title={this.props.title}
+                      subtitle={this.props.subtitle}
+                      staticText={this.props.staticText}
+                      sendMessage={this.props.onSendMessage}
+                      senderPlaceholder={this.props.senderPlaceholder}
+                      disabledPlaceholder={this.props.disabledPlaceholder}
+                      toggleChat={this.props.onToggleConversation}
+                      showChat={this.props.showChat}
+                      showCloseButton={this.props.showCloseButton}
+                      showEmojiButton={this.props.showEmojiButton}
+                      showAttachmentButton={this.props.showAttachmentButton}
+                      disabledInput={this.props.disabledInput}
+                      titleAvatar={this.props.titleAvatar}
+                      showBackButton={this.props.homepage.enabled}
+                      goBack={this.props.goHome}
+                    />
+                  ) : (
+                    <Homepage
+                      settings={this.props.homepage}
+                      toggleChat={this.props.onToggleConversation}
+                    />
+                  )}
+              </CSSTransition>
+            </SwitchTransition>
+
           </div>
         </Frame>
         <Frame initialContent={initialFrameContent} id="infoset-btn-frame" title="Infoset Chat Widget Button" aria-live="polite">
@@ -171,6 +184,7 @@ WidgetLayout.propTypes = {
   disabledInput: PropTypes.bool,
   badge: PropTypes.number,
   customLauncher: PropTypes.func,
+  goHome: PropTypes.func,
   css: PropTypes.string,
   staticText: PropTypes.string,
   triggerContent: PropTypes.string,
@@ -178,6 +192,9 @@ WidgetLayout.propTypes = {
   showEmojiButton: PropTypes.bool,
   showAttachmentButton: PropTypes.bool,
   homepage: PropTypes.object,
+  showPage: PropTypes.string,
+  showUrl: PropTypes.string,
+  closeUrl: PropTypes.func,
 };
 
 export default connect(store => ({

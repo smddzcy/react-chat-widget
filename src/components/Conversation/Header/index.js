@@ -13,19 +13,19 @@ const Header = ({
   <div className={cx('icw-header', { 'icw-header-has-back': showBackButton })}>
     {showBackButton && (
       <button type="button" className="icw-header-button icw-back-button" onClick={goBack}>
-        <CaretLeft alt="go back" />
+        <CaretLeft />
       </button>
     )}
     <div className="icw-title-container">
       <h4 className="icw-title">
-        {titleAvatar && <img src={titleAvatar} className="avatar" alt="profile" />}
+        {titleAvatar && <img src={titleAvatar} className="avatar" alt="" />}
         {title}
       </h4>
       <span>{subtitle}</span>
     </div>
     {showCloseButton && (
     <button type="button" className="icw-header-button icw-close-button" onClick={toggleChat}>
-      <Times alt="close" />
+      <Times />
     </button>
     )}
   </div>

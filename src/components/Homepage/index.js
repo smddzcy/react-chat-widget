@@ -1,27 +1,32 @@
 import React, { PureComponent } from 'react';
-import { ReactComponent as Send } from '../../../assets/send.svg';
+
+import { ReactComponent as Times } from '../../../assets/times.svg';
+
 import './styles.scss';
 
 class Homepage extends PureComponent {
   render() {
+    const { settings, toggleChat } = this.props;
     return (
       <div className="icw-widget-inner-container icw-home">
         <header>
+          {settings.logo && (
           <div className="icw-h-logo">
-            <img src="https://downloads.intercomcdn.com/i/o/45718/28ebc88ba3a055eaeb5eb3c0/b5ba5b9c5a083b008fa152e91594b90b.png" alt="" />
+            <img src={settings.logo} alt="" />
           </div>
-          <h1 className="icw-h-title">Merhaba! 👋🏻</h1>
-          <h2 className="icw-h-subtitle">Apsiyon'a hoş geldiniz. Size yardımcı olmak için buradayız, buradan bize yazabilirsiniz 😎</h2>
+          )}
+          <h1 className="icw-h-title">{settings.title}</h1>
+          <h2 className="icw-h-subtitle">{settings.subtitle}</h2>
+          <button type="button" className="icw-header-button icw-close-button" onClick={toggleChat}>
+            <Times />
+          </button>
         </header>
         <main>
-          <section className="icw-card">
-            <h2>Bir sohbet başlat</h2>
-            <p>Ekip genellikle birkaç dakika içinde yanıt verir.</p>
-            <button type="submit" className="icw-mt-10 has-icon">
-              Yeni Sohbet
-              <Send className="icon" />
-            </button>
-          </section>
+          {settings.widgets.map(({ component: Component, getProps }, idx) => (
+            <section className="icw-card" key={idx}>
+              <Component {...getProps()} />
+            </section>
+          ))}
         </main>
       </div>
     );

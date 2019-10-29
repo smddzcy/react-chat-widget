@@ -1,19 +1,55 @@
+@function str-split($string, $separator) {
+  $split-arr: ();
+  $index : str-index($string, $separator);
+  @while $index != null {
+      $item: str-slice($string, 1, $index - 1);
+      $split-arr: append($split-arr, $item);
+      $string: str-slice($string, $index + 1);
+      $index : str-index($string, $separator);
+  }
+  $split-arr: append($split-arr, $string);
+  @return $split-arr;
+}
+
+@mixin list($map) {
+  @each $key, $value in $map {
+    #{$key}: $value;
+  }
+}
+
+@mixin transition($childClasses, $enter, $exit, $transition, $transitionExit: null) {
+  @if not ($transitionExit) {
+    $transitionExit: $transition;
+  }
+  
+  $name: &;
+
+  $split-values: str-split($childClasses, ", ");
+  @each $childClass in $split-values {
+    &-enter #{$childClass}, &-appear #{$childClass}, &-exit#{$name}-exit-active #{$childClass}, &-exit-done #{$childClass} {
+      @include list($enter);
+    }
+  
+    &-exit#{$name}-exit-active #{$childClass} {
+      @include list($transitionExit);
+    }
+  
+    &-exit #{$childClass}, &-enter#{$name}-enter-active #{$childClass}, &-enter-done #{$childClass} {
+      @include list($exit);
+    }
+  
+    &-enter#{$name}-enter-active #{$childClass}, &-appear#{$name}-appear-active #{$childClass} {
+      @include list($transition);
+    }
+  }
+}
+
 @mixin animation ($delay, $duration, $animation) {
-  -webkit-animation-delay: $delay;
-  -webkit-animation-duration: $duration;
-  -webkit-animation-name: $animation;
-  -webkit-animation-fill-mode: forwards; /* this prevents the animation from restarting! */
-
-  -moz-animation-delay: $delay;
-  -moz-animation-duration: $duration;
-  -moz-animation-name: $animation;
-  -moz-animation-fill-mode: forwards; /* this prevents the animation from restarting! */
-
   animation-delay: $delay;
   animation-duration: $duration;
   animation-name: $animation;
   animation-timing-function: ease-out;
-  animation-fill-mode: forwards; /* this prevents the animation from restarting! */
+  animation-fill-mode: forwards;
 }
 
 @mixin keyframes ($animation-name) {
