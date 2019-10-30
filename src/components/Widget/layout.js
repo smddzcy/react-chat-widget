@@ -139,11 +139,13 @@ class WidgetLayout extends PureComponent {
                       disabledInput={this.props.disabledInput}
                       showBackButton={this.props.homepage.enabled}
                       goBack={this.props.goHome}
+                      translation={this.props.translation}
                     />
                   ) : (
                     <Homepage
                       settings={this.props.homepage}
                       toggleChat={this.props.onToggleConversation}
+                      translation={this.props.translation}
                     />
                   )}
               </CSSTransition>

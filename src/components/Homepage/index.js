@@ -3,10 +3,11 @@ import React, { PureComponent } from 'react';
 import { ReactComponent as Times } from '../../../assets/times.svg';
 
 import './style.scss';
+import Branding from '../Branding';
 
 class Homepage extends PureComponent {
   render() {
-    const { settings, toggleChat } = this.props;
+    const { settings, toggleChat, translation } = this.props;
     return (
       <div className="icw-widget-inner-container icw-home">
         <header>
@@ -28,6 +29,9 @@ class Homepage extends PureComponent {
             </section>
           ))}
         </main>
+        <div className="icw-branding-ctr">
+          <Branding poweredByLabel={translation.poweredByInfoset} />
+        </div>
       </div>
     );
   }

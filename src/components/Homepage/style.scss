@@ -23,6 +23,15 @@
     ), (
       transition: (opacity 350ms, transform 350ms)
     ));
+    @include transition('.icw-branding-ctr', (
+      transform: translateY(100%),
+      opacity: 0,
+    ), (
+      transform: translateY(0),
+      opacity: 1,
+    ), (
+      transition: (opacity 350ms, transform 350ms)
+    ));
   }
 
   @each $idx in (2, 3, 4, 5, 6) {
@@ -80,7 +89,7 @@
   }
 
   main {
-    padding: 0 15px 15px 15px;
+    padding: 0 15px 55px;
     flex: 1;
 
     .icw-card {

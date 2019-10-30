@@ -5,7 +5,7 @@ import Header from './Header';
 import Messages from './Messages';
 import Sender from './Sender';
 import './style.scss';
-import logo from './logo.png';
+import Branding from '../Branding';
 
 class Conversation extends PureComponent {
   constructor(props, ctx) {
@@ -64,11 +64,7 @@ class Conversation extends PureComponent {
             />
           </>
         )}
-        <div className="icw-branding" onClick={() => this.infosetLink && this.infosetLink.click()}>
-          <img src={logo} alt="infoset" />
-          Powered by
-          <a href="https://infoset.app/" target="_blank" ref={ref => this.infosetLink = ref}>Infoset</a>
-        </div>
+        <Branding poweredByLabel={this.props.translation.poweredByInfoset} />
       </div>
     );
   }
@@ -88,6 +84,7 @@ Conversation.propTypes = {
   showAttachmentButton: PropTypes.bool,
   showBackButton: PropTypes.bool,
   goBack: PropTypes.func,
+  translation: PropTypes.object,
 };
 
 export default Conversation;

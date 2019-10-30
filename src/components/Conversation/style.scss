@@ -36,7 +36,7 @@
     @include transition('.icw-branding', (
       opacity: 0,
     ), (
-      opacity: 1,
+      opacity: 0.75,
     ), (
       transition: (opacity 250ms)
     ));
@@ -259,6 +259,7 @@
 
     img {
       height: 14px;
+      border-radius: 3px;
     }
   }
 
@@ -269,9 +270,19 @@
   }
 }
 
+.icw-branding-ctr {
+  position: fixed;
+  bottom: 0;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.03) 0px -10px 10px 1px;
+}
+
 .icw-branding {
   @include hover-bg;
-  position: absolute;
+  user-select: none;
+  position: fixed;
   bottom: 7px;
   left: 50%;
   padding: 0.5em 0.65em;
@@ -283,16 +294,13 @@
   align-items: center;
   justify-content: center;
   white-space: nowrap;
+  text-decoration: none;
+  color: inherit;
 
   img {
     height: 12px;
     width: auto;
     margin-right: 0.3em;
-  }
-
-  a {
-    text-decoration: none;
-    color: $blue;
-    margin-left: 0.15em;
+    border-radius: 2px;
   }
 }
