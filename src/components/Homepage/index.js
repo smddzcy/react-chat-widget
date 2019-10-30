@@ -22,7 +22,7 @@ const Homepage = props => {
       const { scrollTop } = e.target.documentElement;
       setParallaxStyles({
         transform: `translateY(-${scrollTop / 4}px)`,
-        opacity: Math.max(0, Math.min(1, (mainPaddingTop - 20 - scrollTop) / (mainPaddingTop - 20))),
+        opacity: Math.max(0, Math.min(1, (mainPaddingTop - 25 - scrollTop) / (mainPaddingTop - 25))),
       });
     };
     document.addEventListener('scroll', onScroll, { passive: true });
