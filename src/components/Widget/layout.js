@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import Frame from 'react-frame-component';
+import Frame, { FrameContextConsumer } from 'react-frame-component';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import { disablePageScroll, enablePageScroll, clearQueueScrollLocks } from 'scroll-lock';
 
@@ -104,54 +104,58 @@ class WidgetLayout extends PureComponent {
           title="Infoset Chat Widget"
           aria-live="polite"
         >
-          <UrlModal
-            showUrl={this.props.showUrl}
-            closeUrl={this.props.closeUrl}
-            translation={this.props.translation}
-          />
-          <div
-            style={{ height: '100%' }}
-            className={cx({
-              'icw-mobile': window.innerWidth < 768
-            })}
-          >
-            <SwitchTransition mode="out-in">
-              <CSSTransition
-                key={this.props.showPage}
-                // addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
-                timeout={300}
-                classNames="slide"
+          <FrameContextConsumer>
+            {({ document }) => (
+              <div
+                style={{ height: '100%' }}
+                className={cx('scroll-container', {
+                  'icw-mobile': window.innerWidth < 768
+                })}
               >
-                {this.props.showPage === 'conversation'
-                  ? (
-                    <Conversation
-                      title={this.props.title}
-                      subtitle={this.props.subtitle}
-                      staticText={this.props.staticText}
-                      sendMessage={this.props.onSendMessage}
-                      senderPlaceholder={this.props.translation.widget.senderPlaceholder}
-                      disabledPlaceholder={this.props.disabledPlaceholder}
-                      toggleChat={this.props.onToggleConversation}
-                      showChat={this.props.showChat}
-                      showCloseButton={this.props.showCloseButton}
-                      showEmojiButton={this.props.showEmojiButton}
-                      showAttachmentButton={this.props.showAttachmentButton}
-                      disabledInput={this.props.disabledInput}
-                      showBackButton={this.props.homepage.enabled}
-                      goBack={this.props.goHome}
-                      translation={this.props.translation}
-                    />
-                  ) : (
-                    <Homepage
-                      settings={this.props.homepage}
-                      toggleChat={this.props.onToggleConversation}
-                      translation={this.props.translation}
-                    />
-                  )}
-              </CSSTransition>
-            </SwitchTransition>
-
-          </div>
+                <UrlModal
+                  showUrl={this.props.showUrl}
+                  closeUrl={this.props.closeUrl}
+                  translation={this.props.translation}
+                />
+                <SwitchTransition mode="out-in">
+                  <CSSTransition
+                    key={this.props.showPage}
+                          // addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
+                    timeout={300}
+                    classNames="slide"
+                  >
+                    {this.props.showPage === 'conversation'
+                      ? (
+                        <Conversation
+                          title={this.props.title}
+                          subtitle={this.props.subtitle}
+                          staticText={this.props.staticText}
+                          sendMessage={this.props.onSendMessage}
+                          senderPlaceholder={this.props.translation.widget.senderPlaceholder}
+                          disabledPlaceholder={this.props.disabledPlaceholder}
+                          toggleChat={this.props.onToggleConversation}
+                          showChat={this.props.showChat}
+                          showCloseButton={this.props.showCloseButton}
+                          showEmojiButton={this.props.showEmojiButton}
+                          showAttachmentButton={this.props.showAttachmentButton}
+                          disabledInput={this.props.disabledInput}
+                          showBackButton={this.props.homepage.enabled}
+                          goBack={this.props.goHome}
+                          translation={this.props.translation}
+                        />
+                      ) : (
+                        <Homepage
+                          settings={this.props.homepage}
+                          toggleChat={this.props.onToggleConversation}
+                          translation={this.props.translation}
+                          document={document}
+                        />
+                      )}
+                  </CSSTransition>
+                </SwitchTransition>
+              </div>
+            )}
+          </FrameContextConsumer>
         </Frame>
         <Frame initialContent={initialFrameContent} id="infoset-btn-frame" title="Infoset Chat Widget Button" aria-live="polite">
           {this.props.customLauncher
