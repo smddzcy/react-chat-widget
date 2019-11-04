@@ -58,11 +58,11 @@ const Homepage = props => {
           )}
           <h1 className="icw-h-title">{settings.title}</h1>
           <h2 className="icw-h-subtitle">{settings.subtitle}</h2>
-          <button type="button" className="icw-header-button icw-close-button" onClick={toggleChat}>
-            <Times />
-          </button>
         </div>
       </header>
+      <button type="button" className="icw-header-button icw-close-button" onClick={toggleChat}>
+        <Times />
+      </button>
       <main style={{ paddingTop: mainPaddingTop }}>
         {settings.widgets.map(({ component: Component, getProps }, idx) => (
           <section className="icw-card" key={idx}>

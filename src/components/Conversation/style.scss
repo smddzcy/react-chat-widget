@@ -52,6 +52,11 @@
   border-radius: 3px;
   box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.1), inset 0 2px 0 0 $light-blue;
   width: 100%;
+  overflow: hidden;
+
+  img {
+    max-width: 100%;
+  }
 
   .icw-input-container {
     width: 100%;
@@ -75,27 +80,53 @@
     }
   }
 
+  .icw-link-widget {
+    .icw-link-row.last {
+      margin-bottom: -24px;
+      border-bottom: 0 !important;
+    }
+    .icw-link-row.firstNoHead {
+      margin-top: -20px;
+      border-top: 0 !important;
+    }
+  }
+
   .icw-link-row {
-    padding: 10px 24px;
+    padding: 16px 24px;
     margin: 0 -24px;
     cursor: pointer;
     user-select: none;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    img {
+      // aside image
+      max-width: 50px;
+      max-height: 50px;
+      margin-right: 8px;
+    }
 
     &:hover {
       background: #fafafa;
     }
 
+    &-title, &-image {
+      margin: 0 0 12px;
+    }
+
     &.bordered {
-      border-top: 1px solid #e1e1e1;
+      border-top: 1px solid #efefef;
 
       &:last-of-type {
-        border-bottom: 1px solid #e1e1e1;
+        border-bottom: 1px solid #efefef;
       }
     }
 
     h3 {
       color: $light-blue;
       font-size: 1em;
+      line-height: 1.4;
     }
     p {
       font-size: 0.95em;
@@ -251,15 +282,6 @@
       &::placeholder {
         font-size: 16px !important;
       }
-    }
-  }
-
-  .icw-branding {
-    font-size: 15px;
-
-    img {
-      height: 14px;
-      border-radius: 3px;
     }
   }
 
