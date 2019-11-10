@@ -32,3 +32,22 @@ export function createComponentMessage(component, props, showAvatar, insideBubbl
     showAvatar,
   };
 }
+
+export function getTimeString(msgTime) {
+  const time = new Date(msgTime);
+  const hourMin = time.toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' });
+  const now = new Date();
+  let timeString;
+  if (time.toDateString() === now.toDateString()) {
+    // today, just show time
+    timeString = hourMin;
+  } else if (time.getFullYear() === now.getFullYear()) {
+    // this year, just show day
+    const monthDay = time.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    timeString = `${monthDay}, ${hourMin}`;
+  } else {
+    // show the date
+    timeString = time.toLocaleDateString();
+  }
+  return timeString;
+}

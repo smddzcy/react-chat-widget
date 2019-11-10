@@ -3,18 +3,23 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { toggleChat, addUserMessage, setInputDisabled } from '../../store/actions';
+import {
+  toggleChat, addUserMessage, setInputDisabled, setMessages
+} from '../../store/actions';
 
 import WidgetLayout from './layout';
+import GlobalContext from '../GlobalContext';
 
 class Widget extends PureComponent {
-  constructor(props, ctx) {
-    super(props, ctx);
-    this.toggleConversation = this.toggleConversation.bind(this);
-    this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
+  constructor(props, context) {
+    super(props, context);
+    this.state = { showPreviousChatId: null };
   }
 
   componentDidMount() {
+    if (this.props.childRef) {
+      this.props.childRef(this);
+    }
     // send initial input status
     this.props.dispatch(setInputDisabled(this.props.isInputDisabled));
   }
@@ -25,14 +30,20 @@ class Widget extends PureComponent {
     }
   }
 
-  toggleConversation() {
+  componentWillUnmount() {
+    if (this.props.childRef) {
+      this.props.childRef(undefined);
+    }
+  }
+
+  toggleChat = () => {
     if (typeof this.props.onToggleChat === 'function') {
       this.props.onToggleChat(this.props.showChat);
     }
     this.props.dispatch(toggleChat());
   }
 
-  handleMessageSubmit(event, isFile) {
+  handleMessageSubmit = (event, isFile) => {
     let userInput;
     if (event.target) {
       event.preventDefault();
@@ -47,30 +58,44 @@ class Widget extends PureComponent {
     }
   }
 
+  openConversation = chatId => {
+    const conversation = this.props.prevConversations.find(conv => conv.chatId === chatId);
+    this.props.dispatch(setMessages({ chatId, messages: conversation.messages }));
+    this.setState({ showPreviousChatId: chatId });
+    this.props.switchToPage('previous_conversation');
+  }
+
   render() {
+    const ctxValues = {
+      showEmojiButton: this.props.showEmojiButton,
+      showAttachmentButton: this.props.showAttachmentButton,
+      badge: this.props.badge,
+      translation: this.props.translation,
+    };
     return (
-      <WidgetLayout
-        onToggleConversation={this.toggleConversation}
-        onSendMessage={this.handleMessageSubmit}
-        title={this.props.title}
-        subtitle={this.props.subtitle}
-        translation={this.props.translation}
-        disabledPlaceholder={this.props.disabledPlaceholder}
-        showCloseButton={this.props.showCloseButton}
-        badge={this.props.badge}
-        customLauncher={this.props.customLauncher}
-        css={this.props.css}
-        staticText={this.props.staticText}
-        triggerContent={this.props.triggerContent}
-        showTrigger={this.props.showTrigger}
-        showEmojiButton={this.props.showEmojiButton}
-        showAttachmentButton={this.props.showAttachmentButton}
-        goHome={this.props.goHome}
-        homepage={this.props.homepage}
-        showPage={this.props.showPage}
-        showUrl={this.props.showUrl}
-        closeUrl={this.props.closeUrl}
-      />
+      <GlobalContext.Provider value={ctxValues}>
+        <WidgetLayout
+          toggleChat={this.toggleChat}
+          onSendMessage={this.handleMessageSubmit}
+          title={this.props.title}
+          subtitle={this.props.subtitle}
+          disabledPlaceholder={this.props.disabledPlaceholder}
+          showCloseButton={this.props.showCloseButton}
+          customLauncher={this.props.customLauncher}
+          css={this.props.css}
+          staticText={this.props.staticText}
+          triggerContent={this.props.triggerContent}
+          showTrigger={this.props.showTrigger}
+          switchToPage={this.props.switchToPage}
+          homepage={this.props.homepage}
+          showPage={this.props.showPage}
+          showUrl={this.props.showUrl}
+          closeUrl={this.props.closeUrl}
+          openConversation={this.openConversation}
+          prevConversations={this.props.prevConversations}
+          showPreviousChatId={this.state.showPreviousChatId}
+        />
+      </GlobalContext.Provider>
     );
   }
 }
@@ -96,6 +121,8 @@ Widget.propTypes = {
   showPage: PropTypes.string,
   showUrl: PropTypes.string,
   closeUrl: PropTypes.func,
+  switchToPage: PropTypes.func,
+  prevConversations: PropTypes.array,
 };
 
 export default connect(store => ({

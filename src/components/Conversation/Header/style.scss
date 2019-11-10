@@ -17,27 +17,13 @@
   }
 }
 
-.icw-conversation {
-  .icw-header {
-    background: linear-gradient(135deg, $blue 0%, $dark-blue 100%);
-    color: $white;
-    display: flex;
-    flex-flow: row nowrap;
-    padding: 20px 40px 20px 20px;
-    font-size: 15px;
-  }
-
-  .icw-back-button {
-    margin-left: -10px;
-    margin-right: 10px;
-  }
-
-  .icw-close-button {
-    position: absolute;
-    right: 5px;
-    top: 10px;
-    display: none;
-  }
+.icw-header {
+  background: linear-gradient(135deg, $blue 0%, $dark-blue 100%);
+  color: $white;
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 20px 40px 20px 20px;
+  font-size: 15px;
 
   .icw-title-container {
     display: flex;
@@ -51,11 +37,22 @@
     font-size: 16px;
   }
 
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 100%;
+  .icw-back-button {
+    margin-left: -10px;
     margin-right: 10px;
-    vertical-align: middle;
+  }
+}
+
+.icw-close-button {
+  position: fixed;
+  right: 7px;
+  top: 10px;
+  display: none;
+  z-index: 3; // because of parallax
+}
+
+.icw-mobile {
+  .icw-close-button {
+    display: block;
   }
 }

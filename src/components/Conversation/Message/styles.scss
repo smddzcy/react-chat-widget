@@ -8,6 +8,11 @@
   flex-flow: row nowrap;
   align-items: flex-end;
 
+  .icw-avatar {
+    margin-right: 10px;
+    margin-bottom: 20px;
+  }
+
   &.only-message {
     margin-bottom: -5px;
     .icw-avatar {
@@ -107,9 +112,7 @@
   background-repeat: no-repeat;
   background-position: center center;
   flex: none;
-  border-radius: 100%;
-  margin-right: 10px;
-  margin-bottom: 20px;
+  border-radius: 18px;
   color: $blue;
   backface-visibility: hidden;
 }

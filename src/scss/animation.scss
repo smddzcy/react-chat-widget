@@ -17,29 +17,31 @@
   }
 }
 
-@mixin transition($childClasses, $enter, $exit, $transition, $transitionExit: null) {
+@mixin transition($childClasses, $enter, $normal, $exit, $transition, $transitionExit: null) {
   @if not ($transitionExit) {
     $transitionExit: $transition;
   }
-  
-  $name: &;
 
   $split-values: str-split($childClasses, ", ");
   @each $childClass in $split-values {
-    &-enter #{$childClass}, &-appear #{$childClass}, &-exit#{$name}-exit-active #{$childClass}, &-exit-done #{$childClass} {
+    &-enter #{$childClass}, &-appear #{$childClass} {
       @include list($enter);
     }
-  
-    &-exit#{$name}-exit-active #{$childClass} {
-      @include list($transitionExit);
+
+    &-enter-active #{$childClass}, &-enter-done #{$childClass}, &-exit #{$childClass} {
+      @include list($normal);
     }
-  
-    &-exit #{$childClass}, &-enter#{$name}-enter-active #{$childClass}, &-enter-done #{$childClass} {
+
+    &-exit-active #{$childClass}, &-exit-done #{$childClass} {
       @include list($exit);
     }
-  
-    &-enter#{$name}-enter-active #{$childClass}, &-appear#{$name}-appear-active #{$childClass} {
+
+    &-enter-active #{$childClass}, &-appear-active #{$childClass} {
       @include list($transition);
+    }
+
+    &-exit-active #{$childClass} {
+      @include list($transitionExit);
     }
   }
 }

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import Frame, { FrameContextConsumer } from 'react-frame-component';
+import Frame from 'react-frame-component';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import { disablePageScroll, enablePageScroll, clearQueueScrollLocks } from 'scroll-lock';
 
@@ -13,6 +13,8 @@ import Homepage from '../Homepage';
 import UrlModal from './UrlModal';
 
 import './style.scss';
+import PreviousConversations from '../PreviousConversations';
+import GlobalContext from '../GlobalContext';
 
 class WidgetLayout extends PureComponent {
   constructor(props, ctx) {
@@ -24,6 +26,7 @@ class WidgetLayout extends PureComponent {
       triggerDisplay: 'none',
       convFrameDisplay: 'none',
       showChat: false,
+      prevPageDepth: 0,
     };
   }
 
@@ -63,6 +66,8 @@ class WidgetLayout extends PureComponent {
     const openingChat = nextProps.showChat && !this.props.showChat;
     const closingChat = !nextProps.showChat && this.props.showChat;
 
+    this.setState({ prevPageDepth: this.getPageDepth(this.props.showPage) });
+
     if (openingChat) {
       clearTimeout(this.convFrameDisplayTimeout);
       this.setState({ convFrameDisplay: 'block' });
@@ -92,11 +97,28 @@ class WidgetLayout extends PureComponent {
     clearInterval(this.triggerSizeWatcher);
   }
 
+  getPageDepth = page => {
+    let pageDepth = 0;
+    if (['previous_conversations', 'conversation'].includes(page)) {
+      pageDepth = 1;
+    } else if (page === 'previous_conversation') {
+      pageDepth = 2;
+    }
+    return pageDepth;
+  }
+
+  goHome = () => this.props.switchToPage('home');
+
+  goToPreviousConversation = () => this.props.switchToPage('previous_conversations');
+
   render() {
     const initialFrameContent = `<!DOCTYPE html><html><head><style>html,body,.frame-content{height: 100%;}body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body class="icw-body"><div style="height: 100%"></div></body></html>`;
     const initialTriggerFrameContent = `<!DOCTYPE html><html class="triggerHtml"><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body class="icw-body"><div></div></body></html>`;
+    const pageDepth = this.getPageDepth(this.props.showPage);
+    const animationName = pageDepth > this.state.prevPageDepth ? 'slideLeft' : 'slideRight';
+
     return (
-      <div className={cx('icw-widget-container', { 'icw-opened': this.state.showChat })}>
+      <div className={cx({ 'icw-opened': this.state.showChat })}>
         <Frame
           initialContent={initialFrameContent}
           id="infoset-conv-frame"
@@ -104,63 +126,68 @@ class WidgetLayout extends PureComponent {
           title="Infoset Chat Widget"
           aria-live="polite"
         >
-          <FrameContextConsumer>
-            {({ document }) => (
-              <div
-                style={{ height: '100%' }}
-                className={cx('scroll-container', {
-                  'icw-mobile': window.innerWidth < 768
-                })}
+          <div
+            style={{ height: '100%' }}
+            className={cx('scroll-container', animationName, {
+              'icw-mobile': window.innerWidth < 768
+            })}
+          >
+            <UrlModal showUrl={this.props.showUrl} closeUrl={this.props.closeUrl} />
+            <SwitchTransition mode="out-in">
+              <CSSTransition
+                key={this.props.showPage}
+                timeout={300}
+                classNames="pageTransition"
               >
-                <UrlModal
-                  showUrl={this.props.showUrl}
-                  closeUrl={this.props.closeUrl}
-                  translation={this.props.translation}
-                />
-                <SwitchTransition mode="out-in">
-                  <CSSTransition
-                    key={this.props.showPage}
-                          // addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
-                    timeout={300}
-                    classNames="slide"
-                  >
-                    {this.props.showPage === 'conversation'
-                      ? (
-                        <Conversation
-                          title={this.props.title}
-                          subtitle={this.props.subtitle}
-                          staticText={this.props.staticText}
-                          sendMessage={this.props.onSendMessage}
-                          senderPlaceholder={this.props.translation.widget.senderPlaceholder}
-                          disabledPlaceholder={this.props.disabledPlaceholder}
-                          toggleChat={this.props.onToggleConversation}
-                          showChat={this.props.showChat}
-                          showCloseButton={this.props.showCloseButton}
-                          showEmojiButton={this.props.showEmojiButton}
-                          showAttachmentButton={this.props.showAttachmentButton}
-                          disabledInput={this.props.disabledInput}
-                          showBackButton={this.props.homepage.enabled}
-                          goBack={this.props.goHome}
-                          translation={this.props.translation}
-                        />
-                      ) : (
-                        <Homepage
-                          settings={this.props.homepage}
-                          toggleChat={this.props.onToggleConversation}
-                          translation={this.props.translation}
-                          document={document}
-                        />
-                      )}
-                  </CSSTransition>
-                </SwitchTransition>
-              </div>
-            )}
-          </FrameContextConsumer>
+                {this.props.showPage === 'conversation' ? (
+                  <Conversation
+                    title={this.props.title}
+                    subtitle={this.props.subtitle}
+                    staticText={this.props.staticText}
+                    sendMessage={this.props.onSendMessage}
+                    disabledPlaceholder={this.props.disabledPlaceholder}
+                    toggleChat={this.props.toggleChat}
+                    showCloseButton={this.props.showCloseButton}
+                    disabledInput={this.props.disabledInput}
+                    showBackButton={this.props.homepage.enabled}
+                    goBack={this.goHome}
+                  />
+                ) : this.props.showPage === 'home' ? (
+                  <Homepage
+                    settings={this.props.homepage}
+                    toggleChat={this.props.toggleChat}
+                    document={document}
+                  />
+                ) : this.props.showPage === 'previous_conversations' ? (
+                  <PreviousConversations
+                    conversations={this.props.prevConversations}
+                    openConversation={this.props.openConversation}
+                    goBack={this.goHome}
+                  />
+                ) : this.props.showPage === 'previous_conversation' ? (
+                  <GlobalContext.Consumer>
+                    {({ translation }) => (
+                      <Conversation
+                        title={translation.archivedConversation}
+                        hideSender
+                        toggleChat={this.props.toggleChat}
+                        showCloseButton={this.props.showCloseButton}
+                        disabledInput
+                        showBackButton
+                        goBack={this.goToPreviousConversation}
+                        chatId={this.props.showPreviousChatId}
+                      />
+                    )}
+                  </GlobalContext.Consumer>
+                ) : null }
+              </CSSTransition>
+            </SwitchTransition>
+          </div>
         </Frame>
         <Frame initialContent={initialFrameContent} id="infoset-btn-frame" title="Infoset Chat Widget Button" aria-live="polite">
           {this.props.customLauncher
-            ? this.props.customLauncher(this.props.onToggleConversation)
-            : <Launcher toggle={this.props.onToggleConversation} badge={this.props.badge} />}
+            ? this.props.customLauncher(this.props.toggleChat)
+            : <Launcher toggle={this.props.toggleChat} badge={this.props.badge} />}
         </Frame>
         <Frame
           initialContent={initialTriggerFrameContent}
@@ -186,26 +213,26 @@ class WidgetLayout extends PureComponent {
 WidgetLayout.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
+  showPreviousChatId: PropTypes.string,
   onSendMessage: PropTypes.func,
-  onToggleConversation: PropTypes.func,
+  toggleChat: PropTypes.func,
   showChat: PropTypes.bool,
-  translation: PropTypes.object,
   disabledPlaceholder: PropTypes.string,
   showCloseButton: PropTypes.bool,
   disabledInput: PropTypes.bool,
   badge: PropTypes.number,
   customLauncher: PropTypes.func,
-  goHome: PropTypes.func,
+  switchToPage: PropTypes.func,
   css: PropTypes.string,
   staticText: PropTypes.string,
   triggerContent: PropTypes.string,
   showTrigger: PropTypes.bool,
-  showEmojiButton: PropTypes.bool,
-  showAttachmentButton: PropTypes.bool,
   homepage: PropTypes.object,
   showPage: PropTypes.string,
   showUrl: PropTypes.string,
   closeUrl: PropTypes.func,
+  openConversation: PropTypes.func,
+  prevConversations: PropTypes.array,
 };
 
 export default connect(store => ({

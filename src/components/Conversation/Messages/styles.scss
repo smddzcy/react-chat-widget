@@ -1,10 +1,10 @@
 @import 'variables.scss';
 @import 'common.scss';
 
-.icw-messages-container {
+.icw-messages-container, .icw-convs-ctr {
   flex: 1;
   background-color: $white;
-  overflow-y: scroll;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   overscroll-behavior: contain;

@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useState, useCallback, useRef
+  useEffect, useState, useCallback, useContext, useRef
 } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import cx from 'classnames';
@@ -7,16 +7,36 @@ import cx from 'classnames';
 import { ReactComponent as Times } from '../../../../assets/times.svg';
 
 import './style.scss';
+import GlobalContext from '../../GlobalContext';
 
 let progressInterval;
-const UrlModal = ({ showUrl, closeUrl, translation }) => {
+const UrlModal = ({ showUrl, closeUrl }) => {
+  const { translation } = useContext(GlobalContext);
+  const [url, setUrl] = useState(showUrl);
   const [title, setTitle] = useState('');
   const oldIframeLoaded = useRef(0);
   const [iframeLoaded, setIframeLoaded] = useState(0);
 
+  const clearState = useCallback(() => {
+    setUrl(null);
+    setTitle('');
+    setIframeLoaded(0);
+  }, []);
+
+  const onIframeLoad = useCallback(() => {
+    clearInterval(progressInterval);
+    setIframeLoaded(100);
+  }, []);
+
+  const onIframeError = useCallback(() => {
+    clearInterval(progressInterval);
+    setIframeLoaded(0);
+  }, []);
+
   useEffect(() => {
     const xhr = new window.XMLHttpRequest();
     if (showUrl) {
+      setUrl(showUrl);
       // start progress interval
       oldIframeLoaded.current = 0;
       setIframeLoaded(0);
@@ -36,12 +56,12 @@ const UrlModal = ({ showUrl, closeUrl, translation }) => {
           }
         }
       };
-      xhr.onerror = () => {
-        clearInterval(progressInterval);
-        setIframeLoaded(0);
-      };
+      xhr.onerror = onIframeError;
       xhr.open('GET', showUrl);
       xhr.send();
+    } else if (url) {
+      // closing modal
+      setTimeout(clearState, 400);
     }
     return () => {
       xhr.abort();
@@ -49,11 +69,6 @@ const UrlModal = ({ showUrl, closeUrl, translation }) => {
       setIframeLoaded(0);
     };
   }, [showUrl]);
-
-  const onIframeLoad = useCallback(() => {
-    clearInterval(progressInterval);
-    setIframeLoaded(100);
-  }, []);
 
   return (
     <CSSTransition in={!!showUrl} mountOnEnter unmountOnExit timeout={400} classNames="slide-up">
@@ -66,13 +81,13 @@ const UrlModal = ({ showUrl, closeUrl, translation }) => {
         </header>
         <main>
           <div className={cx('progress-bar', { hide: iframeLoaded === 100 })} style={{ width: `${iframeLoaded}%` }} />
-          {showUrl && (
+          {url && (
           <iframe
             title={title}
-            className={cx('icw-url-modal-frame', { loaded: iframeLoaded === 100 })}
             aria-live="polite"
-            src={showUrl}
+            src={url}
             onLoad={onIframeLoad}
+            onError={onIframeError}
           />
           )}
         </main>

@@ -19,6 +19,13 @@ export function setInputDisabled(payload) {
   };
 }
 
+export function setMessages(payload) {
+  return {
+    type: actions.SET_MESSAGES,
+    payload,
+  };
+}
+
 export function addUserMessage(text) {
   return {
     type: actions.ADD_NEW_USER_MESSAGE,

@@ -29,5 +29,6 @@
 
 .icw-close-launcher {
   width: 15px;
+  color: #fff;
   @include animation(0, 300ms, rotation-lr);
 }

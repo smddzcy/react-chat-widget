@@ -10,6 +10,7 @@ import { ReactComponent as Emoji } from './emoji.svg';
 import { ReactComponent as Attachment } from './attachment.svg';
 
 import './style.scss';
+import GlobalContext from '../../GlobalContext';
 
 const NimblePickerLazy = React.lazy(() => import(
   /* webpackPrefetch: true */
@@ -113,87 +114,89 @@ class Sender extends PureComponent {
 
   render() {
     const {
-      sendMessage, placeholder, disabledInput, showEmojiButton, showAttachmentButton,
+      sendMessage, disabledPlaceholder, disabledInput
     } = this.props;
     const {
       inputHasFocus, showEmojiPicker, emojisLoaded, uploadingAttachment, uploadingAttachmentProgress,
     } = this.state;
 
     return (
-      <form className={cx('icw-sender', { 'input-focused': inputHasFocus })} onSubmit={sendMessage}>
-        <input
-          type="text"
-          className="icw-new-message"
-          name="message"
-          placeholder={placeholder}
-          disabled={disabledInput}
-          autoCorrect="off"
-          autoComplete="off"
-          onChange={this.onChange}
-          ref={ref => window.infosetChatMsgInput = ref}
-          onFocus={() => this.setState({ inputHasFocus: true })}
-          onBlur={() => this.setState({ inputHasFocus: false })}
-        />
-        <div className="input-buttons">
-          {showEmojiButton && (
-            <span>
-              <Emoji onClick={this.toggleEmojiPicker} style={{ opacity: 0.7 }} />
-            </span>
-          )}
-          {!uploadingAttachment && showAttachmentButton && (
-          <label htmlFor="attachment-input">
-            <ReactS3Uploader
-              signingUrl="/s3/sign"
-              signingUrlMethod="GET"
-              accept="image/*,application/pdf,text/*,audio/*,video/*"
-              s3path="attachments/"
-              preprocess={this.onFileUploadStart}
-              onSignedUrl={() => {}}
-              onProgress={this.onFileUploadProgress}
-              onError={this.onFileUploadError}
-              onFinish={this.onFileUploadEnd}
-              uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}
-              contentDisposition="auto"
-              scrubFilename={filename => filename.replace(/[^\w\d_\-.]+/ig, '')}
-              server={API_URL}
-              id="attachment-input"
+      <GlobalContext.Consumer>
+        {({ showEmojiButton, showAttachmentButton, translation }) => (
+          <form className={cx('icw-sender', { 'input-focused': inputHasFocus })} onSubmit={sendMessage}>
+            <input
+              type="text"
+              className="icw-new-message"
+              name="message"
+              placeholder={disabledInput ? disabledPlaceholder : translation.widget.senderPlaceholder}
               disabled={disabledInput}
-              inputRef={ref => this.attachmentInput = ref}
-              style={{ display: 'none' }}
-              autoUpload
+              autoFocus={!disabledInput}
+              autoCorrect="off"
+              autoComplete="off"
+              onChange={this.onChange}
+              onFocus={() => this.setState({ inputHasFocus: true })}
+              onBlur={() => this.setState({ inputHasFocus: false })}
             />
-            <Attachment />
-          </label>
-          )}
-          {uploadingAttachment && showAttachmentButton && (
-            <span>
-              <Circle percent={uploadingAttachmentProgress} strokeWidth="6" strokeColor="#212121" />
-            </span>
-          )}
-          {!this.state.inputEmpty && (
-          <button type="submit" className="icw-send">
-            <Send />
-          </button>
-          )}
-        </div>
-        {showEmojiButton && (
-        <div className={cx('emoji-picker', { 'is-visible': showEmojiPicker })}>
-          <React.Suspense fallback={Loading}>
-            {emojisLoaded ? <NimblePickerLazy onSelect={this.addEmoji} set="apple" data={emojiData} /> : Loading}
-          </React.Suspense>
-        </div>
+            <div className="input-buttons">
+              {showEmojiButton && (
+              <span>
+                <Emoji onClick={this.toggleEmojiPicker} style={{ opacity: 0.7 }} />
+              </span>
+              )}
+              {!uploadingAttachment && showAttachmentButton && (
+              <label htmlFor="attachment-input">
+                <ReactS3Uploader
+                  signingUrl="/s3/sign"
+                  signingUrlMethod="GET"
+                  accept="image/*,application/pdf,text/*,audio/*,video/*"
+                  s3path="attachments/"
+                  preprocess={this.onFileUploadStart}
+                  onSignedUrl={() => {}}
+                  onProgress={this.onFileUploadProgress}
+                  onError={this.onFileUploadError}
+                  onFinish={this.onFileUploadEnd}
+                  uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}
+                  contentDisposition="auto"
+                  scrubFilename={filename => filename.replace(/[^\w\d_\-.]+/ig, '')}
+                  server={API_URL}
+                  id="attachment-input"
+                  disabled={disabledInput}
+                  inputRef={ref => this.attachmentInput = ref}
+                  style={{ display: 'none' }}
+                  autoUpload
+                />
+                <Attachment />
+              </label>
+              )}
+              {uploadingAttachment && showAttachmentButton && (
+              <span>
+                <Circle percent={uploadingAttachmentProgress} strokeWidth="6" strokeColor="#212121" />
+              </span>
+              )}
+              {!this.state.inputEmpty && (
+              <button type="submit" className="icw-send">
+                <Send />
+              </button>
+              )}
+            </div>
+            {showEmojiButton && (
+            <div className={cx('emoji-picker', { 'is-visible': showEmojiPicker })}>
+              <React.Suspense fallback={Loading}>
+                {emojisLoaded ? <NimblePickerLazy onSelect={this.addEmoji} set="apple" data={emojiData} /> : Loading}
+              </React.Suspense>
+            </div>
+            )}
+          </form>
         )}
-      </form>
+      </GlobalContext.Consumer>
     );
   }
 }
 
 Sender.propTypes = {
   sendMessage: PropTypes.func,
-  placeholder: PropTypes.string,
+  disabledPlaceholder: PropTypes.string,
   disabledInput: PropTypes.bool,
-  showEmojiButton: PropTypes.bool,
-  showAttachmentButton: PropTypes.bool,
 };
 
 export default Sender;

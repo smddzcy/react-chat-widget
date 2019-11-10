@@ -3,43 +3,15 @@
 @import 'animation.scss';
 
 .icw-conversation {
+  height: 100%;
   overflow: hidden;
 
-  &.slide {
-    @include transition('.icw-back-button', (
-      transform: translateX(20px),
-      opacity: 0,
-    ), (
-      transform: translateX(0),
-      opacity: 1,
-    ), (
-      transition: (opacity 350ms, transform 350ms)
-    ));
-    @include transition('.icw-title-container, .icw-messages-container', (
-      transform: translateX(40px),
-      opacity: 0,
-    ), (
-      transform: translateX(0),
-      opacity: 1,
-    ), (
-      transition: (opacity 350ms, transform 350ms)
-    ));
-    @include transition('.icw-sender', (
-      transform: translateY(50px),
-      opacity: 0,
-    ), (
-      transform: translateY(0),
-      opacity: 1,
-    ), (
-      transition: (opacity 350ms, transform 350ms)
-    ));
-    @include transition('.icw-branding', (
-      opacity: 0,
-    ), (
-      opacity: 0.75,
-    ), (
-      transition: (opacity 250ms)
-    ));
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    margin-right: 10px;
+    vertical-align: middle;
   }
 }
 
@@ -108,7 +80,7 @@
     }
 
     &:hover {
-      background: #fafafa;
+      background: $white-alt;
     }
 
     &-title, &-image {
@@ -116,10 +88,10 @@
     }
 
     &.bordered {
-      border-top: 1px solid #efefef;
+      border-top: 1px solid $border-color;
 
       &:last-of-type {
-        border-bottom: 1px solid #efefef;
+        border-bottom: 1px solid $border-color;
       }
     }
 
@@ -228,7 +200,7 @@
       position: relative;
 
       svg {
-        fill: #fafafa;
+        fill: $white-alt;
       }
 
       &:after {
@@ -263,6 +235,17 @@
         background: $dark-blue;
       }
     }
+
+    &.link {
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      transition: none;
+
+      &:hover {
+        color: $dark-blue;
+      }
+    }
   }
 }
 
@@ -274,7 +257,7 @@
   .icw-sender {
     padding-bottom: 40px;
     font-size: 16px !important;
-    box-shadow: 0px -10px 32px 5px rgba(#fafafa, 0.5);
+    box-shadow: 0px -10px 32px 5px rgba($white-alt, 0.5);
 
     .icw-new-message {
       font-size: 16px !important;
@@ -282,12 +265,6 @@
       &::placeholder {
         font-size: 16px !important;
       }
-    }
-  }
-
-  .icw-conversation {
-    .icw-close-button {
-      display: block;
     }
   }
 }
@@ -304,6 +281,7 @@
 
 .icw-branding {
   @include hover-bg;
+  background: white;
   user-select: none;
   position: fixed;
   bottom: 7px;
@@ -325,5 +303,91 @@
     width: auto;
     margin-right: 0.3em;
     border-radius: 2px;
+  }
+}
+
+
+// ANIMATIONS
+.icw-conversation {
+  &.pageTransition {
+    @include transition('.icw-sender', (
+      transform: translateY(50px),
+      opacity: 0,
+    ), (
+      transform: translateY(0),
+      opacity: 1,
+    ), (
+      transform: translateY(50px),
+      opacity: 0,
+    ), (
+      transition: (opacity 350ms, transform 350ms)
+    ));
+    @include transition('.icw-branding', (
+      opacity: 0,
+    ), (
+      opacity: 0.75,
+    ), (
+      opacity: 0,
+    ), (
+      transition: (opacity 250ms)
+    ));
+  }
+}
+
+.slideLeft .icw-conversation {
+  &.pageTransition {
+    @include transition('.icw-back-button', (
+      transform: translateX(20px),
+      opacity: 0,
+    ), (
+      transform: translateX(0),
+      opacity: 1,
+    ), (
+      transform: translateX(-20px),
+      opacity: 0,
+    ), (
+      transition: (opacity 350ms, transform 350ms)
+    ));
+    @include transition('.icw-title-container, .icw-messages-container', (
+      transform: translateX(40px),
+      opacity: 0,
+    ), (
+      transform: translateX(0),
+      opacity: 1,
+    ), (
+      transform: translateX(-40px),
+      opacity: 0,
+    ), (
+      transition: (opacity 350ms, transform 350ms)
+    ));
+  }
+}
+
+.slideRight .icw-conversation {
+  &.pageTransition {
+    @include transition('.icw-back-button', (
+      transform: translateX(-20px),
+      opacity: 0,
+    ), (
+      transform: translateX(0),
+      opacity: 1,
+    ), (
+      transform: translateX(20px),
+      opacity: 0,
+    ), (
+      transition: (opacity 350ms, transform 350ms)
+    ));
+    @include transition('.icw-title-container, .icw-messages-container', (
+      transform: translateX(-40px),
+      opacity: 0,
+    ), (
+      transform: translateX(0),
+      opacity: 1,
+    ), (
+      transform: translateX(40px),
+      opacity: 0,
+    ), (
+      transition: (opacity 350ms, transform 350ms)
+    ));
   }
 }

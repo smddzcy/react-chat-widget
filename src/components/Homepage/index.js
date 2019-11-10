@@ -1,28 +1,32 @@
 import React, {
-  useRef, useState, useEffect, useCallback
+  useRef, useState, useEffect, useCallback, useContext
 } from 'react';
+import cx from 'classnames';
+import { FrameContext } from 'react-frame-component';
 import Branding from '../Branding';
 import { ReactComponent as Times } from '../../../assets/times.svg';
 
 import './style.scss';
+import GlobalContext from '../GlobalContext';
 
 let lastHeaderHeight = 200;
 const Homepage = props => {
-  const {
-    document, settings, toggleChat, translation
-  } = props;
+  const { settings, toggleChat } = props;
+  const { document } = useContext(FrameContext);
   const headerRef = useRef(null);
+  const { translation } = useContext(GlobalContext);
   const [headerHeight, setHeaderHeight] = useState(lastHeaderHeight);
-  const [parallaxStyles, setParallaxStyles] = useState({});
+  const [parallaxStyles, setParallaxStyles] = useState({ transform: 'none', opacity: 1 });
   const mainPaddingTop = headerHeight - 65;
 
   useEffect(() => {
     const scrollCtr = document.querySelector('.scroll-container');
-    const onScroll = e => {
-      const { scrollTop } = e.target.documentElement;
+    const onScroll = () => {
+      const { scrollTop } = document.documentElement;
+      const opacity = Math.max(0, Math.min(1, (mainPaddingTop - 25 - scrollTop) / (mainPaddingTop - 25)));
       setParallaxStyles({
         transform: `translateY(-${scrollTop / 4}px)`,
-        opacity: Math.max(0, Math.min(1, (mainPaddingTop - 25 - scrollTop) / (mainPaddingTop - 25))),
+        opacity,
       });
     };
     document.addEventListener('scroll', onScroll, { passive: true });
@@ -60,7 +64,11 @@ const Homepage = props => {
           <h2 className="icw-h-subtitle">{settings.subtitle}</h2>
         </div>
       </header>
-      <button type="button" className="icw-header-button icw-close-button" onClick={toggleChat}>
+      <button
+        type="button"
+        className={cx('icw-header-button icw-close-button', { 'hovered hover-darker': parallaxStyles.opacity === 0 })}
+        onClick={toggleChat}
+      >
         <Times />
       </button>
       <main style={{ paddingTop: mainPaddingTop }}>

@@ -1,0 +1,127 @@
+@import 'common.scss';
+@import 'variables.scss';
+@import 'animation.scss';
+
+.icw-prev-convs {
+  height: 100%;
+  overflow: hidden;
+
+  .icw-convs-ctr {
+    padding: 0;
+  }
+
+  .row {
+    padding: 24px;
+    border-top: 1px solid $border-color;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    font-size: 13px;
+
+    &:last-of-type {
+      border-bottom: 1px solid $border-color;
+    }
+
+    &:hover {
+      background: $white-alt;
+    }
+
+    .icw-avatar {
+      margin-right: 16px;
+    }
+
+    .icw-name-time {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      opacity: 0.5;
+    }
+    
+    .icw-last-message {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+// ANIMATIONS
+
+.icw-prev-convs {
+  &.pageTransition {
+    @include transition('.icw-send-btn', (
+      transform: translateY(50px),
+      opacity: 0,
+    ), (
+      transform: translateY(0),
+      opacity: 1,
+    ), (
+      transform: translateY(50px),
+      opacity: 0,
+    ), (
+      transition: (opacity 350ms, transform 350ms)
+    ));
+  }
+}
+
+.slideLeft .icw-prev-convs {
+  &.pageTransition {
+    @include transition('.icw-back-button', (
+      transform: translateX(20px),
+      opacity: 0,
+    ), (
+      transform: translateX(0),
+      opacity: 1,
+    ), (
+      transform: translateX(-20px),
+      opacity: 0,
+    ), (
+      transition: (opacity 350ms, transform 350ms)
+    ));
+    @include transition('.icw-title-container, .icw-convs-ctr', (
+      transform: translateX(40px),
+      opacity: 0,
+    ), (
+      transform: translateX(0),
+      opacity: 1,
+    ), (
+      transform: translateX(-40px),
+      opacity: 0,
+    ), (
+      transition: (opacity 350ms, transform 350ms)
+    ));
+  }
+}
+
+.slideRight .icw-prev-convs {
+  &.pageTransition {
+    @include transition('.icw-back-button', (
+      transform: translateX(-20px),
+      opacity: 0,
+    ), (
+      transform: translateX(0),
+      opacity: 1,
+    ), (
+      transform: translateX(20px),
+      opacity: 0,
+    ), (
+      transition: (opacity 350ms, transform 350ms)
+    ));
+    @include transition('.icw-title-container, .icw-convs-ctr', (
+      transform: translateX(-40px),
+      opacity: 0,
+    ), (
+      transform: translateX(0),
+      opacity: 1,
+    ), (
+      transform: translateX(40px),
+      opacity: 0,
+    ), (
+      transition: (opacity 350ms, transform 350ms)
+    ));
+  }
+}

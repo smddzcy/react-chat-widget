@@ -8,11 +8,11 @@ import { ReactComponent as Times } from '../../../../assets/times.svg';
 import './style.scss';
 
 const Header = ({
-  title, subtitle, toggleChat, goBack, showBackButton, showCloseButton,
+  title, subtitle, onClickClose, onClickBack, showBackButton, showCloseButton,
 }) => (
   <div className={cx('icw-header', { 'icw-header-has-back': showBackButton })}>
     {showBackButton && (
-      <button type="button" className="icw-header-button icw-back-button" onClick={goBack}>
+      <button type="button" className="icw-header-button icw-back-button" onClick={onClickBack}>
         <CaretLeft />
       </button>
     )}
@@ -21,7 +21,7 @@ const Header = ({
       <span>{subtitle}</span>
     </div>
     {showCloseButton && (
-    <button type="button" className="icw-header-button icw-close-button" onClick={toggleChat}>
+    <button type="button" className="icw-header-button icw-close-button" onClick={onClickClose}>
       <Times />
     </button>
     )}
@@ -31,7 +31,9 @@ const Header = ({
 Header.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
-  toggleChat: PropTypes.func,
+  onClickClose: PropTypes.func,
+  onClickBack: PropTypes.func,
+  showBackButton: PropTypes.bool,
   showCloseButton: PropTypes.bool,
 };
 export default Header;

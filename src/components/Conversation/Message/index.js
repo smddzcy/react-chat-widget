@@ -7,6 +7,7 @@ import { length } from 'stringz';
 import { MESSAGE_SENDER } from '../../../constants';
 
 import './styles.scss';
+import { getTimeString } from '../../../utils/messages';
 // import markdownIt from 'markdown-it';
 // import markdownItSup from 'markdown-it-sup';
 // import markdownItSanitizer from 'markdown-it-sanitizer';
@@ -43,21 +44,7 @@ class Message extends PureComponent {
 
     const { name, title } = sender;
     const senderLabel = [name, title].filter(str => !!str).join(', ');
-    const time = new Date(msgTime);
-    const hourMin = time.toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' });
-    const now = new Date();
-    let timeString;
-    if (time.toDateString() === now.toDateString()) {
-      // today, just show time
-      timeString = hourMin;
-    } else if (time.getFullYear() === now.getFullYear()) {
-      // this year, just show day
-      const monthDay = time.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-      timeString = `${monthDay}, ${hourMin}`;
-    } else {
-      // show the date
-      timeString = time.toLocaleDateString();
-    }
+    const timeString = getTimeString(msgTime);
 
     return (
       <div className="icw-bubble-container">

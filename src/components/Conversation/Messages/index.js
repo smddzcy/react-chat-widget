@@ -60,7 +60,10 @@ class Messages extends PureComponent {
   messagesCtrRef = React.createRef();
 
   componentDidMount() {
-    this.scrollToBottom();
+    // wait for animation to end
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 200);
   }
 
   componentDidUpdate() {
@@ -113,6 +116,6 @@ Messages.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default connect(store => ({
-  messages: store.messages,
+export default connect((store, ownProps) => ({
+  messages: store.messages[ownProps.chatId || 'current'],
 }))(Messages);

@@ -36,9 +36,8 @@
     }
 
     .icw-close-button {
-      position: absolute;
-      right: 5px;
-      top: 10px;
+      // don't hide on desktop
+      display: block !important;
     }
   }
 
@@ -68,11 +67,7 @@
       border: none;
       margin: 0;
       padding: 0;
-      visibility: hidden;
-
-      &.loaded {
-        visibility: visible;
-      }
+      visibility: visible;
     }
   }
 }
