@@ -21,4 +21,6 @@ ConnectedWidget.defaultProps = {
   badge: 0,
 };
 
+ConnectedWidget.store = store;
+
 export default ConnectedWidget;

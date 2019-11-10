@@ -17,9 +17,6 @@ class Widget extends PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.childRef) {
-      this.props.childRef(this);
-    }
     // send initial input status
     this.props.dispatch(setInputDisabled(this.props.isInputDisabled));
   }
@@ -27,12 +24,6 @@ class Widget extends PureComponent {
   componentDidUpdate(prevProps) {
     if (prevProps.isInputDisabled !== this.props.isInputDisabled) {
       this.props.dispatch(setInputDisabled(this.props.isInputDisabled));
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.props.childRef) {
-      this.props.childRef(undefined);
     }
   }
 

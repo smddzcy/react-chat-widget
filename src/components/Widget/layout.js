@@ -24,10 +24,20 @@ class WidgetLayout extends PureComponent {
       triggerHeight: 400,
       triggerOpacity: 0,
       triggerDisplay: 'none',
-      convFrameDisplay: 'none',
+      convFrameDisplay: props.showChat ? 'block' : 'none',
       showChat: false,
       prevPageDepth: 0,
     };
+    if (props.showTrigger) {
+      this.state.triggerDisplay = 'block';
+      this.startWatchingTriggerSize();
+    }
+    if (props.showChat) {
+      // display after some time for animation
+      this.convFrameDisplayTimeout = setTimeout(() => {
+        this.setState({ showChat: true });
+      }, 50);
+    }
   }
 
   componentDidMount() {
@@ -45,19 +55,7 @@ class WidgetLayout extends PureComponent {
       });
     } else if (!prevProps.showTrigger && this.props.showTrigger) {
       // start watching for trigger size changes
-      this.triggerSizeWatcher = setInterval(() => {
-        if (!this.trigger) return;
-        let { scrollWidth, scrollHeight } = this.trigger;
-        scrollWidth = Math.min(Math.max(Math.floor(scrollWidth) + 10, 100), 300);
-        scrollHeight = Math.min(Math.max(Math.floor(scrollHeight) + 10, 60), 400);
-        if (Math.abs(this.state.triggerWidth - scrollWidth) > 3 || Math.abs(this.state.triggerHeight - scrollHeight) > 3) {
-          this.setState({ triggerWidth: null, triggerHeight: null }, () => {
-            this.setState({
-              triggerWidth: scrollWidth, triggerHeight: scrollHeight, triggerDisplay: 'block', triggerOpacity: 1,
-            });
-          });
-        }
-      }, 50);
+      this.startWatchingTriggerSize();
     }
   }
 
@@ -95,6 +93,22 @@ class WidgetLayout extends PureComponent {
     clearQueueScrollLocks();
     clearTimeout(this.convFrameDisplayTimeout);
     clearInterval(this.triggerSizeWatcher);
+  }
+
+  startWatchingTriggerSize = () => {
+    this.triggerSizeWatcher = setInterval(() => {
+      if (!this.trigger) return;
+      let { scrollWidth, scrollHeight } = this.trigger;
+      scrollWidth = Math.min(Math.max(Math.floor(scrollWidth) + 10, 100), 300);
+      scrollHeight = Math.min(Math.max(Math.floor(scrollHeight) + 10, 60), 400);
+      if (Math.abs(this.state.triggerWidth - scrollWidth) > 3 || Math.abs(this.state.triggerHeight - scrollHeight) > 3) {
+        this.setState({ triggerWidth: null, triggerHeight: null }, () => {
+          this.setState({
+            triggerWidth: scrollWidth, triggerHeight: scrollHeight, triggerDisplay: 'block', triggerOpacity: 1,
+          });
+        });
+      }
+    }, 50);
   }
 
   getPageDepth = page => {
