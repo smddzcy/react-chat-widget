@@ -70,7 +70,7 @@ $launcherRight: 15px;
 
 #infoset-conv-frame {
   min-height: 350px;
-  height: 600px;
+  height: 550px; // NOTE: make 600px when we have homepage
   width: 375px;
   bottom: $launcherBottom + 85px;
   right: $launcherRight + 5px;
