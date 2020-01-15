@@ -80,6 +80,7 @@ $launcherRight: 15px;
   transition: transform 300ms ease-out, opacity 300ms ease-out, box-shadow 300ms ease-out;
   overflow: hidden;
   @include hidden;
+  z-index: 2147483647;
 }
 
 #infoset-conv-frame {
@@ -109,7 +110,6 @@ $launcherRight: 15px;
 
 .icw-opened #infoset-conv-frame-ctr {
   box-shadow: 0 1px 6px 0 rgba(0,0,0,.06), 0 2px 32px 0 rgba(0,0,0,.16);
-  z-index: 2147483647;
   pointer-events: all;
   transform: translateY(0);
   opacity: 1 !important;
