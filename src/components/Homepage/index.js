@@ -25,7 +25,7 @@ const Homepage = props => {
       const { scrollTop } = document.documentElement;
       const opacity = Math.max(0, Math.min(1, (mainPaddingTop - 25 - scrollTop) / (mainPaddingTop - 25)));
       setParallaxStyles({
-        transform: `translateY(-${scrollTop / 4}px)`,
+        transform: `translate3d(0, -${scrollTop / 4}px, 0)`,
         opacity,
       });
     };
@@ -39,8 +39,8 @@ const Homepage = props => {
       if (!el) return;
       const prevHeight = el.style.height;
       el.style.overflow = 'hidden';
-      el.style.height = 0;
-      const contentHeight = el.offsetHeight;
+      el.style.height = 'auto';
+      const contentHeight = el.scrollHeight;
       el.style.overflow = '';
       el.style.height = prevHeight;
       if (contentHeight !== 0 && contentHeight !== headerHeight) {
