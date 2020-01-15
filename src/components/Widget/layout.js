@@ -41,7 +41,7 @@ class WidgetLayout extends PureComponent {
   }
 
   componentDidMount() {
-    this.convFrame = document.querySelector('#infoset-conv-frame');
+    this.convFrame = document.querySelector('#infoset-conv-frame-ctr');
   }
 
   componentDidUpdate(prevProps) {
@@ -133,71 +133,75 @@ class WidgetLayout extends PureComponent {
 
     return (
       <div className={cx({ 'icw-opened': this.state.showChat })}>
-        <Frame
-          initialContent={initialFrameContent}
-          id="infoset-conv-frame"
+        <div
+          id="infoset-conv-frame-ctr"
           style={{ opacity: 0, display: this.state.convFrameDisplay }}
-          title="Infoset Chat Widget"
-          aria-live="polite"
         >
-          <div
-            style={{ height: '100%' }}
-            className={cx('scroll-container', animationName, {
-              'icw-mobile': window.innerWidth < 768
-            })}
+          <Frame
+            initialContent={initialFrameContent}
+            title="Infoset Chat Widget"
+            id="infoset-conv-frame"
+            aria-live="polite"
           >
-            <UrlModal showUrl={this.props.showUrl} closeUrl={this.props.closeUrl} />
-            <SwitchTransition mode="out-in">
-              <CSSTransition
-                key={this.props.showPage}
-                timeout={300}
-                classNames="pageTransition"
-              >
-                {this.props.showPage === 'conversation' ? (
-                  <Conversation
-                    title={this.props.title}
-                    subtitle={this.props.subtitle}
-                    staticText={this.props.staticText}
-                    sendMessage={this.props.onSendMessage}
-                    disabledPlaceholder={this.props.disabledPlaceholder}
-                    toggleChat={this.props.toggleChat}
-                    showCloseButton={this.props.showCloseButton}
-                    disabledInput={this.props.disabledInput}
-                    showBackButton={this.props.homepage.enabled}
-                    goBack={this.goHome}
-                  />
-                ) : this.props.showPage === 'home' ? (
-                  <Homepage
-                    settings={this.props.homepage}
-                    toggleChat={this.props.toggleChat}
-                    document={document}
-                  />
-                ) : this.props.showPage === 'previous_conversations' ? (
-                  <PreviousConversations
-                    conversations={this.props.prevConversations}
-                    openConversation={this.props.openConversation}
-                    goBack={this.goHome}
-                  />
-                ) : this.props.showPage === 'previous_conversation' ? (
-                  <GlobalContext.Consumer>
-                    {({ translation }) => (
-                      <Conversation
-                        title={translation.archivedConversation}
-                        hideSender
-                        toggleChat={this.props.toggleChat}
-                        showCloseButton={this.props.showCloseButton}
-                        disabledInput
-                        showBackButton
-                        goBack={this.goToPreviousConversation}
-                        chatId={this.props.showPreviousChatId}
-                      />
-                    )}
-                  </GlobalContext.Consumer>
-                ) : null }
-              </CSSTransition>
-            </SwitchTransition>
-          </div>
-        </Frame>
+            <div
+              style={{ height: '100%' }}
+              className={cx('scroll-container', animationName, {
+                'icw-mobile': window.innerWidth < 768
+              })}
+            >
+              <UrlModal showUrl={this.props.showUrl} closeUrl={this.props.closeUrl} />
+              <SwitchTransition mode="out-in">
+                <CSSTransition
+                  key={this.props.showPage}
+                  timeout={300}
+                  classNames="pageTransition"
+                >
+                  {this.props.showPage === 'conversation' ? (
+                    <Conversation
+                      title={this.props.title}
+                      subtitle={this.props.subtitle}
+                      staticText={this.props.staticText}
+                      sendMessage={this.props.onSendMessage}
+                      disabledPlaceholder={this.props.disabledPlaceholder}
+                      toggleChat={this.props.toggleChat}
+                      showCloseButton={this.props.showCloseButton}
+                      disabledInput={this.props.disabledInput}
+                      showBackButton={this.props.homepage.enabled}
+                      goBack={this.goHome}
+                    />
+                  ) : this.props.showPage === 'home' ? (
+                    <Homepage
+                      settings={this.props.homepage}
+                      toggleChat={this.props.toggleChat}
+                      document={document}
+                    />
+                  ) : this.props.showPage === 'previous_conversations' ? (
+                    <PreviousConversations
+                      conversations={this.props.prevConversations}
+                      openConversation={this.props.openConversation}
+                      goBack={this.goHome}
+                    />
+                  ) : this.props.showPage === 'previous_conversation' ? (
+                    <GlobalContext.Consumer>
+                      {({ translation }) => (
+                        <Conversation
+                          title={translation.archivedConversation}
+                          hideSender
+                          toggleChat={this.props.toggleChat}
+                          showCloseButton={this.props.showCloseButton}
+                          disabledInput
+                          showBackButton
+                          goBack={this.goToPreviousConversation}
+                          chatId={this.props.showPreviousChatId}
+                        />
+                      )}
+                    </GlobalContext.Consumer>
+                  ) : null }
+                </CSSTransition>
+              </SwitchTransition>
+            </div>
+          </Frame>
+        </div>
         <Frame initialContent={initialFrameContent} id="infoset-btn-frame" title="Infoset Chat Widget Button" aria-live="polite">
           {this.props.customLauncher
             ? this.props.customLauncher(this.props.toggleChat)

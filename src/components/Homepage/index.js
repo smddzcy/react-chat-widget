@@ -40,7 +40,7 @@ const Homepage = props => {
       const prevHeight = el.style.height;
       el.style.overflow = 'hidden';
       el.style.height = 0;
-      const contentHeight = el.scrollHeight;
+      const contentHeight = el.offsetHeight;
       el.style.overflow = '';
       el.style.height = prevHeight;
       if (contentHeight !== 0 && contentHeight !== headerHeight) {

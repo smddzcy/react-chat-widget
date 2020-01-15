@@ -10,7 +10,7 @@ body.icw-body {
 $launcherBottom: 15px;
 $launcherRight: 15px;
 
-#infoset-btn-frame, #infoset-conv-frame, #infoset-trigger-frame {
+#infoset-btn-frame, #infoset-conv-frame-ctr, #infoset-trigger-frame {
   border: 0;
   position: fixed;
   box-sizing: border-box;
@@ -68,7 +68,7 @@ $launcherRight: 15px;
   }
 }
 
-#infoset-conv-frame {
+#infoset-conv-frame-ctr {
   min-height: 350px;
   height: 550px; // NOTE: make 600px when we have homepage
   width: 375px;
@@ -78,7 +78,17 @@ $launcherRight: 15px;
   border-radius: 10px;
   transform-origin: bottom;
   transition: transform 300ms ease-out, opacity 300ms ease-out, box-shadow 300ms ease-out;
+  overflow: hidden;
   @include hidden;
+}
+
+#infoset-conv-frame {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 #infoset-btn-frame {
@@ -97,7 +107,7 @@ $launcherRight: 15px;
   background: white;
 }
 
-.icw-opened #infoset-conv-frame {
+.icw-opened #infoset-conv-frame-ctr {
   box-shadow: 0 1px 6px 0 rgba(0,0,0,.06), 0 2px 32px 0 rgba(0,0,0,.16);
   z-index: 2147483647;
   pointer-events: all;
@@ -112,13 +122,13 @@ $launcherRight: 15px;
 }
 
 @media screen and (min-width: 769px) {
-  #infoset-conv-frame {
+  #infoset-conv-frame-ctr {
     max-height: calc(100vh - 120px);
   }
 }
 
 @media screen and (max-width: 768px) {
-  #infoset-conv-frame {
+  #infoset-conv-frame-ctr {
     @include full-height;
     width: 100vw;
     bottom: 0;
