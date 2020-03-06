@@ -1,10 +1,15 @@
+/* eslint-disable no-unused-expressions */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import noop from 'lodash/noop';
 import ReactS3Uploader from 'react-s3-uploader';
+import S3Upload from 'react-s3-uploader/s3upload';
 import isImage from 'is-image';
 import Compressor from 'compressorjs';
 import { Circle } from 'rc-progress';
+import FileDrop from 'react-file-drop';
+import { FrameContext } from 'react-frame-component';
 import { ReactComponent as Send } from '../../../../assets/send.svg';
 import { ReactComponent as Emoji } from './emoji.svg';
 import { ReactComponent as Attachment } from './attachment.svg';
@@ -82,7 +87,9 @@ class Sender extends PureComponent {
         const blob = new File([event.target.result], file.name, { type: file.type });
         // eslint-disable-next-line no-new
         new Compressor(blob, {
-          quality: 0.7,
+          quality: 0.6,
+          maxHeight: 1500,
+          maxWidth: 1500,
           success: result => next(result),
           error: () => next(file),
         });
@@ -112,6 +119,50 @@ class Sender extends PureComponent {
     this.setState({ inputEmpty });
   }
 
+  isAcceptedFileType = type => type && (type.startsWith('image/')
+    || type.startsWith('text/')
+    || type.startsWith('audio/')
+    || type.startsWith('video/')
+    || type.startsWith('application/vnd.openxmlformats-')
+    || type.startsWith('application/vnd.ms-')
+    || ['application/pdf', 'application/msword'].includes(type))
+
+  uploadFileManually = file => {
+    // eslint-disable-next-line no-new
+    new S3Upload({
+      files: [file],
+      signingUrl: '/s3/sign',
+      signingUrlMethod: 'GET',
+      accept: 'image/*,application/pdf,application/msword,application/vnd.ms-*,application/vnd.openxmlformats-*,text/*,audio/*,video/*',
+      s3path: 'attachments/',
+      preprocess: this.onFileUploadStart,
+      onSignedUrl: noop,
+      onProgress: this.onFileUploadProgress,
+      onError: this.onFileUploadError,
+      onFinishS3Put: this.onFileUploadEnd,
+      uploadRequestHeaders: { 'x-amz-acl': 'public-read' },
+      contentDisposition: 'auto',
+      scrubFilename: filename => filename.replace(/[^\w\d_\-.]+/ig, ''),
+      server: API_URL,
+    });
+  }
+
+  onFileDrop = (files, e) => {
+    this.preventDefault(e);
+    const file = Array.from(files || [])?.find?.(file => this.isAcceptedFileType(file.type));
+    if (!file) return false;
+    this.uploadFileManually(file);
+  }
+
+  onPaste = e => {
+    const file = Array.from(e.clipboardData?.items || []).find?.(file => file.type !== 'text/plain' && this.isAcceptedFileType(file.type));
+    if (!file?.getAsFile()) return false;
+    this.preventDefault(e);
+    this.uploadFileManually(file.getAsFile());
+  }
+
+  preventDefault = e => e?.preventDefault();
+
   render() {
     const {
       sendMessage, disabledPlaceholder, disabledInput
@@ -122,72 +173,100 @@ class Sender extends PureComponent {
 
     return (
       <GlobalContext.Consumer>
-        {({ showEmojiButton, showAttachmentButton, translation }) => (
-          <form className={cx('icw-sender', { 'input-focused': inputHasFocus })} onSubmit={sendMessage}>
-            <input
-              type="text"
-              className="icw-new-message"
-              name="message"
-              placeholder={disabledInput ? disabledPlaceholder : translation.widget.senderPlaceholder}
-              disabled={disabledInput}
-              autoFocus={!disabledInput}
-              autoCorrect="off"
-              autoComplete="off"
-              onChange={this.onChange}
-              onFocus={() => this.setState({ inputHasFocus: true })}
-              onBlur={() => this.setState({ inputHasFocus: false })}
-            />
-            <div className="input-buttons">
+        {({ showEmojiButton, showAttachmentButton, translation }) => {
+          let inputPlaceholder = disabledInput ? disabledPlaceholder : translation.widget.senderPlaceholder;
+          if (uploadingAttachment) {
+            inputPlaceholder = translation.widget.uploadingFilePlaceholder;
+          }
+          return (
+            <form
+              className={cx('icw-sender', { 'input-focused': inputHasFocus })}
+              onSubmit={sendMessage}
+              onDrop={this.preventDefault}
+              onDragOver={this.preventDefault}
+            >
+              <FrameContext.Consumer>
+                {({ document }) => (
+                  <FileDrop
+                    frame={document || window.document}
+                    onDrop={this.onFileDrop}
+                    onFrameDrop={this.preventDefault}
+                    onFrameDragEnter={this.preventDefault}
+                    onFrameDragLeave={this.preventDefault}
+                    onDragOver={this.preventDefault}
+                  >
+                  Drag file here to upload
+                  </FileDrop>
+                )}
+              </FrameContext.Consumer>
+
+              <input
+                type="text"
+                className="icw-new-message"
+                name="message"
+                placeholder={inputPlaceholder}
+                disabled={disabledInput}
+                autoFocus={!disabledInput}
+                autoCorrect="off"
+                autoComplete="off"
+                onChange={this.onChange}
+                onFocus={() => this.setState({ inputHasFocus: true })}
+                onBlur={() => this.setState({ inputHasFocus: false })}
+                onPaste={this.onPaste}
+              />
+              <div className="input-buttons">
+                {showEmojiButton && (
+                <span>
+                  <Emoji onClick={this.toggleEmojiPicker} style={{ opacity: 0.7 }} />
+                </span>
+                )}
+                {!uploadingAttachment && showAttachmentButton && (
+                <label htmlFor="attachment-input">
+                  <ReactS3Uploader
+                    signingUrl="/s3/sign"
+                    signingUrlMethod="GET"
+                    accept="image/*,application/pdf,application/msword,application/vnd.ms-*,application/vnd.openxmlformats-*,text/*,audio/*,video/*"
+                    s3path="attachments/"
+                    preprocess={this.onFileUploadStart}
+                    onSignedUrl={noop}
+                    onProgress={this.onFileUploadProgress}
+                    onError={this.onFileUploadError}
+                    onFinish={this.onFileUploadEnd}
+                    uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}
+                    contentDisposition="auto"
+                    scrubFilename={filename => filename.replace(/[^\w\d_\-.]+/ig, '')}
+                    server={API_URL}
+                    id="attachment-input"
+                    disabled={disabledInput}
+                    inputRef={ref => this.attachmentInput = ref}
+                    style={{ display: 'none' }}
+                    ref={uploader => { this.uploader = uploader; }}
+                  />
+                  <Attachment />
+                </label>
+                )}
+                {uploadingAttachment && showAttachmentButton && (
+                <span>
+                  <Circle percent={uploadingAttachmentProgress} strokeWidth="6" strokeColor="#212121" />
+                  <span className="icw-file-upload-progress-text">{(uploadingAttachmentProgress | 0)}%</span>
+                </span>
+                )}
+                {!this.state.inputEmpty && (
+                <button type="submit" className="icw-send">
+                  <Send />
+                </button>
+                )}
+              </div>
               {showEmojiButton && (
-              <span>
-                <Emoji onClick={this.toggleEmojiPicker} style={{ opacity: 0.7 }} />
-              </span>
+              <div className={cx('emoji-picker', { 'is-visible': showEmojiPicker })}>
+                <React.Suspense fallback={Loading}>
+                  {emojisLoaded ? <NimblePickerLazy onSelect={this.addEmoji} set="apple" data={emojiData} /> : Loading}
+                </React.Suspense>
+              </div>
               )}
-              {!uploadingAttachment && showAttachmentButton && (
-              <label htmlFor="attachment-input">
-                <ReactS3Uploader
-                  signingUrl="/s3/sign"
-                  signingUrlMethod="GET"
-                  accept="image/*,application/pdf,text/*,audio/*,video/*"
-                  s3path="attachments/"
-                  preprocess={this.onFileUploadStart}
-                  onSignedUrl={() => {}}
-                  onProgress={this.onFileUploadProgress}
-                  onError={this.onFileUploadError}
-                  onFinish={this.onFileUploadEnd}
-                  uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}
-                  contentDisposition="auto"
-                  scrubFilename={filename => filename.replace(/[^\w\d_\-.]+/ig, '')}
-                  server={API_URL}
-                  id="attachment-input"
-                  disabled={disabledInput}
-                  inputRef={ref => this.attachmentInput = ref}
-                  style={{ display: 'none' }}
-                  autoUpload
-                />
-                <Attachment />
-              </label>
-              )}
-              {uploadingAttachment && showAttachmentButton && (
-              <span>
-                <Circle percent={uploadingAttachmentProgress} strokeWidth="6" strokeColor="#212121" />
-              </span>
-              )}
-              {!this.state.inputEmpty && (
-              <button type="submit" className="icw-send">
-                <Send />
-              </button>
-              )}
-            </div>
-            {showEmojiButton && (
-            <div className={cx('emoji-picker', { 'is-visible': showEmojiPicker })}>
-              <React.Suspense fallback={Loading}>
-                {emojisLoaded ? <NimblePickerLazy onSelect={this.addEmoji} set="apple" data={emojiData} /> : Loading}
-              </React.Suspense>
-            </div>
-            )}
-          </form>
-        )}
+            </form>
+          );
+        }}
       </GlobalContext.Consumer>
     );
   }
