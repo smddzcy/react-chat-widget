@@ -126,7 +126,7 @@ class WidgetLayout extends PureComponent {
   goToPreviousConversation = () => this.props.switchToPage('previous_conversations');
 
   render() {
-    const initialFrameContent = `<!DOCTYPE html><html><head><style>html,body,.frame-content{height: 100%;}body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body class="icw-body"><div style="height: 100%"></div></body></html>`;
+    const initialFrameContent = `<!DOCTYPE html><html><head><style>html,body,.frame-content{height: 100%;overscroll-behavior-y: none;}body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body class="icw-body"><div style="height: 100%"></div></body></html>`;
     const initialTriggerFrameContent = `<!DOCTYPE html><html class="triggerHtml"><head><style>body{margin:0;padding: 0;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}${this.props.css}</style></head><body class="icw-body"><div></div></body></html>`;
     const pageDepth = this.getPageDepth(this.props.showPage);
     const animationName = pageDepth > this.state.prevPageDepth ? 'slideLeft' : 'slideRight';
