@@ -22,15 +22,15 @@ const Homepage = props => {
   useEffect(() => {
     const scrollCtr = document.querySelector('.scroll-container');
     const onScroll = () => {
-      const { scrollTop } = document.documentElement;
+      const { scrollTop } = scrollCtr;
       const opacity = Math.max(0, Math.min(1, (mainPaddingTop - 25 - scrollTop) / (mainPaddingTop - 25)));
       setParallaxStyles({
         transform: `translate3d(0, -${scrollTop / 4}px, 0)`,
         opacity,
       });
     };
-    document.addEventListener('scroll', onScroll, { passive: true });
-    return () => document.removeEventListener('scroll', onScroll, { passive: true });
+    scrollCtr.addEventListener('scroll', onScroll, { passive: true });
+    return () => scrollCtr.removeEventListener('scroll', onScroll, { passive: true });
   }, []);
 
   useEffect(() => {

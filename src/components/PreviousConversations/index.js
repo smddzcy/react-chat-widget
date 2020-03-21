@@ -15,7 +15,7 @@ const ConversationRow = ({ conversation, openConversation, youLabel }) => {
       {conversation.lastAgentMsg
         ? <div className="icw-avatar" style={{ backgroundImage: `url(${conversation.lastAgentMsg.agent.photo})` }} />
         : <BotIcon className="icw-avatar" />}
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: 1, minWidth: 0 }}>
         <div className="icw-name-time">
           <span>{conversation.lastAgentMsg?.agent.name || 'Bot'}</span>
           <span>{getTimeString(lastMsg.time)}</span>
