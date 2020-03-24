@@ -62,6 +62,7 @@ class Widget extends PureComponent {
       showAttachmentButton: this.props.showAttachmentButton,
       badge: this.props.badge,
       translation: this.props.translation,
+      language: this.props.language,
     };
     return (
       <GlobalContext.Provider value={ctxValues}>
@@ -96,6 +97,7 @@ Widget.propTypes = {
   subtitle: PropTypes.string,
   handleNewUserMessage: PropTypes.func.isRequired,
   translation: PropTypes.object,
+  language: PropTypes.string,
   disabledPlaceholder: PropTypes.string,
   showCloseButton: PropTypes.bool,
   badge: PropTypes.number,

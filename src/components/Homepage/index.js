@@ -14,7 +14,7 @@ const Homepage = props => {
   const { settings, toggleChat } = props;
   const { document } = useContext(FrameContext);
   const headerRef = useRef(null);
-  const { translation } = useContext(GlobalContext);
+  const { translation, language } = useContext(GlobalContext);
   const [headerHeight, setHeaderHeight] = useState(lastHeaderHeight);
   const [parallaxStyles, setParallaxStyles] = useState({ transform: 'none', opacity: 1 });
   const mainPaddingTop = headerHeight - 65;
@@ -79,7 +79,7 @@ const Homepage = props => {
         ))}
       </main>
       <div className="icw-branding-ctr">
-        <Branding poweredByLabel={translation.poweredByInfoset} />
+        <Branding language={language} poweredByLabel={translation.poweredByInfoset} />
       </div>
     </div>
   );

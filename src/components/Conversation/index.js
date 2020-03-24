@@ -30,7 +30,7 @@ class Conversation extends PureComponent {
   render() {
     return (
       <GlobalContext.Consumer>
-        {({ translation }) => (
+        {({ translation, language }) => (
           <div className="icw-widget-inner-container icw-conversation">
             <Header
               title={this.props.title}
@@ -62,7 +62,7 @@ class Conversation extends PureComponent {
                 )}
               </>
             )}
-            <Branding poweredByLabel={translation.poweredByInfoset} />
+            <Branding language={language} poweredByLabel={translation.poweredByInfoset} />
           </div>
         )}
       </GlobalContext.Consumer>
