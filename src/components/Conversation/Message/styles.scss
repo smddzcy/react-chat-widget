@@ -14,13 +14,25 @@
   }
 
   &.only-message {
-    margin-bottom: -5px;
+    margin-bottom: -15px;
+
     .icw-avatar {
       visibility: hidden;
     }
     .icw-bubble-sub {
       display: none;
     }
+  }
+
+  &.only-message + &:not(.only-message) {
+    margin-top: 25px;
+  }
+
+  .mention {
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 5px;
+    background: rgba(41, 121, 255, 0.2);
   }
 }
 
@@ -48,6 +60,10 @@
     & + .icw-bubble-sub {
       margin-left: auto;
     }
+
+    a, a:visited, a:focus, a:active {
+      color: white;
+    }
   }
 
   .icw-response {
@@ -59,6 +75,9 @@
     }
     * {
       margin: 0;
+    }
+    a, a:visited, a:focus, a:active {
+      color: $blue-alt;
     }
   }
 
@@ -72,9 +91,6 @@
 .icw-message-text {
   p {
     margin: 0;
-  }
-  a, a:visited, a:focus, a:active {
-    color: white;
   }
   &.is-emoji {
     line-height: 1em;

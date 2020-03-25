@@ -1,5 +1,59 @@
+/* eslint-disable no-cond-assign */
+import React from 'react';
+import flatten from 'lodash/flatten';
 import { MESSAGES_TYPES, MESSAGE_SENDER } from '../constants';
 import Message from '../components/Conversation/Message';
+
+const Mention = ({ key, name }) => <span key={key} className="mention">@{name}</span>;
+
+export const DECORATE_METHOD = {
+  HTML: 'html',
+  TEXT: 'text', // return plain text instead of html
+};
+
+const decorators = [
+  {
+    matcher: /<span class="mention" data-id="(.*?)">(.*?)<\/span>/ig,
+    decorate: (params, method) => {
+      if (method === DECORATE_METHOD.TEXT) {
+        return `@${params[2]}`;
+      }
+      return <Mention name={params[2]} />;
+    }
+  }
+];
+
+export const decorate = (text, method = DECORATE_METHOD.HTML) => {
+  let elements = [text];
+  const lastIndex = 0;
+  decorators.forEach(decorator => {
+    elements = elements.map(str => {
+      if (typeof str !== 'string') return str; // already decorated component, skip
+
+      const subElements = [];
+      let lastIndex = 0;
+      let match;
+      while ((match = decorator.matcher.exec(str)) != null) {
+        if (match.index > lastIndex) {
+          subElements.push(str.substring(lastIndex, match.index));
+        }
+
+        const decorated = decorator.decorate(match, method);
+        subElements.push(decorated);
+
+        lastIndex = match.index + match[0].length;
+      }
+
+      // push remaining text if there is any
+      if (str.length > lastIndex) {
+        subElements.push(str.substring(lastIndex));
+      }
+      return subElements;
+    });
+  });
+
+  return flatten(elements);
+};
 
 export function createNewMessage(text, sender, time = Date.now()) {
   return {

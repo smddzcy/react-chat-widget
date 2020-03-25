@@ -3,7 +3,7 @@ import './style.scss';
 import Header from '../Conversation/Header';
 import GlobalContext from '../GlobalContext';
 import { ReactComponent as BotIcon } from '../Conversation/Messages/bot.svg';
-import { getTimeString } from '../../utils/messages';
+import { getTimeString, decorate, DECORATE_METHOD } from '../../utils/messages';
 
 const ConversationRow = ({ conversation, openConversation, youLabel }) => {
   const lastMsg = conversation.messages[conversation.messages.length - 1];
@@ -20,7 +20,7 @@ const ConversationRow = ({ conversation, openConversation, youLabel }) => {
           <span>{conversation.lastAgentMsg?.agent.name || 'Bot'}</span>
           <span>{getTimeString(lastMsg.time)}</span>
         </div>
-        <div className="icw-last-message">{!lastMsg.isFromAgent ? `${youLabel}:` : ''} {lastMsg.msg}</div>
+        <div className="icw-last-message">{!lastMsg.isFromAgent ? `${youLabel}:` : ''} {decorate(lastMsg.msg, DECORATE_METHOD.TEXT)}</div>
       </div>
     </div>
   );

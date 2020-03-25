@@ -7,7 +7,7 @@ import { length } from 'stringz';
 import { MESSAGE_SENDER } from '../../../constants';
 
 import './styles.scss';
-import { getTimeString } from '../../../utils/messages';
+import { getTimeString, decorate } from '../../../utils/messages';
 // import markdownIt from 'markdown-it';
 // import markdownItSup from 'markdown-it-sup';
 // import markdownItSanitizer from 'markdown-it-sanitizer';
@@ -29,12 +29,15 @@ class Message extends PureComponent {
     const isEmoji = emojiRegex.test(text);
 
     return (
-      <div className={cx(`icw-message-text len-${length(text)}`, { 'is-emoji': isEmoji })}><Linkify properties={{ target: '_blank', rel: 'noopener nofollow' }}>{text}</Linkify></div>
+      <div className={cx(`icw-message-text len-${length(text)}`, { 'is-emoji': isEmoji })}>
+        <Linkify properties={{ target: '_blank', rel: 'noopener nofollow' }}>{decorate(text)}</Linkify>
+      </div>
     );
   }
 
   render() {
     const { message } = this.props;
+    // `child` prop => to render custom components in bubbles, e.g. custom hmtl stuff
     const {
       text, child: Child, childProps, sender, time: msgTime,
     } = message;
@@ -52,7 +55,7 @@ class Message extends PureComponent {
           {Child
             ? <Child {...childProps} />
             : (
-              (isImageUrl(text) ? this.renderImage(text) : this.renderText(text))
+              isImageUrl(text) ? this.renderImage(text) : this.renderText(text)
             )}
         </div>
         <div className="icw-bubble-sub">{timeString} {senderLabel && `| ${senderLabel}`}</div>
