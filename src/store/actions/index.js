@@ -33,6 +33,12 @@ export function addUserMessage(text) {
   };
 }
 
+export function toggleMsgLoader() {
+  return {
+    type: actions.TOGGLE_MSG_LOADER
+  };
+}
+
 export function addResponseMessage(payload) {
   return {
     type: actions.ADD_NEW_RESPONSE_MESSAGE,
@@ -53,5 +59,12 @@ export function renderCustomComponent(component, props, showAvatar, insideBubble
 export function dropMessages() {
   return {
     type: actions.DROP_MESSAGES,
+  };
+}
+
+export function setQuickButtons(buttons) {
+  return {
+    type: actions.SET_QUICK_BUTTONS,
+    buttons
   };
 }

@@ -56,6 +56,13 @@ class Widget extends PureComponent {
     this.props.switchToPage('previous_conversation');
   }
 
+  handleQuickButtonClicked = (event, value) => {
+    event.preventDefault();
+    if (this.props.handleQuickButtonClicked) {
+      this.props.handleQuickButtonClicked(value);
+    }
+  }
+
   render() {
     const ctxValues = {
       showEmojiButton: this.props.showEmojiButton,
@@ -72,6 +79,7 @@ class Widget extends PureComponent {
           title={this.props.title}
           subtitle={this.props.subtitle}
           disabledPlaceholder={this.props.disabledPlaceholder}
+          onQuickButtonClicked={this.handleQuickButtonClicked}
           showCloseButton={this.props.showCloseButton}
           customLauncher={this.props.customLauncher}
           css={this.props.css}
@@ -96,6 +104,7 @@ Widget.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
   handleNewUserMessage: PropTypes.func.isRequired,
+  handleQuickButtonClicked: PropTypes.func,
   translation: PropTypes.object,
   language: PropTypes.string,
   disabledPlaceholder: PropTypes.string,

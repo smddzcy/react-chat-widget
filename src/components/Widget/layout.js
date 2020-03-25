@@ -205,7 +205,7 @@ class WidgetLayout extends PureComponent {
         </div>
         <Frame initialContent={initialLauncherFrameContent} id="infoset-btn-frame" title="Infoset Chat Widget Button" aria-live="polite">
           {this.props.customLauncher
-            ? this.props.customLauncher(this.props.toggleChat)
+            ? this.props.customLauncher(this.props.toggleChat, this.props.badge)
             : <Launcher toggle={this.props.toggleChat} badge={this.props.badge} />}
         </Frame>
         <Frame

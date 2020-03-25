@@ -13,6 +13,10 @@ export function renderCustomComponent(component, props, showAvatar = false, insi
   store.dispatch(actions.renderCustomComponent(component, props, showAvatar, insideBubble));
 }
 
+export function toggleMsgLoader() {
+  store.dispatch(actions.toggleMsgLoader());
+}
+
 export function toggleWidget() {
   store.dispatch(actions.toggleChat());
 }
@@ -27,4 +31,8 @@ export function dropMessages() {
 
 export function isWidgetOpened() {
   return store.getState().behavior.showChat;
+}
+
+export function setQuickButtons(buttons) {
+  store.dispatch(actions.setQuickButtons(buttons));
 }
