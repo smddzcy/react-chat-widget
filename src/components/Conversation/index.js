@@ -7,6 +7,8 @@ import Sender from './Sender';
 import './style.scss';
 import Branding from '../Branding';
 import GlobalContext from '../GlobalContext';
+import QuickButtons from './QuickButtons';
+import { CSSTransition } from 'react-transition-group';
 
 class Conversation extends PureComponent {
   componentDidMount() {
@@ -53,13 +55,18 @@ class Conversation extends PureComponent {
             ) : (
               <>
                 <Messages chatId={this.props.chatId} />
-                {!this.props.hideSender && (
-                <Sender
-                  sendMessage={this.props.sendMessage}
-                  disabledPlaceholder={this.props.disabledPlaceholder}
-                  disabledInput={this.props.disabledInput}
-                />
-                )}
+                <div className="icw-conversation-bottom">
+                  <CSSTransition in={!!this.props.hasQuickButtons} mountOnEnter unmountOnExit timeout={400} classNames="slide-up">
+                    <QuickButtons onQuickButtonClicked={this.props.onQuickButtonClicked} />
+                  </CSSTransition>
+                  {!this.props.hideSender && (
+                  <Sender
+                    sendMessage={this.props.sendMessage}
+                    disabledPlaceholder={this.props.disabledPlaceholder}
+                    disabledInput={this.props.disabledInput}
+                  />
+                  )}
+                </div>
               </>
             )}
             <Branding language={language} poweredByLabel={translation.poweredByInfoset} />
@@ -83,6 +90,8 @@ Conversation.propTypes = {
   hideSender: PropTypes.bool,
   chatId: PropTypes.string,
   goBack: PropTypes.func,
+  onQuickButtonClicked: PropTypes.func,
+  hasQuickButtons: PropTypes.bool,
 };
 
 export default Conversation;

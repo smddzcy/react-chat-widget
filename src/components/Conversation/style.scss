@@ -315,7 +315,7 @@
 // ANIMATIONS
 .icw-conversation {
   &.pageTransition {
-    @include transition('.icw-sender', (
+    @include transition('.icw-conversation-bottom', (
       transform: translateY(50px),
       opacity: 0,
     ), (

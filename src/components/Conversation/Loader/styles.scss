@@ -15,6 +15,7 @@
   padding: 15px;
   max-width: 215px;
   text-align: left;
+  line-height: 10px;
 }
 
 .loader-dots {
@@ -23,7 +24,7 @@
   width: 4px;
   border-radius: 50%;
   background: $grey-0;
-  margin-right: 2px;
+  margin-right: 3px;
   animation: bounce 0.5s ease infinite alternate;
 
   &:nth-child(1) {

@@ -1,24 +1,29 @@
-@import "variables.scss";
+@import 'variables.scss';
+@import 'animation.scss';
 
 .quick-buttons-container {
-  background: $white;
-  overflow-x: auto;
-  white-space: nowrap;
-  padding: 10px;
+  padding: 15px;
+  z-index: 3;
+
+  @include transitionSelf('slide-up', (
+    transform: translateY(50px),
+    opacity: 0,
+  ), (
+    transform: translateY(0),
+    opacity: 1,
+  ), (
+    transition: (opacity 350ms, transform 350ms)
+  ));
 
   .quick-buttons {
     list-style: none;
     padding: 0;
     margin: 0;
-    text-align: center;
+    text-align: right;
 
     .quick-list-button {
       display: inline-block;
-      margin-right: 10px;
+      margin: 10px 10px 0 0;
     }
-  }
-
-  @media screen and (max-width: 800px) {
-    padding-bottom: 15px;
   }
 }

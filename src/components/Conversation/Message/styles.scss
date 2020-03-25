@@ -14,7 +14,7 @@
   }
 
   &.only-message {
-    margin-bottom: -15px;
+    margin-bottom: -10px;
 
     .icw-avatar {
       visibility: hidden;
@@ -22,10 +22,6 @@
     .icw-bubble-sub {
       display: none;
     }
-  }
-
-  &.only-message + &:not(.only-message) {
-    margin-top: 25px;
   }
 
   .mention {

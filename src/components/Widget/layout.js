@@ -168,6 +168,8 @@ class WidgetLayout extends PureComponent {
                       showCloseButton={this.props.showCloseButton}
                       disabledInput={this.props.disabledInput}
                       showBackButton={this.props.homepage.enabled}
+                      onQuickButtonClicked={this.props.onQuickButtonClicked}
+                      hasQuickButtons={this.props.hasQuickButtons}
                       goBack={this.goHome}
                     />
                   ) : this.props.showPage === 'home' ? (
@@ -241,6 +243,7 @@ WidgetLayout.propTypes = {
   disabledInput: PropTypes.bool,
   badge: PropTypes.number,
   customLauncher: PropTypes.func,
+  onQuickButtonClicked: PropTypes.func,
   switchToPage: PropTypes.func,
   css: PropTypes.string,
   staticText: PropTypes.string,
@@ -257,4 +260,5 @@ WidgetLayout.propTypes = {
 export default connect(store => ({
   showChat: store.behavior.showChat,
   disabledInput: store.behavior.disabledInput,
+  hasQuickButtons: !!store.quickButtons.length,
 }))(WidgetLayout);

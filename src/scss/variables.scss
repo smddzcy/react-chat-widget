@@ -6,6 +6,7 @@ $grey-3: #b5b5b5;
 $box-shadow-color: rgba(181, 181, 181, 0.4);
 $blue: #1e88e5;
 $blue-alt: #2979ff;
+$blue-alt-faded: fade-out($blue-alt, 0.8);
 $light-blue: lighten($blue, 10%);
 $dark-blue: darken($blue, 10%);
 $red: #ff0000;

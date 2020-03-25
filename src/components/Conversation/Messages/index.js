@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import Message from '../Message';
+import Loader from '../Loader';
 
 import { ReactComponent as BotIcon } from './bot.svg';
 
@@ -84,7 +85,7 @@ class Messages extends PureComponent {
   };
 
   render() {
-    const { messages } = this.props;
+    const { messages, typing } = this.props;
     return (
       <div
         id="messages"
@@ -107,6 +108,7 @@ class Messages extends PureComponent {
             </div>
           );
         })}
+        <Loader typing={typing} />
       </div>
     );
   }
@@ -118,4 +120,5 @@ Messages.propTypes = {
 
 export default connect((store, ownProps) => ({
   messages: store.messages[ownProps.chatId || 'current'],
+  typing: store.behavior.typing,
 }))(Messages);

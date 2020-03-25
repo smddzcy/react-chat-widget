@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import './style.scss';
 
 
 class QuickButtons extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.getComponentToRender = this.getComponentToRender.bind(this);
   }
 
   getComponentToRender(button) {
-    const ComponentToRender = button.get('component');
+    const ComponentToRender = button.component;
     return (
       <ComponentToRender
         onQuickButtonClicked={this.props.onQuickButtonClicked}
@@ -21,7 +20,7 @@ class QuickButtons extends Component {
   }
 
   render() {
-    if (!this.props.buttons.size) {
+    if (!this.props.buttons.length) {
       return null;
     }
 
@@ -29,11 +28,11 @@ class QuickButtons extends Component {
       <div className="quick-buttons-container">
         <ul className="quick-buttons">
           {
-            this.props.buttons.map((button, index) =>
+            this.props.buttons.map((button, index) => (
               <li className="quick-list-button" key={index}>
                 {this.getComponentToRender(button)}
               </li>
-            )
+            ))
           }
         </ul>
       </div>
@@ -41,11 +40,7 @@ class QuickButtons extends Component {
   }
 }
 
-QuickButtons.propTypes = {
-  buttons: ImmutablePropTypes.listOf(ImmutablePropTypes.map),
-};
 
-
-export default connect((store) => ({
+export default connect(store => ({
   buttons: store.quickButtons
 }))(QuickButtons);

@@ -13,8 +13,8 @@ export function renderCustomComponent(component, props, showAvatar = false, insi
   store.dispatch(actions.renderCustomComponent(component, props, showAvatar, insideBubble));
 }
 
-export function toggleMsgLoader() {
-  store.dispatch(actions.toggleMsgLoader());
+export function setTyping(payload) {
+  store.dispatch(actions.setTyping(payload));
 }
 
 export function toggleWidget() {

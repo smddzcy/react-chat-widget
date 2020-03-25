@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Widget, addResponseMessage, setQuickButtons, toggleMsgLoader } from '../index';
+import { Widget, addResponseMessage, setQuickButtons, setTyping } from '../index';
 
 export default class App extends PureComponent {
   componentDidMount() {
@@ -7,9 +7,9 @@ export default class App extends PureComponent {
   }
 
   handleNewUserMessage = (newMessage) => {    
-    toggleMsgLoader();
+    setTyping(true);
     setTimeout(() => {
-      toggleMsgLoader();      
+      setTyping(false);      
       if (newMessage === 'fruits') {
         setQuickButtons([ { label: 'Apple', value: 'apple' }, { label: 'Orange', value: 'orange' }, { label: 'Pear', value: 'pear' }, { label: 'Banana', value: 'banana' } ]);
       } else {
@@ -18,7 +18,7 @@ export default class App extends PureComponent {
     }, 2000);
   }
 
-  handleQuickButtonClicked = (e) => {
+  handleQuickButtonClick = (e) => {
     addResponseMessage('Selected ' + e);
     setQuickButtons([]);
   }
@@ -31,7 +31,7 @@ export default class App extends PureComponent {
         senderPlaceholder="Escribe aquí ..."
         disabledPlaceholder="Disabled bro ..."
         handleNewUserMessage={this.handleNewUserMessage}
-        handleQuickButtonClicked={this.handleQuickButtonClicked}
+        handleQuickButtonClick={this.handleQuickButtonClick}
         badge={1}
       />
     );

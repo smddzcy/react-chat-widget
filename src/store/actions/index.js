@@ -33,9 +33,10 @@ export function addUserMessage(text) {
   };
 }
 
-export function toggleMsgLoader() {
+export function setTyping(payload) {
   return {
-    type: actions.TOGGLE_MSG_LOADER
+    type: actions.SET_TYPING,
+    payload
   };
 }
 

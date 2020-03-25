@@ -56,10 +56,10 @@ class Widget extends PureComponent {
     this.props.switchToPage('previous_conversation');
   }
 
-  handleQuickButtonClicked = (event, value) => {
+  handleQuickButtonClick = (event, value) => {
     event.preventDefault();
-    if (this.props.handleQuickButtonClicked) {
-      this.props.handleQuickButtonClicked(value);
+    if (this.props.handleQuickButtonClick) {
+      this.props.handleQuickButtonClick(value);
     }
   }
 
@@ -79,7 +79,7 @@ class Widget extends PureComponent {
           title={this.props.title}
           subtitle={this.props.subtitle}
           disabledPlaceholder={this.props.disabledPlaceholder}
-          onQuickButtonClicked={this.handleQuickButtonClicked}
+          onQuickButtonClicked={this.handleQuickButtonClick}
           showCloseButton={this.props.showCloseButton}
           customLauncher={this.props.customLauncher}
           css={this.props.css}
@@ -104,7 +104,7 @@ Widget.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
   handleNewUserMessage: PropTypes.func.isRequired,
-  handleQuickButtonClicked: PropTypes.func,
+  handleQuickButtonClick: PropTypes.func,
   translation: PropTypes.object,
   language: PropTypes.string,
   disabledPlaceholder: PropTypes.string,

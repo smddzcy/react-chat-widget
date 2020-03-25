@@ -1,16 +1,19 @@
 @import "variables.scss";
 
 .quick-button {
-  background: none;
-  border-radius: 15px;
-  border: 2px solid $turqois-1;
-  font-weight: bold;
-  padding: 5px 10px;
+  background: $blue-alt-faded;
+  color: $blue-alt;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  text-align: left;
+  overflow-wrap: break-word;
+  padding: 10px;
   cursor: pointer;
   outline: 0;
 
-  &:active {
-    background: $turqois-1;
-    color: $white;
+  &:hover, &:active {
+    background: $blue-alt;
+    color: white;
   }
 }

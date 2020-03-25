@@ -153,7 +153,7 @@ export function scrollToBottom(messagesDiv) {
 
 
 export function createQuickButton(button) {
-  return Map({
+  return ({
     component: QuickButton,
     label: button.label,
     value: button.value

@@ -2,7 +2,7 @@ import { createReducer } from '../../utils/store';
 
 import * as actionTypes from '../actions/actionTypes';
 
-const initialState = { showChat: false, disabledInput: false, msgLoader: false };
+const initialState = { showChat: false, disabledInput: false, typing: false };
 
 const behaviorReducer = {
   [actionTypes.TOGGLE_CHAT]: state => ({ ...state, showChat: !state.showChat }),
@@ -11,7 +11,7 @@ const behaviorReducer = {
 
   [actionTypes.SET_INPUT_DISABLED]: (state, { payload }) => ({ ...state, disabledInput: payload }),
 
-  [actionTypes.TOGGLE_MSG_LOADER]: state => ({ ...state, msgLoader: !state.msgLoader }),
+  [actionTypes.SET_TYPING]: (state, { payload }) => ({ ...state, typing: payload }),
 };
 
 export default (state = initialState, action) => createReducer(behaviorReducer, state, action);
