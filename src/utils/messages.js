@@ -1,6 +1,5 @@
 /* eslint-disable no-cond-assign */
 import React from 'react';
-import flatten from 'lodash/flatten';
 import QuickButton from '../components/Conversation/QuickButtons/components/QuickButton';
 import { MESSAGES_TYPES, MESSAGE_SENDER, MESSAGE_BOX_SCROLL_DURATION } from '../constants';
 import Message from '../components/Conversation/Message';
@@ -53,7 +52,7 @@ export const decorate = (text, method = DECORATE_METHOD.HTML) => {
     });
   });
 
-  return flatten(elements);
+  return elements.flat(1);
 };
 
 export function createNewMessage(text, sender, time = Date.now()) {

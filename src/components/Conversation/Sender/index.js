@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import noop from 'lodash/noop';
 import ReactS3Uploader from 'react-s3-uploader';
 import S3Upload from 'react-s3-uploader/s3upload';
 import isImage from 'is-image';
@@ -16,6 +15,8 @@ import { ReactComponent as Attachment } from './attachment.svg';
 
 import './style.scss';
 import GlobalContext from '../../GlobalContext';
+
+const noop = () => {};
 
 const NimblePickerLazy = React.lazy(() => import(
   /* webpackPrefetch: true */
