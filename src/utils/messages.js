@@ -21,6 +21,12 @@ export const DECORATE_METHOD = {
   TEXT: 'text', // return plain text instead of html
 };
 
+const parseWidgetProps = str => {
+  let props = {};
+  try { props = JSON.parse(decodeURIComponent(str) || '{}'); } catch (_) {}
+  return props;
+};
+
 const decorators = [
   {
     matcher: /<span class="mention" data-id="(.*?)">(.*?)<\/span>/ig,
@@ -41,8 +47,7 @@ const decorators = [
       let Component = Widgets[params[1]];
       if (Component) {
         Component = DecorateWidget(Component);
-        let props = {};
-        try { props = JSON.parse(params[2] || '{}'); } catch (_) {}
+        const props = parseWidgetProps(params[2]);
         return <Component {...props} />;
       }
       // widget doesn't exist, just print the string
@@ -87,8 +92,7 @@ export function createNewMessage(text, sender, time = Date.now()) {
     const widgetMatch = text.match(widgetMessageMatcher);
     if (widgetMatch && Widgets[widgetMatch[1]]) {
       const [_, type, propsStr] = widgetMatch;
-      let props = {};
-      try { props = JSON.parse(propsStr || '{}'); } catch (_) {}
+      const props = parseWidgetProps(propsStr);
       props.id = props.id || uuid();
       return createComponentMessage(Widgets[type], props, { insideBubble: !!props.insideBubble, showAvatar: !!props.showAvatar, icwWidget: true });
     }

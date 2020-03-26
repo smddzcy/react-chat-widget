@@ -22,7 +22,7 @@ const translation = {
   },
 };
 
-const FormWidget = ({
+const Form = ({
   fields, language, sendMessage, setInputDisabled, persistState, state = { status: STATUS.INIT, error: null },
 }) => {
   if (!fields) return null;
@@ -59,7 +59,7 @@ const FormWidget = ({
   const loading = status === STATUS.LOADING;
 
   return (
-    <form onSubmit={handleSubmit} className="icw-card">
+    <form onSubmit={handleSubmit} style={{ width: '100%' }}>
       {fields.map((field, idx) => (field.label && field.type) ? (
         <div className="icw-input-container" key={idx}>
           <label htmlFor="name">{field.label}{field.required && <sup>*</sup>}</label>
@@ -75,4 +75,4 @@ const FormWidget = ({
   );
 };
 
-export default FormWidget;
+export default Form;

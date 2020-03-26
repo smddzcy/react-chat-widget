@@ -71,6 +71,8 @@ class Widget extends PureComponent {
       translation: this.props.translation,
       language: this.props.language,
       sendMessage: this.props.handleNewUserMessage,
+      openUrl: this.props.openUrl,
+      SharedWidget: this.props.SharedWidget,
     };
     return (
       <GlobalContext.Provider value={ctxValues}>
@@ -123,9 +125,11 @@ Widget.propTypes = {
   homepage: PropTypes.object,
   showPage: PropTypes.string,
   showUrl: PropTypes.string,
+  openUrl: PropTypes.func,
   closeUrl: PropTypes.func,
   switchToPage: PropTypes.func,
   prevConversations: PropTypes.array,
+  SharedWidget: PropTypes.object,
 };
 
 export default connect(store => ({

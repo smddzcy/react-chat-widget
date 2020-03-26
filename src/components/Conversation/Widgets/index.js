@@ -1,5 +1,7 @@
-import FormWidget from './FormWidget';
+import Form from './Form';
+import Article from './Article';
 
 export default {
-  FormWidget,
+  Form,
+  Article,
 };
