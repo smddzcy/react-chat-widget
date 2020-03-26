@@ -47,13 +47,20 @@ export function addResponseMessage(payload) {
   };
 }
 
-export function renderCustomComponent(component, props, showAvatar, insideBubble = false) {
+export function renderCustomComponent(component, props, options = { showAvatar: false, insideBubble: false }) {
   return {
     type: actions.ADD_COMPONENT_MESSAGE,
     component,
     props,
-    showAvatar,
-    insideBubble,
+    options,
+  };
+}
+
+export function setCustomComponentState(id, state) {
+  return {
+    type: actions.SET_COMPONENT_MESSAGE_STATE,
+    id,
+    state,
   };
 }
 

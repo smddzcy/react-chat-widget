@@ -1,0 +1,78 @@
+import React, { useCallback, useState, useEffect } from 'react';
+import Loading from './components/Loading';
+import { ReactComponent as RightArrow } from '../../../../assets/rightArrow.svg';
+
+const STATUS = {
+  INIT: 0,
+  LOADING: 1,
+  SUCCESS: 2,
+  ERROR: 3,
+};
+
+const translation = {
+  tr: {
+    submit: 'Gönder',
+    unexpectedError: 'Beklenmendik bir hata oluştu, lütfen daha sonra tekrar deneyin',
+    fillRequiredFields: 'Lütfen tüm gerekli alanları doldurun',
+  },
+  en: {
+    submit: 'Submit',
+    unexpectedError: 'Unexpected error, please try again later',
+    fillRequiredFields: 'Please fill all required fields',
+  },
+};
+
+const FormWidget = ({
+  fields, language, sendMessage, setInputDisabled, persistState, state = { status: STATUS.INIT, error: null },
+}) => {
+  if (!fields) return null;
+
+  const { status, error } = state;
+  const translations = translation[language] || translation.en;
+
+  useEffect(() => {
+    setInputDisabled(true);
+    return () => setInputDisabled(false);
+  }, []);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const requiredNotFilled = fields.some((field, idx) => field.required && !e.target[`field-${idx}`].value);
+    if (requiredNotFilled) {
+      persistState({ status: STATUS.ERROR, error: translations.fillRequiredFields });
+      return;
+    }
+    const formValues = fields.reduce((xs, field, idx) => ({ ...xs, [field.label]: e.target[`field-${idx}`]?.value || '' }), {});
+    const msg = Object.entries(formValues).map(([label, val]) => `${label}: ${val || '-'}`).join('\n').trim();
+    persistState({ status: STATUS.LOADING, formValues });
+    try {
+      await sendMessage(msg, false, formValues);
+      persistState({ status: STATUS.SUCCESS });
+      setInputDisabled(false);
+    } catch (err) {
+      console.error('Infoset Chat Widget: Error while sending message: ', err);
+      persistState({ status: STATUS.ERROR, error: translations.unexpectedError });
+    }
+  };
+
+  const disabled = status === STATUS.SUCCESS || status === STATUS.LOADING;
+  const loading = status === STATUS.LOADING;
+
+  return (
+    <form onSubmit={handleSubmit} className="icw-card">
+      {fields.map((field, idx) => (field.label && field.type) ? (
+        <div className="icw-input-container" key={idx}>
+          <label htmlFor="name">{field.label}{field.required && <sup>*</sup>}</label>
+          <input required={field.required} defaultValue={state.formValues?.[field.label]} type={field.type.toLowerCase()} name={`field-${idx}`} disabled={disabled} />
+        </div>
+      ) : null)}
+      {status === STATUS.ERROR && <span className="error">{error || translations.unexpectedError}</span>}
+      <button type="submit" className="icw-mt-10 has-icon" disabled={disabled}>
+        {translations.submit}
+        {loading ? <Loading className="icon" /> : <RightArrow className="icon" />}
+      </button>
+    </form>
+  );
+};
+
+export default FormWidget;

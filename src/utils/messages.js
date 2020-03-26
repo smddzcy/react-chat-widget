@@ -1,10 +1,20 @@
 /* eslint-disable no-cond-assign */
-import React from 'react';
+import React, { useContext } from 'react';
 import QuickButton from '../components/Conversation/QuickButtons/components/QuickButton';
 import { MESSAGES_TYPES, MESSAGE_SENDER, MESSAGE_BOX_SCROLL_DURATION } from '../constants';
 import Message from '../components/Conversation/Message';
+import Widgets from '../components/Conversation/Widgets';
+import { setInputDisabled, setCustomComponentState } from '../store/dispatcher';
+import GlobalContext from '../components/GlobalContext';
+import DecorateWidget from '../components/Conversation/Widgets/components/DecorateWidget';
 
 const Mention = ({ key, name }) => <span key={key} className="mention">@{name}</span>;
+
+const WidgetPreview = () => {
+  // TODO: specific labels for each widget type
+  const { translation } = useContext(GlobalContext);
+  return (<i>{translation.widget.interactiveElement}</i>);
+};
 
 export const DECORATE_METHOD = {
   HTML: 'html',
@@ -20,12 +30,29 @@ const decorators = [
       }
       return <Mention name={params[2]} />;
     }
+  },
+  {
+    matcher: /<widget\s+type=(?:["'])(.*?)(?:["'])\s+props=(?:["'])(.*?)(?:["'])\s*\/>/ig,
+    decorate: (params, method) => {
+      // inline widget
+      if (method === DECORATE_METHOD.TEXT) {
+        return <WidgetPreview type={params[1]} />;
+      }
+      let Component = Widgets[params[1]];
+      if (Component) {
+        Component = DecorateWidget(Component);
+        let props = {};
+        try { props = JSON.parse(params[2] || '{}'); } catch (_) {}
+        return <Component {...props} />;
+      }
+      // widget doesn't exist, just print the string
+      return params[0];
+    }
   }
 ];
 
 export const decorate = (text, method = DECORATE_METHOD.HTML) => {
   let elements = [text];
-  const lastIndex = 0;
   decorators.forEach(decorator => {
     elements = elements.map(str => {
       if (typeof str !== 'string') return str; // already decorated component, skip
@@ -43,19 +70,30 @@ export const decorate = (text, method = DECORATE_METHOD.HTML) => {
 
         lastIndex = match.index + match[0].length;
       }
-
       // push remaining text if there is any
       if (str.length > lastIndex) {
         subElements.push(str.substring(lastIndex));
       }
       return subElements;
-    });
+    }).flat(1);
   });
 
-  return elements.flat(1);
+  return elements;
 };
 
+const widgetMessageMatcher = /<widget\s+type=(?:["'])(.*?)(?:["'])\s+props=(?:["'])(.*?)(?:["'])\s*\/>/i;
 export function createNewMessage(text, sender, time = Date.now()) {
+  if (sender !== MESSAGE_SENDER.CLIENT) {
+    const widgetMatch = text.match(widgetMessageMatcher);
+    if (widgetMatch && Widgets[widgetMatch[1]]) {
+      const [_, type, propsStr] = widgetMatch;
+      let props = {};
+      try { props = JSON.parse(propsStr || '{}'); } catch (_) {}
+      props.id = props.id || uuid();
+      return createComponentMessage(Widgets[type], props, { insideBubble: !!props.insideBubble, showAvatar: !!props.showAvatar, icwWidget: true });
+    }
+  }
+
   return {
     type: MESSAGES_TYPES.TEXT,
     component: Message,
@@ -66,8 +104,8 @@ export function createNewMessage(text, sender, time = Date.now()) {
   };
 }
 
-export function createComponentMessage(component, props, showAvatar, insideBubble) {
-  if (insideBubble) {
+export function createComponentMessage(component, props, options) {
+  if (options.insideBubble) {
     return {
       type: MESSAGES_TYPES.TEXT,
       component: Message,
@@ -75,15 +113,16 @@ export function createComponentMessage(component, props, showAvatar, insideBubbl
       childProps: props,
       time: Date.now(),
       sender: MESSAGE_SENDER.RESPONSE,
-      showAvatar,
+      ...options,
     };
   }
+
   return {
     type: MESSAGES_TYPES.CUSTOM_COMPONENT,
     component,
     props,
     sender: MESSAGE_SENDER.RESPONSE,
-    showAvatar,
+    ...options,
   };
 }
 
@@ -158,3 +197,14 @@ export function createQuickButton(button) {
     value: button.value
   });
 }
+
+export const uuid = () => {
+  let uuid = ''; let i; let random;
+  // eslint-disable-next-line no-plusplus
+  for (i = 0; i < 32; i++) {
+    random = Math.random() * 16 | 0;
+    if (i === 8 || i === 12 || i === 16 || i === 20) uuid += '-';
+    uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16);
+  }
+  return uuid;
+};

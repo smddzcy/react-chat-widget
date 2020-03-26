@@ -8,6 +8,8 @@ import Loader from '../Loader';
 import { ReactComponent as BotIcon } from './bot.svg';
 
 import './styles.scss';
+import { MESSAGES_TYPES } from '../../../constants';
+import DecorateWidget from '../Widgets/components/DecorateWidget';
 
 const isEqual = (value, other) => {
   const type = Object.prototype.toString.call(value);
@@ -77,8 +79,11 @@ class Messages extends PureComponent {
   }
 
   getComponentToRender = message => {
-    const ComponentToRender = message.component;
-    if (message.type === 'component') {
+    let ComponentToRender = message.component;
+    if (message.type === MESSAGES_TYPES.CUSTOM_COMPONENT) {
+      if (message.icwWidget) {
+        ComponentToRender = DecorateWidget(ComponentToRender);
+      }
       return <ComponentToRender {...message.props} />;
     }
     return <ComponentToRender message={message} />;

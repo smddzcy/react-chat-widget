@@ -1,10 +1,10 @@
 import { createReducer } from '../../utils/store';
 import { createNewMessage, createComponentMessage } from '../../utils/messages';
-import { MESSAGE_SENDER } from '../../constants';
+import { MESSAGE_SENDER, MESSAGES_TYPES } from '../../constants';
 
 import * as actionTypes from '../actions/actionTypes';
 
-const initialState = { current: [] };
+const initialState = { current: [], widgetState: {} };
 
 const messagesReducer = {
   [actionTypes.ADD_NEW_USER_MESSAGE]: (state, { text, time = Date.now() }) => ({
@@ -18,10 +18,17 @@ const messagesReducer = {
   }),
 
   [actionTypes.ADD_COMPONENT_MESSAGE]: (state, {
-    component, props, showAvatar, insideBubble,
+    component, props, options,
   }) => ({
     ...state,
-    current: state.current.concat(createComponentMessage(component, props, showAvatar, insideBubble))
+    current: state.current.concat(createComponentMessage(component, props, options))
+  }),
+
+  [actionTypes.SET_COMPONENT_MESSAGE_STATE]: (state, {
+    id, state: componentState,
+  }) => ({
+    ...state,
+    widgetState: { ...state.widgetState, [id]: { ...state.widgetState[id], ...componentState } },
   }),
 
   [actionTypes.SET_MESSAGES]: (state, { payload }) => {

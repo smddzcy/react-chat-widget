@@ -64,7 +64,9 @@ class WidgetLayout extends PureComponent {
     const openingChat = nextProps.showChat && !this.props.showChat;
     const closingChat = !nextProps.showChat && this.props.showChat;
 
-    this.setState({ prevPageDepth: this.getPageDepth(this.props.showPage) });
+    if (this.props.showPage !== nextProps.showPage) {
+      this.setState({ prevPageDepth: this.getPageDepth(this.props.showPage) });
+    }
 
     if (openingChat) {
       clearTimeout(this.convFrameDisplayTimeout);

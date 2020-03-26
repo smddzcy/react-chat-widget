@@ -70,6 +70,7 @@ class Widget extends PureComponent {
       badge: this.props.badge,
       translation: this.props.translation,
       language: this.props.language,
+      sendMessage: this.props.handleNewUserMessage,
     };
     return (
       <GlobalContext.Provider value={ctxValues}>

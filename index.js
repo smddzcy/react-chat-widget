@@ -3,12 +3,14 @@ import {
   addUserMessage,
   addResponseMessage,
   renderCustomComponent,
+  setCustomComponentState,
   toggleWidget,
   toggleInputDisabled,
   setTyping,
   dropMessages,
   isWidgetOpened,
-  setQuickButtons
+  setQuickButtons,
+  setInputDisabled,
 } from './src/store/dispatcher';
 
 export {
@@ -16,10 +18,12 @@ export {
   addUserMessage,
   addResponseMessage,
   renderCustomComponent,
+  setCustomComponentState,
   toggleWidget,
   toggleInputDisabled,
   setTyping,
   dropMessages,
   isWidgetOpened,
-  setQuickButtons
+  setQuickButtons,
+  setInputDisabled
 };
