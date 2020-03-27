@@ -26,7 +26,9 @@ const ConversationRow = ({ conversation, openConversation, youLabel }) => {
   );
 };
 
-const PreviousConversations = ({ conversations, openConversation, goBack }) => {
+const PreviousConversations = ({
+  conversations, openConversation, goBack, toggleChat
+}) => {
   const { translation } = useContext(GlobalContext);
 
   return (
@@ -36,6 +38,7 @@ const PreviousConversations = ({ conversations, openConversation, goBack }) => {
         showBackButton
         showCloseButton
         onClickBack={goBack}
+        onClickClose={toggleChat}
       />
       <div className="icw-convs-ctr" data-scroll-lock-scrollable>
         {conversations.map(conversation => (

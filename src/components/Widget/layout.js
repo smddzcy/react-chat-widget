@@ -185,6 +185,7 @@ class WidgetLayout extends PureComponent {
                       conversations={this.props.prevConversations}
                       openConversation={this.props.openConversation}
                       goBack={this.goHome}
+                      toggleChat={this.props.toggleChat}
                     />
                   ) : this.props.showPage === 'previous_conversation' ? (
                     <GlobalContext.Consumer>
