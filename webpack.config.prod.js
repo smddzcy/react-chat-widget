@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+// eslint-disable-next-line no-unused-vars
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
@@ -85,8 +86,8 @@ module.exports = [
       ],
     },
     plugins: [
-      new BundleAnalyzerPlugin(),
-      new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['lib/'] }),
+      // new BundleAnalyzerPlugin(),
+      new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['**/*', '!*.css'] }),
       /**
        * Known issue for the CSS Extract Plugin in Ubuntu 16.04: You'll need to install
        * the following package: sudo apt-get install libpng16-dev

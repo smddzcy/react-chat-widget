@@ -69,7 +69,7 @@ module.exports = {
   },
   devtool: 'eval',
   plugins: [
-    new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['dist/'] }),
+    new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: './dev/index.html',

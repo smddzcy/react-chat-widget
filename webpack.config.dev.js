@@ -78,7 +78,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['lib/'] }),
+    new CleanWebpackPlugin(),
     /**
      * Known issue for the CSS Extract Plugin in Ubuntu 16.04: You'll need to install
      * the following package: sudo apt-get install libpng16-dev
