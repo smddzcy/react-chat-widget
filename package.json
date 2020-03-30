@@ -1,10 +1,12 @@
 {
-  "name": "react-chat-widget",
+  "name": "infoset-react-chat-widget",
   "version": "2.2.0",
-  "description": "Infoset chat widget",
+  "description": "Infoset React Chat Widget",
   "main": "lib/index.js",
   "repository": "git@github.com:smddzcy/react-chat-widget.git",
   "author": "Samed Duzcay <samedduzcay@gmail.com>",
+  "license" : "SEE LICENSE IN <LICENSE>",
+  "private": true,
   "scripts": {
     "dev": "webpack --config ./webpack.config.prod.js --watch",
     "prebuild": "npm link ../chat-widget/node_modules/react && npm link ../chat-widget/node_modules/react-dom",
@@ -13,12 +15,6 @@
     "prepublishOnly": "npm run test && npm run build",
     "lint": "eslint --fix ."
   },
-  "keywords": [
-    "react",
-    "chat",
-    "widget",
-    "javascript"
-  ],
   "browserslist": [
     ">1%",
     "last 4 versions",
