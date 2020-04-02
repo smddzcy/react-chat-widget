@@ -31,7 +31,9 @@ const Form = ({
   const translations = translation[language] || translation.en;
 
   useEffect(() => {
-    setInputDisabled(true);
+    if (status !== STATUS.SUCCESS) {
+      setInputDisabled(true);
+    }
     return () => setInputDisabled(false);
   }, []);
 
