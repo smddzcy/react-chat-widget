@@ -57,7 +57,7 @@ class Sender extends PureComponent {
       import(
         /* webpackPrefetch: true */
         /* webpackPreload: true */
-        './emojis.json'
+        'emoji-mart/data/apple.json'
       ).then(({ default: data }) => {
         emojiData = data;
         this.setState({ emojisLoaded: true });
@@ -174,7 +174,9 @@ class Sender extends PureComponent {
 
     return (
       <GlobalContext.Consumer>
-        {({ showEmojiButton, showAttachmentButton, translation }) => {
+        {({
+          showEmojiButton, showAttachmentButton, translation, color
+        }) => {
           let inputPlaceholder = disabledInput ? disabledPlaceholder : translation.widget.senderPlaceholder;
           if (uploadingAttachment) {
             inputPlaceholder = translation.widget.uploadingFilePlaceholder;
@@ -261,7 +263,7 @@ class Sender extends PureComponent {
               {showEmojiButton && (
               <div className={cx('emoji-picker', { 'is-visible': showEmojiPicker })}>
                 <React.Suspense fallback={Loading}>
-                  {emojisLoaded ? <NimblePickerLazy onSelect={this.addEmoji} set="apple" data={emojiData} /> : Loading}
+                  {emojisLoaded ? <NimblePickerLazy onSelect={this.addEmoji} set="apple" color={color} data={emojiData} i18n={translation.emojiPicker} /> : Loading}
                 </React.Suspense>
               </div>
               )}

@@ -73,6 +73,7 @@ class Widget extends PureComponent {
       sendMessage: this.props.handleNewUserMessage,
       openUrl: this.props.openUrl,
       SharedWidget: this.props.SharedWidget,
+      color: this.props.color,
     };
     return (
       <GlobalContext.Provider value={ctxValues}>
@@ -116,6 +117,7 @@ Widget.propTypes = {
   customLauncher: PropTypes.func,
   onToggleChat: PropTypes.func, // called on toggle with the old showChat status
   css: PropTypes.string,
+  color: PropTypes.string, // primary color for widget
   staticText: PropTypes.string,
   isInputDisabled: PropTypes.bool,
   triggerContent: PropTypes.string,
