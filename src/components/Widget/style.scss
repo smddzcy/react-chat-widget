@@ -7,6 +7,10 @@ body.icw-body {
   }
 }
 
+$widgetWidth: 375px;
+$widgetHeight: 650px;
+$launcherWidth: 75px;
+$launcherHeight: 75px;
 $launcherBottom: 15px;
 $launcherRight: 15px;
 
@@ -70,8 +74,8 @@ $launcherRight: 15px;
 
 #infoset-conv-frame-ctr {
   min-height: 350px;
-  height: 550px; // NOTE: make 600px when we have homepage
-  width: 375px;
+  height: $widgetHeight;
+  width: $widgetWidth;
   bottom: $launcherBottom + 85px;
   right: $launcherRight + 5px;
   transform: translateY(10px) translateZ(0);
@@ -93,8 +97,8 @@ $launcherRight: 15px;
 }
 
 #infoset-btn-frame {
-  height: 75px;
-  width: 75px;
+  width: $launcherWidth;
+  height: $launcherHeight;
   right: $launcherRight;
   bottom: $launcherBottom;
   z-index: 2147483646;

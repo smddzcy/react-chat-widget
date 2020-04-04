@@ -141,7 +141,7 @@ class Sender extends PureComponent {
       onProgress: this.onFileUploadProgress,
       onError: this.onFileUploadError,
       onFinishS3Put: this.onFileUploadEnd,
-      uploadRequestHeaders: { 'x-amz-acl': 'public-read' },
+      uploadRequestHeaders: { 'x-amz-acl': 'public-read', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'max-age=86400' },
       contentDisposition: 'auto',
       scrubFilename: filename => filename.replace(/[^\w\d_\-.]+/ig, ''),
       server: API_URL,
@@ -190,16 +190,18 @@ class Sender extends PureComponent {
             >
               <FrameContext.Consumer>
                 {({ document }) => (
-                  <FileDrop
-                    frame={document || window.document}
-                    onDrop={this.onFileDrop}
-                    onFrameDrop={this.preventDefault}
-                    onFrameDragEnter={this.preventDefault}
-                    onFrameDragLeave={this.preventDefault}
-                    onDragOver={this.preventDefault}
-                  >
-                  Drag file here to upload
-                  </FileDrop>
+                  disabledInput ? null : (
+                    <FileDrop
+                      frame={document || window.document}
+                      onDrop={this.onFileDrop}
+                      onFrameDrop={this.preventDefault}
+                      onFrameDragEnter={this.preventDefault}
+                      onFrameDragLeave={this.preventDefault}
+                      onDragOver={this.preventDefault}
+                    >
+                      Drag file here to upload
+                    </FileDrop>
+                  )
                 )}
               </FrameContext.Consumer>
 
@@ -235,7 +237,7 @@ class Sender extends PureComponent {
                     onProgress={this.onFileUploadProgress}
                     onError={this.onFileUploadError}
                     onFinish={this.onFileUploadEnd}
-                    uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}
+                    uploadRequestHeaders={{ 'x-amz-acl': 'public-read', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'max-age=86400' }}
                     contentDisposition="auto"
                     scrubFilename={filename => filename.replace(/[^\w\d_\-.]+/ig, '')}
                     server={API_URL}
