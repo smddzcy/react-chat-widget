@@ -82,6 +82,7 @@ class Widget extends PureComponent {
           onSendMessage={this.handleMessageSubmit}
           title={this.props.title}
           subtitle={this.props.subtitle}
+          badge={this.props.badge}
           disabledPlaceholder={this.props.disabledPlaceholder}
           onQuickButtonClicked={this.handleQuickButtonClick}
           showCloseButton={this.props.showCloseButton}
