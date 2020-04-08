@@ -70,7 +70,9 @@ module.exports = {
     "jsx-a11y/label-has-for": 0,
     "react/destructuring-assignment": 0,
     "react/prop-types": 0,
-    "max-len": 0
+    "max-len": 0,
+    "template-curly-spacing": "off",
+    "indent": "off"
   },
   "globals": {
     "window": true,

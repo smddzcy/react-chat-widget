@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import './style.scss';
+import { connect } from 'react-redux';
+import QuickButton from './components/QuickButton';
 
+import './style.scss';
 
 class QuickButtons extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class QuickButtons extends Component {
   }
 
   getComponentToRender(button) {
-    const ComponentToRender = button.component;
+    const ComponentToRender = button.component || QuickButton;
     return (
       <ComponentToRender
         onQuickButtonClicked={this.props.onQuickButtonClicked}

@@ -1,6 +1,12 @@
 import { createReducer } from '../../utils/store';
-import { createQuickButton } from '../../utils/messages';
 import * as actionTypes from '../actions/actionTypes';
+
+export function createQuickButton(button) {
+  return ({
+    label: button.label,
+    value: button.value
+  });
+}
 
 const initialState = [];
 

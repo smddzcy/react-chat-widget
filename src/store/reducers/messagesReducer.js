@@ -1,8 +1,52 @@
+import uuid from 'uuid/v4';
 import { createReducer } from '../../utils/store';
-import { createNewMessage, createComponentMessage } from '../../utils/messages';
 import { MESSAGE_SENDER, MESSAGES_TYPES } from '../../constants';
 
 import * as actionTypes from '../actions/actionTypes';
+import Widgets from '../../components/Conversation/Widgets';
+import { parseWidgetProps } from '../../utils/generic';
+
+const widgetMessageMatcher = /<widget\s+type=(?:["'])(.*?)(?:["'])\s+props=(?:["'])(.*?)(?:["'])\s*\/>/i;
+export function createNewMessage(text, sender, time = Date.now()) {
+  if (sender !== MESSAGE_SENDER.CLIENT) {
+    const widgetMatch = text.match(widgetMessageMatcher);
+    if (widgetMatch && Widgets[widgetMatch[1]]) {
+      const [_, type, propsStr] = widgetMatch;
+      const props = parseWidgetProps(propsStr);
+      props.id = props.id || uuid();
+      return createComponentMessage(Widgets[type], props, { insideBubble: !!props.insideBubble, showAvatar: !!props.showAvatar, icwWidget: true });
+    }
+  }
+
+  return {
+    type: MESSAGES_TYPES.TEXT,
+    text: String(text),
+    time,
+    sender,
+    showAvatar: sender !== MESSAGE_SENDER.CLIENT,
+  };
+}
+
+export function createComponentMessage(component, props, options) {
+  if (options.insideBubble) {
+    return {
+      type: MESSAGES_TYPES.TEXT,
+      child: component,
+      childProps: props,
+      time: Date.now(),
+      sender: MESSAGE_SENDER.RESPONSE,
+      ...options,
+    };
+  }
+
+  return {
+    type: MESSAGES_TYPES.CUSTOM_COMPONENT,
+    component,
+    props,
+    sender: MESSAGE_SENDER.RESPONSE,
+    ...options,
+  };
+}
 
 const initialState = { current: [], widgetState: {} };
 

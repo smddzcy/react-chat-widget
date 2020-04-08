@@ -79,7 +79,7 @@ class Messages extends PureComponent {
   }
 
   getComponentToRender = message => {
-    let ComponentToRender = message.component;
+    let ComponentToRender = message.component || Message;
     if (message.type === MESSAGES_TYPES.CUSTOM_COMPONENT) {
       if (message.icwWidget) {
         ComponentToRender = DecorateWidget(ComponentToRender);

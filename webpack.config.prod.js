@@ -43,9 +43,12 @@ module.exports = [
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.(js|jsx|mjs)$/,
           exclude: /node_modules/,
           loader: 'babel-loader',
+          options: {
+            compact: true,
+          },
         },
         {
           test: /\.scss$/,
@@ -98,6 +101,7 @@ module.exports = [
       }),
     ],
     optimization: {
+      minimize: true,
       minimizer: [
         new TerserPlugin({
           cache: true,
