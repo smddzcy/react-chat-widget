@@ -7,7 +7,7 @@ import S3Upload from 'react-s3-uploader/s3upload';
 import isImage from 'is-image';
 import Compressor from 'compressorjs';
 import { Circle } from 'rc-progress';
-import FileDrop from 'react-file-drop';
+import { FileDrop } from 'react-file-drop';
 import { FrameContext } from 'react-frame-component';
 import { ReactComponent as Send } from '../../../../assets/send.svg';
 import { ReactComponent as Emoji } from './emoji.svg';
