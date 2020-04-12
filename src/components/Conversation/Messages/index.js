@@ -70,7 +70,9 @@ class Messages extends PureComponent {
   }
 
   componentDidUpdate() {
-    this.scrollToBottom();
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 200);
   }
 
   scrollToBottom() {

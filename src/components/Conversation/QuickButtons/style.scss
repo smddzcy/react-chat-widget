@@ -4,6 +4,7 @@
 .quick-buttons-container {
   padding: 15px;
   z-index: 3;
+  margin-top: -10px; // extra margin on buttons
 
   @include transitionSelf('slide-up', (
     transform: translateY(50px),

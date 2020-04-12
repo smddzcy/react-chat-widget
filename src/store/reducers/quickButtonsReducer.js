@@ -11,7 +11,8 @@ export function createQuickButton(button) {
 const initialState = [];
 
 const quickButtonsReducer = {
-  [actionTypes.SET_QUICK_BUTTONS]: (state, action) => action.buttons.map(button => createQuickButton(button))
+  [actionTypes.SET_QUICK_BUTTONS]: (state, action) => action.buttons.map(button => createQuickButton(button)),
+  [actionTypes.ADD_NEW_USER_MESSAGE]: () => [], // auto reset on a new message
 };
 
 export default (state = initialState, action) => createReducer(quickButtonsReducer, state, action);

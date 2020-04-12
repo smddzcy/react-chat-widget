@@ -18,11 +18,6 @@ export default class App extends PureComponent {
     }, 2000);
   }
 
-  handleQuickButtonClick = (e) => {
-    addResponseMessage('Selected ' + e);
-    setQuickButtons([]);
-  }
-
   render() {
     return (
       <Widget
@@ -31,7 +26,6 @@ export default class App extends PureComponent {
         senderPlaceholder="Escribe aquí ..."
         disabledPlaceholder="Disabled bro ..."
         handleNewUserMessage={this.handleNewUserMessage}
-        handleQuickButtonClick={this.handleQuickButtonClick}
         badge={1}
       />
     );

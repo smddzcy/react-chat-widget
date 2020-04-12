@@ -49,10 +49,8 @@
   top: 10px;
   display: none;
   z-index: 3; // because of parallax
-}
 
-.icw-mobile {
-  .icw-close-button {
+  .icw-mobile & {
     display: block;
   }
 }

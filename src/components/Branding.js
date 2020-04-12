@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import logo from '../../assets/logo.png';
 
 const Branding = ({ poweredByLabel, language }) => (
   <a
@@ -10,7 +9,7 @@ const Branding = ({ poweredByLabel, language }) => (
     target="_blank"
     className="icw-branding"
   >
-    <img src={logo} alt="infoset" />
+    <img src="https://cdn.infoset.app/logo.png" alt="infoset" />
     <span>{poweredByLabel}</span>
   </a>
 );

@@ -12,6 +12,8 @@ const behaviorReducer = {
   [actionTypes.SET_INPUT_DISABLED]: (state, { payload }) => ({ ...state, disabledInput: payload }),
 
   [actionTypes.SET_TYPING]: (state, { payload }) => ({ ...state, typing: payload }),
+  [actionTypes.ADD_NEW_RESPONSE_MESSAGE]: state => ({ ...state, typing: false }), // auto reset on a new response
+  [actionTypes.ADD_COMPONENT_MESSAGE]: state => ({ ...state, typing: false }), // auto reset on a new response
 };
 
 export default (state = initialState, action) => createReducer(behaviorReducer, state, action);

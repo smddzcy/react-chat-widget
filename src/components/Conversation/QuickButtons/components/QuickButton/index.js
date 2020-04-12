@@ -7,6 +7,7 @@ class QuickButton extends PureComponent {
     return (
       <button
         className="quick-button"
+        type="button"
         onClick={event => this.props.onQuickButtonClicked(event, this.props.button.value)}
       >
         {this.props.button.label}

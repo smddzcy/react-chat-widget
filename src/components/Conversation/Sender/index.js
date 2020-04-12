@@ -8,7 +8,7 @@ import isImage from 'is-image';
 import Compressor from 'compressorjs';
 import { Circle } from 'rc-progress';
 import { FileDrop } from 'react-file-drop';
-import { FrameContext } from 'react-frame-component';
+import { FrameContextConsumer } from 'react-frame-component';
 import { ReactComponent as Send } from '../../../../assets/send.svg';
 import { ReactComponent as Emoji } from './emoji.svg';
 import { ReactComponent as Attachment } from './attachment.svg';
@@ -188,7 +188,7 @@ class Sender extends PureComponent {
               onDrop={this.preventDefault}
               onDragOver={this.preventDefault}
             >
-              <FrameContext.Consumer>
+              <FrameContextConsumer>
                 {({ document }) => (
                   disabledInput ? null : (
                     <FileDrop
@@ -203,7 +203,7 @@ class Sender extends PureComponent {
                     </FileDrop>
                   )
                 )}
-              </FrameContext.Consumer>
+              </FrameContextConsumer>
 
               <input
                 type="text"

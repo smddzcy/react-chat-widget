@@ -58,7 +58,7 @@ const messagesReducer = {
 
   [actionTypes.ADD_NEW_RESPONSE_MESSAGE]: (state, { payload }) => ({
     ...state,
-    current: state.current.concat(createNewMessage(payload.msg, payload.agent || {}, payload.time))
+    current: state.current.concat(createNewMessage(payload.msg, payload.agent || MESSAGE_SENDER.RESPONSE, payload.time))
   }),
 
   [actionTypes.ADD_COMPONENT_MESSAGE]: (state, {

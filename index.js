@@ -25,5 +25,5 @@ export {
   dropMessages,
   isWidgetOpened,
   setQuickButtons,
-  setInputDisabled
+  setInputDisabled,
 };
