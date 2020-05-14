@@ -14,9 +14,10 @@ const Homepage = props => {
   const { settings, toggleChat } = props;
   const { document } = useContext(FrameContext);
   const headerRef = useRef(null);
+  const parallaxCtrRef = useRef(null);
   const { translation, language } = useContext(GlobalContext);
   const [headerHeight, setHeaderHeight] = useState(lastHeaderHeight);
-  const [parallaxStyles, setParallaxStyles] = useState({ transform: 'none', opacity: 1 });
+  const [parallaxHidden, setParallaxHidden] = useState(false);
   const mainPaddingTop = headerHeight - 65;
 
   useEffect(() => {
@@ -24,14 +25,18 @@ const Homepage = props => {
     const onScroll = () => {
       const { scrollTop } = scrollCtr;
       const opacity = Math.max(0, Math.min(1, (mainPaddingTop - 25 - scrollTop) / (mainPaddingTop - 25)));
-      setParallaxStyles({
-        transform: `translate3d(0, -${scrollTop / 4}px, 0)`,
-        opacity,
-      });
+      parallaxCtrRef.current.style.transform = `translate3d(0, -${scrollTop / 4}px, 0)`;
+      parallaxCtrRef.current.style.opacity = opacity;
+      if (opacity === 0 && !parallaxHidden) {
+        setParallaxHidden(true);
+      }
+      if (opacity !== 0 && parallaxHidden) {
+        setParallaxHidden(false);
+      }
     };
-    scrollCtr.addEventListener('scroll', onScroll, { passive: true });
-    return () => scrollCtr.removeEventListener('scroll', onScroll, { passive: true });
-  }, []);
+    scrollCtr.addEventListener('scroll', onScroll, { capture: true, passive: true });
+    return () => scrollCtr.removeEventListener('scroll', onScroll, { capture: true, passive: true });
+  }, [parallaxHidden]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -54,7 +59,7 @@ const Homepage = props => {
   return (
     <div className="icw-widget-inner-container icw-home">
       <header ref={headerRef} style={{ height: headerHeight }}>
-        <div className="parallax-ctr" style={parallaxStyles}>
+        <div className="parallax-ctr" ref={parallaxCtrRef}>
           {settings.logo && (
           <div className="icw-h-logo">
             <img src={settings.logo} alt="" />
@@ -66,7 +71,7 @@ const Homepage = props => {
       </header>
       <button
         type="button"
-        className={cx('icw-header-button icw-close-button', { 'hovered hover-darker': parallaxStyles.opacity === 0 })}
+        className={cx('icw-header-button icw-close-button', { 'hovered hover-darker': parallaxHidden })}
         onClick={toggleChat}
       >
         <Times />

@@ -228,6 +228,7 @@
       .icon {
         position: absolute;
         left: 7.5px;
+        top: (38px - 14px) / 2; // (button height - icon height) / 2
       }
     }
     

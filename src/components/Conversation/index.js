@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { CSSTransition } from 'react-transition-group';
 
 import Header from './Header';
 import Messages from './Messages';
@@ -8,16 +9,15 @@ import './style.scss';
 import Branding from '../Branding';
 import GlobalContext from '../GlobalContext';
 import QuickButtons from './QuickButtons';
-import { CSSTransition } from 'react-transition-group';
 
 class Conversation extends PureComponent {
   componentDidMount() {
     this.setVh();
-    window.addEventListener('resize', this.setVh);
+    window.addEventListener('resize', this.setVh, { capture: true, passive: true });
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.setVh);
+    window.removeEventListener('resize', this.setVh, { capture: true, passive: true });
   }
 
 

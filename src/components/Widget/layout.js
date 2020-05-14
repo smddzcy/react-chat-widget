@@ -149,7 +149,8 @@ class WidgetLayout extends PureComponent {
             <div
               style={{ height: '100%' }}
               className={cx('scroll-container', animationName, {
-                'icw-mobile': window.innerWidth < 768
+                'icw-mobile': window.innerWidth < 768,
+                'icw-ios': window.navigator && !window.MSStream && /iPad|iPhone|iPod/.test(window.navigator.userAgent),
               })}
             >
               <UrlModal showUrl={this.props.showUrl} closeUrl={this.props.closeUrl} />
