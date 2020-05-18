@@ -24,11 +24,13 @@
 
 .icw-open-launcher {
   width: 30px;
+  vertical-align: middle;
   @include animation(0, 300ms, rotation-rl);
 }
 
 .icw-close-launcher {
   width: 15px;
   color: #fff;
+  vertical-align: middle;
   @include animation(0, 300ms, rotation-lr);
 }
