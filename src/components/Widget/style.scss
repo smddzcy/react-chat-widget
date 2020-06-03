@@ -1,9 +1,15 @@
+// !!! THESE STYLES ARE INJECTED INTO THE HOST WEBSITES, BE CAREFUL !!!
+
 body.icw-body {
 	-webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   
   *, *:before, *:after {
     box-sizing: border-box;
+  }
+
+  img {
+    image-rendering: -webkit-optimize-contrast;
   }
 }
 
