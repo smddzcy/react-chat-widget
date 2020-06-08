@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react';
 
+const landingLangs = ['en', 'fr', 'tr'];
+
 const Branding = ({ poweredByLabel, language }) => (
   <a
-    href={`https://infoset.app/${language !== 'en' ? `${language}/` : ''}`}
+    href={`https://infoset.app/${(language !== 'en' && landingLangs.includes(language)) ? `${language}/` : ''}`}
     title={language === 'tr'
       ? 'bulut çağrı merkezi, çağrı merkezi yazılımı, satış yönetim yazılımı, müşteri destek yazılımı'
       : 'cloud call center, sales management software, customer support software'}
