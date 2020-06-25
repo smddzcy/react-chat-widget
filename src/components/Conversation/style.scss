@@ -48,6 +48,12 @@
       }
     }
 
+    & + .error {
+      display: block;
+      margin-top: 5px;
+      color: $red;
+    }
+
     input {
       flex: 1;
       min-width: 0;

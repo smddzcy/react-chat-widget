@@ -80,7 +80,7 @@ const Form = ({
           />
         </div>
       ) : null)}
-      {status === STATUS.ERROR && <span className="error">{error || translations.unexpectedError}</span>}
+      {status === STATUS.ERROR && <small className="error">{error || translations.unexpectedError}</small>}
       <button type="submit" className="icw-mt-10 has-icon" disabled={disabled}>
         {translations.submit}
         {loading ? <Loading className="icon" /> : <RightArrow className="icon" />}
