@@ -235,7 +235,7 @@
       .icon {
         position: absolute;
         left: 7.5px;
-        top: (37px - 14px) / 2; // (button height - icon height) / 2
+        top: 11px; // (37px button height - 14px icon height) / 2
       }
     }
     
@@ -248,7 +248,10 @@
     &:not([disabled]):hover {
       color: $dark-blue;
       border-color: $dark-blue;
-      box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.07);
+      
+      &:not(.link) {
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.07);
+      }
 
       &:after {
         background: $dark-blue;
